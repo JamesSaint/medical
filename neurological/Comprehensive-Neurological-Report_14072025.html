@@ -85,6 +85,26 @@
         font-size: 0.9rem;
         color: #666;
     }
+    .breadcrumb {
+  background: transparent;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+  color: #C9B694;
+  padding: 0 0.3rem;
+}
+.breadcrumb-item a {
+  color: #003366;
+  font-weight: 600;
+  text-decoration: none;
+}
+.breadcrumb-item.active {
+  color: #C9B694;
+  font-weight: 600;
+}
+
   </style>
 </head>
 <body>
