@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Gastrointestinal Letters – James Saint</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Index of gastrointestinal-related medical letters and reports for James Saint." />
+  <meta name="description" content="Chronological index of gastrointestinal-related medical letters, referrals, and specialist appointments for James Saint." />
   <meta property="og:title" content="Gastrointestinal Letters – James Saint" />
   <meta property="og:description" content="Index of gastrointestinal-related medical records and correspondence." />
   <meta property="og:type" content="website" />
@@ -24,13 +24,12 @@
       font-family: Montserrat, sans-serif;
       background-color: #EEEEEE;
       color: #003366;
-      margin: 0;
-      padding: 2rem;
       font-size: 0.9rem;
+      margin: 0;
+      padding: 0;
     }
     main {
-      max-width: 900px;
-      margin: 0 auto;
+      padding: 40px 20px;
     }
     h1 {
       font-size: 1.5rem;
@@ -50,7 +49,7 @@
     }
     ul {
       margin-top: 1rem;
-      padding-left: 1.5rem;
+      padding-left: 1.2rem;
     }
     li {
       margin-bottom: 0.5rem;
@@ -67,26 +66,51 @@
       border-top: 1px solid #C9B694;
       padding-top: 1rem;
     }
+    .breadcrumb {
+      background-color: transparent;
+      padding: 0;
+      margin-bottom: 2rem;
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+      content: "›";
+      color: #C9B694;
+      padding: 0 0.5rem;
+    }
+    .breadcrumb a {
+      color: #003366;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
-  <main>
-    <h1>Gastrointestinal Letters</h1>
+  <main class="container">
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/medical/">Medical</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Gastrointestinal</li>
+          </ol>
+        </nav>
 
-    <h2>Letters & Reports</h2>
-    <ul>
-      <li><a href="letters/private-refferal.pdf" target="_blank">24 March 2025 – Private referral (Dr M Mottaleb)</a></li>
-      <li><a href="letters/02-04-2025-appointment-letter-np-spire-000288604.pdf" target="_blank">02 April 2025 – Initial appointment (Dr Richard Ellis)</a></li>
-      <li><a href="letters/10-04-2025-g-p-letter-000289884.pdf" target="_blank">10 April 2025 – GP letter to Dr Smiley</a></li>
-      <li><a href="letters/06-05-2025-colonoscopy-report.pdf" target="_blank">06 May 2025 – Colonoscopy report</a></li>
-      <li><a href="letters/06-05-2025-post-colonoscopy-summary.pdf" target="_blank">06 May 2025 – Post-colonoscopy summary</a></li>
-      <li><a href="letters/07-05-2025-appointment-letter-fu-spire-000292914.pdf" target="_blank">07 May 2025 – Follow-up appointment (Dr Richard Ellis)</a></li>
-      <li><a href="letters/15-07-2025-appointment-letter-fu-spire-000297954.pdf" target="_blank">15 July 2025 – Follow-up appointment (Dr Richard Ellis)</a></li>
-    </ul>
+        <h1>Gastrointestinal Letters</h1>
 
-    <footer>
-      © James Saint 2025
-    </footer>
+        <h2>Letters & Reports</h2>
+        <ul>
+          <li><a href="letters/private-refferal.pdf" target="_blank">24 March 2025 – Private referral (Dr M Mottaleb)</a></li>
+          <li><a href="letters/02-04-2025-appointment-letter-np-spire-000288604.pdf" target="_blank">02 April 2025 – Initial appointment (Dr Richard Ellis)</a></li>
+          <li><a href="letters/10-04-2025-g-p-letter-000289884.pdf" target="_blank">10 April 2025 – GP letter to Dr Smiley</a></li>
+          <li><a href="letters/06-05-2025-colonoscopy-report.pdf" target="_blank">06 May 2025 – Colonoscopy report</a></li>
+          <li><a href="letters/06-05-2025-post-colonoscopy-summary.pdf" target="_blank">06 May 2025 – Post‑colonoscopy summary</a></li>
+          <li><a href="letters/07-05-2025-appointment-letter-fu-spire-000292914.pdf" target="_blank">07 May 2025 – Follow-up appointment (Dr Richard Ellis)</a></li>
+          <li><a href="letters/15-07-2025-appointment-letter-fu-spire-000297954.pdf" target="_blank">15 July 2025 – Follow-up appointment (Dr Richard Ellis)</a></li>
+        </ul>
+
+        <footer>
+          © James Saint 2025
+        </footer>
+      </div>
+    </div>
   </main>
 </body>
 </html>
