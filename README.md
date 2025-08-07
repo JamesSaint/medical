@@ -23,6 +23,7 @@ The portal is designed for clarity, accessibility, and personal ownership of hea
 │   ├── index.html              # Neurological Records overview
 │   ├── Neurology_Cardiology_Summary.html
 │   ├── Comprehensive-Neurological-Report_14072025.html
+│   ├── Vaccine_Injury_Claim_Pathways.html
 │   └── letters/                # PDF correspondence (GP, consultants, referrals, etc.)
 │
 └── gastrointestinal/
