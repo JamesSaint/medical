@@ -1,23 +1,68 @@
 # Medical Records – James Saint
 
-This repository hosts a structured and styled medical records portal published via GitHub Pages.
+This repository powers a structured and styled personal medical portal, published via GitHub Pages.
 
 **Live site:** [https://jamessaint.github.io/medical/](https://jamessaint.github.io/medical/)
 
 ---
 
+## Overview
+
+The portal is designed for clarity, accessibility, and personal ownership of health records. Each section reflects a specific area of medical focus, with clean Bootstrap styling, breadcrumbs, and consistent typography (Montserrat). All HTML outputs are responsive and printable.
+
+---
+
 ## Structure
 
-- `/index.html` – Medical Home landing page (styled, breadcrumb navigation)
-- `/neurological/` – Neurological records section
-  - `index.html` – Neurological landing page
-  - `Neurology_Cardiology_Summary.html` – Integrated neurological and cardiology summary
-  - `Comprehensive-Neurological-Report_14072025.html` – Detailed neurological MRI and clinical report
-  - `/letters/` – Supporting documents and letters (PDF)
+```
+/medical/
+│
+├── index.html                  # Medical Home (links to all record categories)
+│
+├── neurological/
+│   ├── index.html              # Neurological Records overview
+│   ├── Neurology_Cardiology_Summary.html
+│   ├── Comprehensive-Neurological-Report_14072025.html
+│   └── letters/                # PDF correspondence (GP, consultants, referrals, etc.)
+│
+└── gastrointestinal/
+    ├── index.html              # Gastrointestinal Letters overview
+    └── letters/                # PDF correspondence
+```
 
 ---
 
 ## Updating Content
 
-### Adding New PDF Letters
-1. Place the PDF in `/neurological/letters/`.
+### 🔹 To Add a New PDF Letter
+
+1. Save the file to the appropriate folder, e.g.:
+   ```
+   /neurological/letters/your-filename.pdf
+   /gastrointestinal/letters/your-filename.pdf
+   ```
+
+2. Update the `index.html` in the corresponding folder to add a new `<li>` entry under `Letters & Supporting Reports`, maintaining chronological order and clean link structure.
+
+3. Commit and push to GitHub. GitHub Pages will update automatically.
+
+---
+
+## Styling Reference
+
+- Bootstrap 5.3 via CDN
+- Font: Montserrat (Google Fonts)
+- Background: `#EEEEEE`
+- Text: `#003366`
+- Accent: `#C9B694` (gold)
+- Seed of Life symbol used as Open Graph preview image
+
+---
+
+## License
+
+All medical data is personal, private, and protected. This repo is not open source or licensed for reuse.
+
+---
+
+© James Saint 2025
