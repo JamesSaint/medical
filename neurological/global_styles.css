@@ -81,11 +81,17 @@ figcaption,
 }
 
 footer {
-  margin-top: 2em;
-  font-size: 0.85rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #EEEEEE;
   color: #003366;
-  opacity: 0.85;
+  font-size: 0.85rem;
   text-align: center;
+  padding: 10px 0;
+  border-top: 1px solid #C9B694;
+  opacity: 0.9;
 }
 
 a {
