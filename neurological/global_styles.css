@@ -37,9 +37,7 @@ h2 {
   font-weight: 700;
 }
 
-.section {
-  margin-top: 1em;
-}
+.section { margin-top: 1em; }
 
 .note {
   background-color: rgba(4, 87, 255, 0.04);
@@ -78,13 +76,9 @@ tr:nth-child(even) td {
   background-color: rgba(4, 87, 255, 0.03);
 }
 
-ul {
-  margin-left: 1.5em;
-}
+ul { margin-left: 1.5em; }
 
-figure {
-  margin: 0;
-}
+figure { margin: 0; }
 
 figcaption,
 .meta {
