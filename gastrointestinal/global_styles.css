@@ -52,6 +52,7 @@ h2 {
 
 .card-like {
   border-left: 3px solid #C9B694;
+  background: #FFFFFF;
   padding: 16px;
   margin-bottom: 16px;
 }
@@ -165,7 +166,6 @@ tbody tr:nth-child(even) {
     white-space: normal;     /* let dates wrap on small screens */
   }
 }
-
 /* ===== Symptom Overview: Category | Description | Functional Impact ===== */
 #symptoms table { table-layout: fixed; }  /* fixed layout yields even, readable columns */
 
