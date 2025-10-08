@@ -40,7 +40,7 @@ h2 {
   font-weight: 700;
 }
 
-h2 {
+h3 {
   color: #003366;
   margin-top: 1.2em;
   text-transform: uppercase;
@@ -65,7 +65,7 @@ h2 {
 
 .card-like {
   border-left: 3px solid #C9B694;
-  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.46);
   padding: 16px;
   margin-bottom: 16px;
 }
