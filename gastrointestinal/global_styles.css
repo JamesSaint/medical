@@ -50,24 +50,34 @@ h2 {
   padding: 16px;
   margin-bottom: 16px;
 }
-
+/*----- TABLES ------*/
 table {
   width: 100%;
-  margin-bottom: 1.5em;
   border-collapse: collapse;
+  table-layout: fixed; /* makes columns respect width constraints */
+  word-break: break-word; /* allows long text to wrap */
 }
 
 th, td {
-  padding: 0.75em;
-  border: 1px solid #C9B694;
+  padding: 8px;
   text-align: left;
   vertical-align: top;
+  border: 1px solid #C9B694;
+  white-space: normal; /* prevents text from staying on one line */
+  overflow-wrap: anywhere; /* modern way to wrap long words */
 }
 
-th {
-  font-weight: bold;
-  text-transform: uppercase;
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
+
+/* Optional: if you already wrap your table in a container */
+.content table {
+  display: block;
+  overflow-x: auto;
+}
+
 
 ul { margin-left: 1.5em; }
 
@@ -85,7 +95,7 @@ footer {
   font-size: 0.85rem;
   color: #003366;
   opacity: 0.85;
-  text-align: center;
+  text-align: left;
 }
 
 a {
@@ -93,7 +103,7 @@ a {
   font-weight: 600;
   text-decoration: none;
 }
-
+/*----- BREADCRUMBS ------*/
 .breadcrumb {
   background: transparent;
   padding: 0;
