@@ -47,7 +47,6 @@ h2 {
 }
 
 .card-like {
-  background: #fefbf3;
   border-left: 3px solid #C9B694;
   padding: 16px;
   margin-bottom: 16px;
@@ -67,13 +66,8 @@ th, td {
 }
 
 th {
-  background-color: #fefbf3;
   font-weight: bold;
   text-transform: uppercase;
-}
-
-tr:nth-child(even) td {
-  background-color: rgba(4, 87, 255, 0.03);
 }
 
 ul { margin-left: 1.5em; }
