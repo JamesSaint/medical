@@ -40,8 +40,21 @@ h2 {
   font-weight: 700;
 }
 
+h2 {
+  color: #003366;
+  margin-top: 1.2em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  border-bottom: 1px solid #C9B694;
+  padding-bottom: 0.3em;
+  font-weight: 700;
+}
+
 /* Utilities & common elements */
-.section { margin-top: 1em; }
+.section { 
+  margin-top: 2em;
+  margin-bottom: 2em;
+ }
 
 .note {
   background-color: rgba(4, 87, 255, 0.04);
@@ -171,17 +184,17 @@ tbody tr:nth-child(even) {
 
 #symptoms th:nth-child(1),
 #symptoms td:nth-child(1) {
-  width: 18%;                /* compact Category label column */
+  width: 20%;                /* compact Category label column */
 }
 
 #symptoms th:nth-child(2),
 #symptoms td:nth-child(2) {
-  width: 41%;                /* balanced long paragraph column */
+  width: 40%;                /* balanced long paragraph column */
 }
 
 #symptoms th:nth-child(3),
 #symptoms td:nth-child(3) {
-  width: 41%;                /* balanced long paragraph column */
+  width: 44%;                /* balanced long paragraph column */
 }
 
 @media (max-width: 600px) {
