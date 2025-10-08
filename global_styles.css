@@ -117,7 +117,6 @@ a {
 table {
   width: 100%;
   border-collapse: collapse;
-  background: #fefbf3;              /* cream card look */
   border-left: 3px solid #C9B694;    /* gold accent bar */
 }
 
@@ -126,44 +125,68 @@ th, td {
   border: 1px solid #C9B694;
   text-align: left;
   vertical-align: top;
+  color: #003366;
   white-space: normal;
   overflow-wrap: anywhere;           /* wraps long medical terms/URLs */
-  color: #003366;
+  word-break: normal;
+  hyphens: auto;
 }
 
 thead th {
-  background: #EEEEEE;
   text-transform: uppercase;
   font-weight: 700;
 }
 
 tbody tr:nth-child(even) {
-  background: rgba(201, 182, 148, 0.08); /* subtle striping */
 }
 
-/* ---- Symptom Overview column tuning
-   Structure: Category | Description | Functional Impact
--------------------------------------------------------- */
-section h2 + .table-wrap table th:nth-child(1),
-section h2 + .table-wrap table td:nth-child(1) {
-  width: 18ch;            /* compact Category */
-  white-space: nowrap;    /* keep short labels tidy on wide screens */
+/* ===== Appointments table: Date | Appointment | Location ===== */
+#appointments table { table-layout: auto; }
+
+#appointments th:nth-child(1),
+#appointments td:nth-child(1) {
+  width: 12ch;               /* compact dates */
+  white-space: nowrap;       /* keep dates on one line when space allows */
 }
 
-section h2 + .table-wrap table th:nth-child(2),
-section h2 + .table-wrap table td:nth-child(2) {
-  width: auto;            /* main narrative flexes and wraps */
+#appointments th:nth-child(2),
+#appointments td:nth-child(2) {
+  width: auto;               /* main description flexes and wraps */
 }
 
-section h2 + .table-wrap table th:nth-child(3),
-section h2 + .table-wrap table td:nth-child(3) {
-  max-width: 36ch;        /* prevents runaway width while allowing wrap */
+#appointments th:nth-child(3),
+#appointments td:nth-child(3) {
+  max-width: 24ch;           /* keeps location tidy without blowing out */
 }
 
-/* Mobile: let Category wrap if space is tight */
 @media (max-width: 600px) {
-  section h2 + .table-wrap table th:nth-child(1),
-  section h2 + .table-wrap table td:nth-child(1) {
-    white-space: normal;
+  #appointments th:nth-child(1),
+  #appointments td:nth-child(1) {
+    white-space: normal;     /* let dates wrap on small screens */
+  }
+}
+
+/* ===== Symptom Overview: Category | Description | Functional Impact ===== */
+#symptoms table { table-layout: fixed; }  /* fixed layout yields even, readable columns */
+
+#symptoms th:nth-child(1),
+#symptoms td:nth-child(1) {
+  width: 18%;                /* compact Category label column */
+}
+
+#symptoms th:nth-child(2),
+#symptoms td:nth-child(2) {
+  width: 41%;                /* balanced long paragraph column */
+}
+
+#symptoms th:nth-child(3),
+#symptoms td:nth-child(3) {
+  width: 41%;                /* balanced long paragraph column */
+}
+
+@media (max-width: 600px) {
+  #symptoms th:nth-child(1),
+  #symptoms td:nth-child(1) {
+    white-space: normal;     /* allow Category to wrap on phones */
   }
 }
