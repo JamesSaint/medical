@@ -1,97 +1,68 @@
-# James Saint — Medical Records Index
+# Neurological Records – James Saint
 
-This repository hosts my personal medical notes, letters, timelines, and supporting evidence for ongoing neurological investigation and care. It is a living archive intended to make clinical review faster and clearer. Nothing here is medical advice.
-
----
-
-## Quick Links
-
-- **Medical Home (site):** https://jamessaint.github.io/medical/
-- **Neurological Records:** https://jamessaint.github.io/medical/neurological/
-  - Neurology Summary — timeline, appointments, and symptom overview  
-    https://jamessaint.github.io/medical/neurological/Neurology_Summary.html
-  - 1.5T MRI Findings Report — July 2025 notes and images  
-    https://jamessaint.github.io/medical/neurological/Comprehensive-Neurological-Report_14072025.html
-  - MDT Correlation Request — brainstem slice + rationale  
-    https://jamessaint.github.io/medical/neurological/Email_MDT_Correlation_Request_JamesSaint.html
-  - Carbamazepine Summary — mechanism, risks, tolerability  
-    *(add link when ready)*
-  - Nabiximols (Sativex) Trial Request — clinical ask & context  
-    https://jamessaint.github.io/medical/neurological/Email_Nabiximols_Request_JamesSaint.html
+This repository stores neurological summaries, diagnostic correspondence, and related visual documentation for ongoing investigation and monitoring.
 
 ---
 
-## Purpose
+## 📁 Repository Structure
 
-- Maintain a **clean source of truth** for clinicians and insurers.
-- Track **appointments, imaging, and correspondence** chronologically.
-- Align **symptoms, hypotheses, and evidence** in one place.
-- Speed up **MDT review** with direct links to images and summaries.
-
----
-
-## Structure
-
-```
-/medical
-  /neurological
-    Neurology_Summary.html
-    Comprehensive-Neurological-Report_14072025.html
-    Email_MDT_Correlation_Request_JamesSaint.html
-    Email_Nabiximols_Request_JamesSaint.html
-    /assets
-      /images  (MRI slices, composites, annotations)
-      /pdf     (letters, reports as needed)
-```
-
-- **HTML pages** are clinician-friendly summaries with embedded figures where useful.
-- **Assets** hold original images and exportable figures for MDT review.
+- `index.html` — Main entry page with navigation.
+- `neurological/Neurology_Cardiology_Summary.html` — Core clinical record summarising neurological findings, hypotheses, and correspondence.
+- `neurological/Occipital_Scalp_Changes_Nerve_Path_Mapping.html` — Visual mapping of occipital nerve pathways and associated scalp changes.
+- `neurological/images/` — Folder containing image assets for nerve-path documentation.
+- `neurological/letters/` — Folder containing redacted consultant and GP correspondence (PDFs).
 
 ---
 
-## Conventions
+## 🧠 Clinical Correspondence (Redacted for Privacy)
 
-- **Dates:** `DD Month YYYY` (e.g., `17 September 2025`).
-- **File naming:** short, descriptive, stable slugs. Avoid spaces where possible.
-- **Figures:** include brief captions; state modality, sequence, and slice context if known.
-- **Claims:** preference for **verifiable** statements and clear distinctions between:
-  - Observation (what is visible)
-  - Interpretation (what it might mean)
-  - Request (what I am asking the clinician to do)
+The following redacted neurologist letters are archived under `/neurological/letters/`:
 
----
-
-## Local Editing & Publishing
-
-This site is served with GitHub Pages. Any commit to `main` updates the site at  
-`https://jamessaint.github.io/medical/`.
-
-To work locally:
-
-1. Edit files in your editor of choice.
-2. Preview HTML by opening files directly in a browser.
-3. Commit and push to `main`.
-
-*(If you use Jekyll or a static generator later, note it here with run steps.)*
+| Date | Description | Filename |
+|------|--------------|-----------|
+| 24 Apr 2025 | Private referral via Doctor Care Anywhere (Dr. Krishni Kumar) | `gp-referral-2442025-redacted.pdf` |
+| 18 May 2025 | Initial neurology assessment – suspected C2–C3 involvement and autonomic hair loss | `18-05-2025-gp-letter-001575064_redacted.pdf` |
+| 10 Jul 2025 | MRI follow-up – right cerebellar infarct and myelitis suspicion | `10-07-2025-gp-letter-001614424_redacted.pdf` |
+| 03 Aug 2025 | Lumbar puncture procedure and post-operative note | `03-08-2025-gp-letter-001622984_redacted.pdf` |
+| 17 Aug 2025 | Post-CSF review and cervical 3T imaging plan | `17-08-2025-g-p--letter-001633154_redacted.pdf` |
+| 08 Oct 2025 | Updated diagnostic hypothesis – brainstem stroke and carbamazepine trial | `08-10-2025-g-p-letter-001666084-redacted.pdf` |
 
 ---
 
-## Privacy
+## 🧩 Related Files
 
-- This repository contains **personal health information** that I have chosen to make available to my care team.  
-- Do not redistribute content without written permission.
+- **Symptom Overview Update:**  
+  Now includes occipital nerve path hair loss and a hyperlink to the scalp mapping reference.
 
----
-
-## Disclaimer
-
-The materials here are **patient-authored records** for coordination of care. They do not replace clinical judgment. Any treatment decisions should be made by qualified clinicians.
+- **Occipital Scalp Mapping:**  
+  Found in `/neurological/Occipital_Scalp_Changes_Nerve_Path_Mapping.html`, with labeled images showing greater, lesser, and third occipital nerve territories.
 
 ---
 
-## Contact
+## ⚙️ Updating the Repository
 
-**Patient:** James Saint  
-**Current focus:** Left-sided neuropathic pain and sensory disturbance; possible small brainstem event under MDT review.
+1. **Add new medical letters**  
+   Place redacted PDFs into `/neurological/letters/`.  
+   Use lowercase filenames with dashes (e.g., `12-11-2025-follow-up-letter.pdf`).
+
+2. **Update the Neurology Summary**  
+   Add links to new correspondence within the `<section>` for neurologist letters in `Neurology_Cardiology_Summary.html`.
+
+3. **Publish**  
+   Push updates to GitHub; the site auto-refreshes via GitHub Pages at:  
+   👉 [https://jamessaint.github.io/medical/neurological/](https://jamessaint.github.io/medical/neurological/)
+
+---
+
+## 🕮 Version History
+
+**Last Updated:** 10 October 2025  
+**Changes:**
+- Added six redacted neurologist letters (May–Oct 2025).
+- Integrated occipital scalp changes HTML with linked images and labeled mapping.
+- Updated `Symptom Overview` table to include occipital nerve path hair loss reference.
+- Refreshed formatting for consistency with Bootstrap 5 and Montserrat font standards.
+
+---
 
 © James Saint 2025
