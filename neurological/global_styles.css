@@ -287,175 +287,187 @@ tbody tr:nth-child(even) {}
 }
 
 /* ===============================
-   Carbamazepine Tracker – Entries Table (scoped to #entries)
+   Carbamazepine Tracker – Entries Table (scoped to #entries, no border-radius)
    =============================== */
 
 /* ===== DESKTOP & TABLET ===== */
 
-/* Prevent headers from wrapping vertically */
-#entries .entries-table thead th {
-    white-space: nowrap !important;
-    word-break: normal !important;
-    overflow-wrap: normal !important;
-}
-
-/* Maintain comfortable table width on desktop */
+/* Keep headers single-line and clean */
 #entries .entries-table {
-    min-width: 1200px;
-    /* Adjust to taste; prevents collapse */
-    table-layout: auto;
+  min-width: 1200px;           /* prevents column squeeze on desktop */
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #C9B694;
 }
 
-/* Prevent most data cells from wrapping */
+#entries .entries-table thead th {
+  white-space: nowrap !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  letter-spacing: .02em;
+  text-transform: none;
+  background: #f7f3ea;
+  color: #003366;
+  padding: .55rem .6rem;
+  border: 1px solid #C9B694;
+  text-align: left;
+}
+
 #entries .entries-table td {
-    white-space: nowrap;
+  border: 1px solid #C9B694;
+  padding: .55rem .6rem;
+  white-space: nowrap;
+  vertical-align: middle;
 }
 
-/* Allow wrapping for Effects and Notes columns */
+/* Align numeric cells */
+#entries .entries-table td.num,
+#entries .entries-table th.num {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Allow wrapping for Effects and Notes */
 #entries .entries-table td[data-label="Effects"],
 #entries .entries-table td.notes {
-    white-space: normal;
-    word-break: normal;
-    overflow-wrap: anywhere;
-}
-
-/* Keep Actions buttons horizontal and aligned */
-#entries .entries-table th.actions-col {
-    min-width: 160px;
-    white-space: nowrap;
-}
-
-#entries .entries-table td.actions {
-    text-align: right;
-    white-space: nowrap;
-}
-
-#entries .entries-table td.actions .btn {
-    display: inline-block;
-    margin-left: .35rem;
-    padding: .2rem .5rem;
-    font-size: .78rem;
-
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 
 /* Notes column wrapping */
 #entries .entries-table td.notes {
-    max-width: 32ch;
-    word-wrap: break-word;
-    white-space: normal;
+  max-width: 32ch;
+  word-wrap: break-word;
+  white-space: normal;
 }
 
-/* Pills / Badges */
+/* Actions column: buttons stay inline */
+#entries .entries-table th.actions-col {
+  min-width: 160px;
+  white-space: nowrap;
+}
+
+#entries .entries-table td.actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+#entries .entries-table td.actions .btn {
+  display: inline-block;
+  margin-left: .35rem;
+  padding: .2rem .5rem;
+  font-size: .78rem;
+  border-radius: 0;
+}
+
+/* Pills (badges) */
 #entries .badge-soft {
-    display: inline-block;
-    padding: .15rem .45rem;
-    border: 1px solid #C9B694;
-    x;
-    background: #fbf7ee;
-    color: #003366;
-    font-size: .78rem;
-    line-height: 1.1;
-    margin-right: .25rem;
-    margin-bottom: .2rem;
-    white-space: nowrap;
+  display: inline-block;
+  padding: .15rem .45rem;
+  border: 1px solid #C9B694;
+  border-radius: 0;
+  background: #fbf7ee;
+  color: #003366;
+  font-size: .78rem;
+  line-height: 1.1;
+  margin-right: .25rem;
+  margin-bottom: .2rem;
+  white-space: nowrap;
+}
+
+/* Zebra striping and hover */
+#entries .entries-table tbody tr:nth-child(even) {
+  background: #fbfaf6;
+}
+#entries .entries-table tbody tr:hover {
+  background: #f4efe6;
 }
 
 /* ===== MOBILE (≤575.98px) ===== */
 
 @media (max-width: 575.98px) {
+  #entries .entries-table {
+    min-width: unset;
+    width: 100%;
+    border: none;
+  }
 
-    /* Let table be fully fluid */
-    #entries .entries-table {
-        min-width: unset;
-        width: 100%;
-    }
+  /* Hide header; use card-style layout */
+  #entries .entries-table thead {
+    display: none;
+  }
 
-    /* Hide header; stack rows as cards */
-    #entries .entries-table thead {
-        display: none;
-    }
+  #entries .entries-table,
+  #entries .entries-table tbody,
+  #entries .entries-table tr,
+  #entries .entries-table td {
+    display: block;
+    width: 100%;
+  }
 
-    #entries .entries-table,
-    #entries .entries-table tbody,
-    #entries .entries-table tr,
-    #entries .entries-table td {
-        display: block;
-        width: 100%;
-    }
+  #entries .entries-table tr {
+    background: #fffef8;
+    border: 1px solid #C9B694;
+    margin: .65rem 0;
+    padding: 0;
+  }
 
-    /* Row as a card */
-    #entries .entries-table tr {
-        background: #fffef8;
-        border: 1px solid #C9B694;
-        ;
-        margin: .65rem 0;
-        padding: 0;
-        overflow: hidden;
-    }
+  #entries .entries-table td {
+    position: relative;
+    padding: .65rem .75rem .65rem 7.5rem;
+    border: 0;
+    border-bottom: 1px solid rgba(201,182,148,0.55);
+    line-height: 1.25;
+    white-space: normal;
+  }
 
-    /* Cell layout: label left, value right */
-    #entries .entries-table td {
-        position: relative;
-        padding: .65rem .75rem .65rem 8rem;
-        border: 0;
-        border-bottom: 1px solid rgba(201, 182, 148, 0.55);
-        line-height: 1.25;
-        white-space: normal;
-    }
+  #entries .entries-table td:last-child {
+    border-bottom: 0;
+  }
 
-    #entries .entries-table td:last-child {
-        border-bottom: 0;
-    }
+  #entries .entries-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: .75rem;
+    top: .65rem;
+    width: 6.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #003366;
+    line-height: 1.25;
+    white-space: normal;
+  }
 
-    /* Label column styling */
-    #entries .entries-table td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: .75rem;
-        top: .65rem;
-        width: 7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        color: #003366;
-        line-height: 1.25;
-        white-space: normal;
-    }
+  /* Left-align numbers for mobile readability */
+  #entries .entries-table td.num {
+    text-align: left;
+    white-space: normal;
+  }
 
-    /* Numbers left-aligned on mobile for readability */
-    #entries .entries-table td.num {
-        text-align: left;
-        white-space: normal;
-    }
+  /* Empty Notes show subtle placeholder */
+  #entries .entries-table td.notes:empty::after {
+    content: "—";
+    opacity: .6;
+  }
 
-    /* Show subtle placeholder for empty Notes */
-    #entries .entries-table td.notes:empty::after {
-        content: "—";
-        opacity: .6;
-    }
+  /* Pills spacing */
+  #entries .entries-table td[data-label="Effects"] .badge-soft {
+    margin-right: .35rem;
+    margin-bottom: .35rem;
+    border-radius: 0;
+  }
 
-    /* Effects badges ("pills") wrap neatly */
-    #entries .entries-table td[data-label="Effects"] .badge-soft {
-        display: inline-block;
-        padding: .15rem .45rem;
-        border: 1px solid #C9B694;
-        background: #fbf7ee;
-        color: #003366;
-        font-size: .78rem;
-        line-height: 1.1;
-        margin-right: .35rem;
-        margin-bottom: .35rem;
-        white-space: nowrap;
-    }
+  /* Actions: inline and right-aligned */
+  #entries .entries-table td.actions {
+    text-align: right;
+    padding-left: 7.5rem;
+  }
 
-    /* Actions: buttons inline, right-aligned */
-    #entries .entries-table td.actions {
-        text-align: right;
-        padding-left: 8rem;
-    }
-
-    #entries .entries-table td.actions .btn {
-        display: inline-block;
-        margin-left: .4rem;
-        margin-top: .2rem;
-    }
+  #entries .entries-table td.actions .btn {
+    display: inline-block;
+    margin-left: .4rem;
+    margin-top: .2rem;
+    border-radius: 0;
+  }
 }
