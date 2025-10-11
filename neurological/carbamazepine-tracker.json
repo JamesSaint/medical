@@ -1,5 +1,31 @@
 [
   {
+    "id": "e5c23656-6784-4186-b203-81a23eb0c1a5-64a38617-fa2f-4604-9312-2290d9e72150",
+    "date": "2025-10-10",
+    "time": "15:05",
+    "dose": 100,
+    "pain": 9,
+    "sedation": 8,
+    "dizziness": 9,
+    "nausea": 8,
+    "brainfog": 8,
+    "sleep": 3,
+    "appetite": "Low",
+    "effects": [
+      "Itching",
+      "Vision change",
+      "Headache",
+      "GI upset"
+    ],
+    "notes": "",
+    "am_sys": null,
+    "am_dia": null,
+    "am_hr": null,
+    "pm_sys": null,
+    "pm_dia": null,
+    "pm_hr": null
+  },
+  {
     "id": "4fd56ac9-7129-427b-9d3d-92dddddcaca1",
     "date": "2025-10-10",
     "time": "15:05",
@@ -17,6 +43,12 @@
       "Headache",
       "GI upset"
     ],
-    "notes": ""
+    "notes": "",
+    "am_sys": null,
+    "am_dia": null,
+    "am_hr": null,
+    "pm_sys": null,
+    "pm_dia": null,
+    "pm_hr": null
   }
 ]
