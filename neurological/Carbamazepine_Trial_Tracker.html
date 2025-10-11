@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Carbamazepine Trial Tracker</title>
   <meta name="description" content="Lightweight daily tracker for Carbamazepine titration, symptoms, and side effects. Data stays in your browser. Export JSON or CSV for GitHub.">
@@ -17,91 +18,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="global_styles.css" rel="stylesheet" />
   <style>
-    body {
-      font-family: Montserrat, sans-serif;
-      background-color: #EEEEEE;
-      color: #003366;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
-      font-size: 0.9rem;
-    }
-    .content {
-      max-width: 900px;
-      width: 100%;
-      padding: 0;
-    }
-    h1 {
-      color: #003366;
-      border-bottom: 1px solid #C9B694;
-      padding-bottom: 0.3em;
-      text-transform: uppercase;
-      font-size: 1.5rem;
-      font-weight: 600;
-    }
-    h2 {
-      color: #003366;
-      margin-top: 1.5em;
-      text-transform: uppercase;
-      font-size: 1rem;
-      border-bottom: 1px solid #C9B694;
-      padding-bottom: 0.3em;
-      font-weight: 700;
-    }
-    .section { margin-top: 1em; }
-
-    .note {
-      background-color: rgba(4, 87, 255, 0.04);
-      border-left: 1px solid #C9B694;
-      padding: 10px;
-      margin-top: 20px;
-    }
-
-    .card-like {
-      border-left: 3px solid #C9B694;
-      padding: 16px;
-      margin-bottom: 16px;
-      background: #fefbf3;
-      border-radius: 8px;
-    }
-
-    table {
-      width: 100%;
-      margin-bottom: 1.5em;
-      border-collapse: collapse;
-      background: #fefbf3;
-    }
-
-    th, td {
-      padding: 0.75em;
-      border: 1px solid #C9B694;
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th {
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    footer {
-      margin-top: 2em;
-      font-size: 0.85rem;
-      color: #003366;
-      opacity: 0.85;
-      text-align: left;
-    }
-
-    a {
-      color: #003366;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
     .range-output {
       font-weight: 600;
       min-width: 2ch;
@@ -134,7 +52,7 @@
         </ol>
       </nav>
       <h1>Carbamazepine Trial Tracker</h1>
-      <p class="meta">Data is stored locally in your browser. Export regularly and commit JSON or CSV to your GitHub repo.</p>
+      <p class="meta">Data is stored locally in  browser. Export regularly and commit JSON to your GitHub repo.</p>
     </header>
 
     <section class="section card-like">
@@ -231,7 +149,6 @@
           <button type="button" id="btn-clear-today" class="btn btn-outline-secondary">Clear Today</button>
         </div>
       </form>
-      <p class="note small mt-3">Tip: Use it like a clicker. Date and time default to now. Sliders and buttons only, minimal typing.</p>
     </section>
 
     <section class="section card-like">
