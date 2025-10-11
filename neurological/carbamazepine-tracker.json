@@ -24,5 +24,29 @@
     "pm_sys": null,
     "pm_dia": null,
     "pm_hr": null
+  },
+  {
+    "id": "e5c23656-6784-4186-b203-81a23eb0c1a5-f93d931c-c279-4c2b-a191-fb9a54bad3a5",
+    "date": "2025-10-11",
+    "time": "21:58",
+    "dose": 100,
+    "pain": 8,
+    "sedation": 0,
+    "dizziness": 6,
+    "nausea": 5,
+    "brainfog": 6,
+    "sleep": 7,
+    "appetite": "Low",
+    "effects": [
+      "Itching",
+      "Headache"
+    ],
+    "notes": "",
+    "am_sys": null,
+    "am_dia": null,
+    "am_hr": null,
+    "pm_sys": 120,
+    "pm_dia": 86,
+    "pm_hr": 76
   }
 ]
