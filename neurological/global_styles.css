@@ -376,14 +376,6 @@ tbody tr:nth-child(even) {}
   white-space: nowrap;
 }
 
-/* Zebra striping and hover */
-#entries .entries-table tbody tr:nth-child(even) {
-  background: #fbfaf6;
-}
-#entries .entries-table tbody tr:hover {
-  background: #f4efe6;
-}
-
 /* ===== MOBILE (≤575.98px) ===== */
 
 @media (max-width: 575.98px) {
