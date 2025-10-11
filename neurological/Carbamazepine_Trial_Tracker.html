@@ -137,6 +137,51 @@
                         <textarea id="notes" class="form-control" rows="2" placeholder="Optional short note"></textarea>
                     </div>
                 </div>
+                <!-- =========================
+     Add inside your existing form#entryForm
+     (Place anywhere logical, e.g., before the submit buttons)
+     ========================= -->
+                <fieldset class="mt-3">
+                    <legend class="h6 mb-2 text-uppercase">Vitals</legend>
+                    <div class="row g-2 align-items-end">
+                        <!-- Morning -->
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold mb-1">Morning (AM)</label>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <label for="am_sys" class="form-label small mb-1">Systolic</label>
+                                    <input type="number" class="form-control" id="am_sys" inputmode="numeric" min="70" max="250" step="1" placeholder="e.g. 120">
+                                </div>
+                                <div class="col-4">
+                                    <label for="am_dia" class="form-label small mb-1">Diastolic</label>
+                                    <input type="number" class="form-control" id="am_dia" inputmode="numeric" min="40" max="150" step="1" placeholder="e.g. 80">
+                                </div>
+                                <div class="col-4">
+                                    <label for="am_hr" class="form-label small mb-1">Pulse</label>
+                                    <input type="number" class="form-control" id="am_hr" inputmode="numeric" min="30" max="220" step="1" placeholder="e.g. 70">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Evening -->
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold mb-1">Evening (PM)</label>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <label for="pm_sys" class="form-label small mb-1">Systolic</label>
+                                    <input type="number" class="form-control" id="pm_sys" inputmode="numeric" min="70" max="250" step="1" placeholder="e.g. 118">
+                                </div>
+                                <div class="col-4">
+                                    <label for="pm_dia" class="form-label small mb-1">Diastolic</label>
+                                    <input type="number" class="form-control" id="pm_dia" inputmode="numeric" min="40" max="150" step="1" placeholder="e.g. 78">
+                                </div>
+                                <div class="col-4">
+                                    <label for="pm_hr" class="form-label small mb-1">Pulse</label>
+                                    <input type="number" class="form-control" id="pm_hr" inputmode="numeric" min="30" max="220" step="1" placeholder="e.g. 66">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
                 <div class="btn-wrap mt-3">
                     <button type="submit" class="btn btn-primary">Save Entry</button>
                     <button type="button" id="btn-clear-today" class="btn btn-outline-secondary">Clear Today</button>
@@ -179,6 +224,10 @@
                             <th class="num">Sleep</th>
                             <th>Appetite</th>
                             <th>Effects</th>
+                            <!-- NEW vitals columns -->
+                            <th>AM BP / Pulse</th>
+                            <th>PM BP / Pulse</th>
+                            <!-- /NEW -->
                             <th>Notes</th>
                             <th class="actions-col">Actions</th>
                         </tr>
@@ -189,10 +238,14 @@
         </section>
     </main>
     <script>
-    /* Carbamazepine Tracker – streamlined, bullet-proof repo loading */
+    /**
+     * Carbamazepine Tracker – adds morning/evening BP & pulse, keeps Local/Repo/Merged, safe export.
+     * Backward compatible: old entries (no vitals) render as "—".
+     */
+
     const KEY = 'carbamazepine_entries_v1';
 
-    // Try multiple URLs silently until one works
+    // Repo JSON candidates (GitHub Pages + Raw; tries in order, quietly falls back)
     const ORIGIN = window.location.origin;
     const REPO_URLS = [
         '/medical/neurological/carbamazepine-tracker.json',
@@ -202,7 +255,7 @@
         'https://raw.githubusercontent.com/jamessaint/jamessaint.github.io/master/medical/neurological/carbamazepine-tracker.json'
     ];
 
-    // Per-device ID so new entries are globally unique
+    // Stable per-device prefix to make new IDs globally unique across devices
     const DEVICE_ID = (() => {
         const k = 'carbamazepine_device_id';
         let v = localStorage.getItem(k);
@@ -213,24 +266,28 @@
         return v;
     })();
 
+    // ---- Small utilities ----
     const pad = n => String(n).padStart(2, '0');
     const nowTime = () => { const d = new Date(); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+    const toNum = v => (v === '' || v === null || v === undefined) ? null : Number(v);
+    const escapeHTML = s => String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' } [c]));
+    const badge = txt => `<span class="badge-soft">${escapeHTML(txt)}</span>`;
 
     function uid() {
-        const core = crypto ? .randomUUID ? crypto.randomUUID() :
+        const core = crypto ? .randomUUID ?
+            crypto.randomUUID() :
             (Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10));
         return `${DEVICE_ID}-${core}`;
     }
 
-    /* ---------- Storage helpers ---------- */
-    function loadEntries() { try { const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : []; } catch { return []; } }
+    // ---- Local persistence ----
+    function loadEntries() {
+        try { const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : []; } catch { return []; }
+    }
 
     function saveEntries(entries) { localStorage.setItem(KEY, JSON.stringify(entries)); }
 
-    /* ---------- Normalisation ---------- */
-    const escapeHTML = s => String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' } [c]));
-    const badge = txt => `<span class="badge-soft">${escapeHTML(txt)}</span>`;
-
+    // ---- Normalisation (accepts repo/local shapes + adds vitals) ----
     function normalizeEntries(arr) {
         return arr.map(e => ({
             id: e.id ? ? `${e.date ?? ''}_${e.time ?? ''}_${e.dose ?? ''}`,
@@ -246,11 +303,26 @@
             appetite: e.appetite ? ? 'Normal',
             effects: Array.isArray(e.effects) ? e.effects :
                 String(e.effects ? ? '').split(';').map(s => s.trim()).filter(Boolean),
-            notes: e.notes ? ? ''
+            notes: e.notes ? ? '',
+            // NEW: vitals (nullable numbers)
+            am_sys: toNum(e.am_sys),
+            am_dia: toNum(e.am_dia),
+            am_hr: toNum(e.am_hr),
+            pm_sys: toNum(e.pm_sys),
+            pm_dia: toNum(e.pm_dia),
+            pm_hr: toNum(e.pm_hr),
         }));
     }
 
-    /* ---------- Table render ---------- */
+    // ---- Render helpers ----
+    const fmtVitals = (sys, dia, hr) => {
+        // Shows "120/80 • 68" or "—" if nothing
+        if (sys == null && dia == null && hr == null) return '—';
+        const bp = (sys != null || dia != null) ? `${sys ?? '?'}\/${dia ?? '?'}` : '';
+        const pulse = (hr != null) ? ` • ${hr}` : '';
+        return (bp || pulse) ? `${bp}${pulse}` : '—';
+    };
+
     function entryRow(e) {
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -265,6 +337,10 @@
       <td class="num" data-label="Sleep">${e.sleep}</td>
       <td data-label="Appetite">${badge(e.appetite)}</td>
       <td data-label="Effects">${(e.effects||[]).map(badge).join(' ')}</td>
+      <!-- NEW vitals columns -->
+      <td data-label="AM BP / Pulse">${fmtVitals(e.am_sys, e.am_dia, e.am_hr)}</td>
+      <td data-label="PM BP / Pulse">${fmtVitals(e.pm_sys, e.pm_dia, e.pm_hr)}</td>
+      <!-- /NEW -->
       <td class="notes" data-label="Notes">${e.notes ? escapeHTML(e.notes) : ''}</td>
       <td class="actions d-flex gap-1" data-label="Actions">
         <button class="btn btn-outline-secondary btn-sm" data-action="edit" data-id="${e.id}">Edit</button>
@@ -275,7 +351,7 @@
 
     function renderEmptyRow(msg) {
         const tbody = document.querySelector('#entriesTable tbody');
-        const cols = document.querySelectorAll('#entriesTable thead th').length || 13;
+        const cols = document.querySelectorAll('#entriesTable thead th').length || 15; // +2 for vitals
         const tr = document.createElement('tr');
         tr.innerHTML = `<td colspan="${cols}" class="text-center py-3 small text-muted">${msg}</td>`;
         tbody.appendChild(tr);
@@ -294,8 +370,9 @@
     }
     const renderTable = () => renderTableFrom(loadEntries());
 
-    /* ---------- Merge & CSV ---------- */
+    // ---- Merge + CSV + downloads ----
     function mergeDedup(a, b) {
+        // Prefer the later (date+time) if IDs collide or are missing
         const map = new Map();
         const put = e => {
             const key = e.id || `${e.date}_${e.time}_${e.dose}`;
@@ -313,7 +390,11 @@
     }
 
     function toCSV(entries) {
-        const cols = ["date", "time", "dose", "pain", "sedation", "dizziness", "nausea", "brainfog", "sleep", "appetite", "effects", "notes", "id"];
+        // NEW: vitals included
+        const cols = [
+            "date", "time", "dose", "pain", "sedation", "dizziness", "nausea", "brainfog", "sleep",
+            "appetite", "effects", "am_sys", "am_dia", "am_hr", "pm_sys", "pm_dia", "pm_hr", "notes", "id"
+        ];
         const header = cols.join(',');
         const lines = entries.map(e => cols.map(c => {
             let v = e[c];
@@ -335,25 +416,35 @@
         URL.revokeObjectURL(url);
     }
 
-    /* ---------- Robust Repo loader ---------- */
+    // ---- Robust Repo loader (tries multiple URLs; accepts many JSON shapes) ----
     async function fetchJSON(url) {
-        const res = await fetch(`${url}${url.includes('?') ? '&' : '?'}ts=${Date.now()}`, { cache: 'no-store', mode: 'cors' });
+        const res = await fetch(`${url}${url.includes('?') ? '&' : '?'}ts=${Date.now()}`, {
+            cache: 'no-store',
+            mode: 'cors'
+        });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         let data;
         try { data = await res.json(); } catch {
             const txt = await res.text();
             data = JSON.parse(txt);
         }
-        // Accept several shapes: [], {entries:[]}, {data:[]}, {items:[]}, {rows:[]}, {records:[]}
+        // Accept: [], {entries:[]}, {data:[]}, {items:[]}, {rows:[]}, {records:[]}, or shallowly nested
         let arr = null;
         if (Array.isArray(data)) arr = data;
         else if (data && typeof data === 'object') {
-            const candidates = ['entries', 'data', 'items', 'rows', 'records', 'list'];
-            for (const k of candidates) {
-                if (Array.isArray(data[k])) { arr = data[k]; break; }
+            const keys = ['entries', 'data', 'items', 'rows', 'records', 'list'];
+            for (const k of keys) { if (Array.isArray(data[k])) { arr = data[k]; break; } }
+            if (!arr) {
+                // best-effort: flatten any arrays of objects one level deep
+                const vals = Object.values(data);
+                const bucket = [];
+                vals.forEach(v => {
+                    if (Array.isArray(v)) v.forEach(x => { if (x && typeof x === 'object') bucket.push(x); });
+                });
+                if (bucket.length) arr = bucket;
             }
         }
-        if (!arr) throw new Error('Unexpected schema');
+        if (!arr) return [];
         return normalizeEntries(arr);
     }
 
@@ -361,10 +452,8 @@
         for (const url of REPO_URLS) {
             try {
                 const rows = await fetchJSON(url);
-                if (rows && rows.length >= 0) return rows;
-            } catch (e) {
-                // quietly try next
-            }
+                if (rows) return rows;
+            } catch (_) { /* try next */ }
         }
         return [];
     }
@@ -375,8 +464,9 @@
         return mergeDedup(local, repo);
     }
 
-    /* ---------- Init & events ---------- */
+    // ---- Init & events ----
     document.addEventListener('DOMContentLoaded', () => {
+        // Prefill time if present
         const timeEl = document.getElementById('time');
         if (timeEl) timeEl.value = nowTime();
 
@@ -387,15 +477,13 @@
             if (val === 'local') {
                 renderTable();
             } else if (val === 'repo') {
-                const repo = await loadEntriesRepo();
-                renderTableFrom(repo);
+                renderTableFrom(await loadEntriesRepo());
             } else {
-                const merged = await loadEntriesMerged();
-                renderTableFrom(merged);
+                renderTableFrom(await loadEntriesMerged());
             }
         }
 
-        // Default to Repo if Local is empty and Repo has data
+        // Default to Repo if Local is empty and Repo has rows
         (async () => {
             const localCount = loadEntries().length;
             if (localCount === 0 && selector) {
@@ -411,16 +499,20 @@
 
         selector ? .addEventListener('change', renderBySource);
 
-        // Form submit (local save)
+        // Handle form submit (saves to Local only)
         const form = document.getElementById('entryForm');
         form ? .addEventListener('submit', e => {
             e.preventDefault();
+
+            // Existing fields
             const appetite = document.querySelector('input[name="appetite"]:checked') ? .value || 'Normal';
             const effects = [];
             ['fx_itch', 'fx_vision', 'fx_headache', 'fx_gi'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el && el.checked) effects.push(el.value);
             });
+
+            // NEW: read vitals (nullable numbers)
             const entry = {
                 id: uid(),
                 date: document.getElementById('date').value,
@@ -434,31 +526,45 @@
                 sleep: Number(document.getElementById('sleep').value),
                 appetite,
                 effects,
-                notes: document.getElementById('notes').value.trim()
+                notes: document.getElementById('notes').value.trim(),
+                am_sys: toNum(document.getElementById('am_sys') ? .value),
+                am_dia: toNum(document.getElementById('am_dia') ? .value),
+                am_hr: toNum(document.getElementById('am_hr') ? .value),
+                pm_sys: toNum(document.getElementById('pm_sys') ? .value),
+                pm_dia: toNum(document.getElementById('pm_dia') ? .value),
+                pm_hr: toNum(document.getElementById('pm_hr') ? .value),
             };
+
             const entries = loadEntries();
             entries.push(entry);
             saveEntries(entries);
+
+            // Re-render unless viewing Repo-only
             if ((selector ? .value || 'local') !== 'repo') renderBySource();
+
+            // Reset form; keep current time helpful for next entry
             form.reset();
             if (timeEl) timeEl.value = nowTime();
         });
 
-        // Table actions
+        // Row buttons: Edit (loads row back to form) / Delete
         document.querySelector('#entriesTable') ? .addEventListener('click', ev => {
             const btn = ev.target.closest('button[data-action]');
             if (!btn) return;
             const id = btn.getAttribute('data-id');
             const action = btn.getAttribute('data-action');
+
             let entries = loadEntries();
             const idx = entries.findIndex(e => e.id === id);
             if (idx === -1) return;
+
             if (action === 'delete') {
                 entries.splice(idx, 1);
                 saveEntries(entries);
                 renderBySource();
             } else if (action === 'edit') {
                 const e = entries[idx];
+                // Minimal back-fill; extend if you want to repopulate sliders/badges
                 const dateEl = document.getElementById('date');
                 const timeEl2 = document.getElementById('time');
                 const doseEl = document.getElementById('dose');
@@ -467,21 +573,30 @@
                 if (timeEl2) timeEl2.value = e.time;
                 if (doseEl) doseEl.value = e.dose;
                 if (notesEl) notesEl.value = e.notes || '';
+                // NEW: repopulate vitals if present
+                ['am_sys', 'am_dia', 'am_hr', 'pm_sys', 'pm_dia', 'pm_hr'].forEach(k => {
+                    const el = document.getElementById(k);
+                    if (el) el.value = (e[k] ? ? '');
+                });
+
+                // Remove old row; saving writes an updated record
                 entries.splice(idx, 1);
                 saveEntries(entries);
                 renderBySource();
             }
         });
 
-        // Export / import / clear
+        // Export / Import / Clear
         document.getElementById('btn-export-json') ? .addEventListener('click', () => {
             const data = JSON.stringify(loadEntries(), null, 2);
             download('carbamazepine-tracker.json', data, 'application/json');
         });
+
         document.getElementById('btn-export-csv') ? .addEventListener('click', () => {
             const csv = toCSV(loadEntries());
             download('carbamazepine-tracker.csv', csv, 'text/csv');
         });
+
         const importInput = document.getElementById('import-file');
         document.getElementById('btn-import-json') ? .addEventListener('click', () => importInput.click());
         importInput ? .addEventListener('change', e => {
@@ -497,12 +612,15 @@
             };
             reader.readAsText(file);
         });
+
         document.getElementById('btn-clear-all') ? .addEventListener('click', () => {
-            if (confirm('Clear all entries stored in this browser?')) { saveEntries([]);
-                renderBySource(); }
+            if (confirm('Clear all entries stored in this browser?')) {
+                saveEntries([]);
+                renderBySource();
+            }
         });
 
-        // Safe export & archive (merge with repo first)
+        // Safe export & archive (merge with Repo first to avoid data loss)
         function stamp() { const d = new Date(); return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`; }
         document.getElementById('btn-safe-export') ? .addEventListener('click', async () => {
             const merged = mergeDedup(loadEntries(), await loadEntriesRepo());
