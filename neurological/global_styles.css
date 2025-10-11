@@ -203,3 +203,51 @@ tbody tr:nth-child(even) {
     white-space: normal;     /* allow Category to wrap on phones */
   }
 }
+  /* --- CUSTOM COLOR OVERRIDES (#C9B694) --- */
+  .btn-primary {
+    background-color: #C9B694 !important;
+    border-color: #C9B694 !important;
+    color: #003366 !important;
+  }
+  .btn-primary:hover,
+  .btn-primary:focus,
+  .btn-primary:active {
+    background-color: #bda981 !important;
+    border-color: #bda981 !important;
+    color: #003366 !important;
+  }
+
+  .btn-outline-primary {
+    color: #C9B694 !important;
+    border-color: #C9B694 !important;
+  }
+  .btn-outline-primary:hover,
+  .btn-outline-primary:focus {
+    background-color: #C9B694 !important;
+    color: #003366 !important;
+  }
+
+  .form-check-input:checked {
+    background-color: #C9B694 !important;
+    border-color: #C9B694 !important;
+  }
+  .form-range::-webkit-slider-thumb {
+    background: #C9B694;
+  }
+  .form-range::-moz-range-thumb {
+    background: #C9B694;
+  }
+  .form-range::-ms-thumb {
+    background: #C9B694;
+  }
+  .form-range::-webkit-slider-runnable-track {
+    background: #ddd;
+  }
+  .form-range:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 0.25rem rgba(201,182,148,0.4);
+  }
+  .btn-check:checked + .btn-outline-primary {
+    background-color: #C9B694 !important;
+    border-color: #C9B694 !important;
+    color: #003366 !important;
+  }
