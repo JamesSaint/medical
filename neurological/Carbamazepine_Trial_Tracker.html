@@ -154,12 +154,23 @@
 <section id="entries" class="section card-like">
   <h2>Entries</h2>
 
-  <div class="btn-wrap mb-2">
+  <div class="btn-wrap mb-2 d-flex flex-wrap align-items-center gap-2">
     <button type="button" id="btn-export-json" class="btn btn-success">Export JSON</button>
     <button type="button" id="btn-export-csv" class="btn btn-success">Export CSV</button>
     <button type="button" id="btn-import-json" class="btn btn-outline-primary">Import JSON</button>
     <input type="file" id="import-file" class="import-input" accept=".json,application/json">
     <button type="button" id="btn-clear-all" class="btn btn-outline-danger">Clear All</button>
+
+    <!-- New: Data Source Switch -->
+    <div class="d-inline-flex align-items-center gap-2 ms-auto">
+      <label for="data-source" class="small mb-0 text-uppercase fw-semibold">Data source:</label>
+      <select id="data-source" class="form-select form-select-sm" style="width:auto;">
+        <option value="local" selected>Local (This Browser)</option>
+        <option value="repo">Repo (GitHub JSON)</option>
+        <option value="merged">Merged (Repo + Local)</option>
+      </select>
+      <span id="source-status" class="small text-muted"></span>
+    </div>
   </div>
 
   <div class="table-responsive entries-wrap">
@@ -186,15 +197,13 @@
   </div>
 </section>
 
-
-
   </main>
 
 <script>
-  /* Carbamazepine Tracker – entries table renderer (drop-in) */
+  /* Carbamazepine Tracker – entries table with repo integration */
   const KEY = 'carbamazepine_entries_v1';
+  const REPO_JSON_URL = '/medical/neurological/carbamazepine-tracker.json';
 
-  // Fallback UUID (for older browsers)
   function uid() {
     if (window.crypto?.randomUUID) return crypto.randomUUID();
     return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
@@ -226,10 +235,18 @@
     localStorage.setItem(KEY, JSON.stringify(entries));
   }
 
+  function escapeHTML(s) {
+    return String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
+  }
+
+  function badge(text) {
+    return `<span class="badge-soft">${escapeHTML(text)}</span>`;
+  }
+
   function formToEntry() {
     const appetite = document.querySelector('input[name="appetite"]:checked')?.value || 'Normal';
     const effects = [];
-    ['fx_itch', 'fx_vision', 'fx_headache', 'fx_gi'].forEach(id => {
+    ['fx_itch','fx_vision','fx_headache','fx_gi'].forEach(id => {
       const el = document.getElementById(id);
       if (el && el.checked) effects.push(el.value);
     });
@@ -250,14 +267,6 @@
     };
   }
 
-  function escapeHTML(s) {
-    return String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
-  }
-
-  function badge(text) {
-    return `<span class="badge-soft">${escapeHTML(text)}</span>`;
-  }
-
   function entryRow(entry) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -276,32 +285,37 @@
       <td class="actions d-flex gap-1" data-label="Actions">
         <button class="btn btn-outline-secondary btn-sm" data-action="edit" data-id="${entry.id}">Edit</button>
         <button class="btn btn-outline-danger btn-sm" data-action="delete" data-id="${entry.id}">Delete</button>
-      </td>
-    `;
+      </td>`;
     return tr;
   }
 
-  function renderTable() {
+  function renderTableFrom(entries) {
     const tbody = document.querySelector('#entriesTable tbody');
     if (!tbody) return;
     tbody.innerHTML = '';
-    const entries = loadEntries().sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
-    entries.forEach(e => tbody.appendChild(entryRow(e)));
+    entries
+      .slice()
+      .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
+      .forEach(e => tbody.appendChild(entryRow(e)));
+  }
+
+  function renderTable() {
+    renderTableFrom(loadEntries());
   }
 
   function toCSV(entries) {
     const cols = ["date","time","dose","pain","sedation","dizziness","nausea","brainfog","sleep","appetite","effects","notes","id"];
     const header = cols.join(',');
-    const lines = entries.map(e => {
-      return cols.map(c => {
+    const lines = entries.map(e =>
+      cols.map(c => {
         let v = e[c];
         if (Array.isArray(v)) v = v.join('; ');
-        if (v === null || v === undefined) v = '';
+        if (v == null) v = '';
         v = String(v).replace(/"/g, '""');
         return `"${v}"`;
-      }).join(',');
-    });
-    return [header].concat(lines).join('\n');
+      }).join(',')
+    );
+    return [header, ...lines].join('\n');
   }
 
   function download(filename, content, mime) {
@@ -314,153 +328,184 @@
     URL.revokeObjectURL(url);
   }
 
+  // ===== Repo Integration =====
+  async function loadEntriesRepo() {
+    const status = document.getElementById('source-status');
+    try {
+      status && (status.textContent = 'Loading repo…');
+      const res = await fetch(`${REPO_JSON_URL}?t=${Date.now()}`, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const arr = Array.isArray(data) ? data : (Array.isArray(data?.entries) ? data.entries : []);
+      status && (status.textContent = `Repo: ${arr.length} rows`);
+      return normalizeEntries(arr);
+    } catch (err) {
+      console.error('Repo load failed:', err);
+      status && (status.textContent = 'Repo load failed');
+      return [];
+    }
+  }
+
+  function normalizeEntries(arr) {
+    return arr.map(e => ({
+      id: e.id ?? `${e.date ?? ''}_${e.time ?? ''}_${e.dose ?? ''}`,
+      date: e.date ?? '',
+      time: e.time ?? '',
+      dose: Number(e.dose ?? 0),
+      pain: Number(e.pain ?? 0),
+      sedation: Number(e.sedation ?? 0),
+      dizziness: Number(e.dizziness ?? 0),
+      nausea: Number(e.nausea ?? 0),
+      brainfog: Number(e.brainfog ?? 0),
+      sleep: Number(e.sleep ?? 0),
+      appetite: e.appetite ?? 'Normal',
+      effects: Array.isArray(e.effects) ? e.effects :
+        String(e.effects ?? '').split(';').map(s => s.trim()).filter(Boolean),
+      notes: e.notes ?? ''
+    }));
+  }
+
+  async function loadEntriesMerged() {
+    const local = loadEntries();
+    const repo = await loadEntriesRepo();
+    const map = new Map();
+    const put = e => {
+      const key = e.id || `${e.date}_${e.time}_${e.dose}`;
+      const prev = map.get(key);
+      if (!prev) map.set(key, e);
+      else {
+        const a = (prev.date || '') + (prev.time || '');
+        const b = (e.date || '') + (e.time || '');
+        if (b > a) map.set(key, e);
+      }
+    };
+    local.forEach(put);
+    repo.forEach(put);
+    return Array.from(map.values());
+  }
+
+  // ===== Form filling (for editing) =====
   function fillForm(entry) {
     document.getElementById('date').value = entry.date;
     document.getElementById('time').value = entry.time;
     document.getElementById('dose').value = entry.dose;
-    document.getElementById('out_dose').textContent = entry.dose;
-    document.getElementById('pain').value = entry.pain;
-    document.getElementById('out_pain').textContent = entry.pain;
-    document.getElementById('sedation').value = entry.sedation;
-    document.getElementById('out_sedation').textContent = entry.sedation;
-    document.getElementById('dizziness').value = entry.dizziness;
-    document.getElementById('out_dizziness').textContent = entry.dizziness;
-    document.getElementById('nausea').value = entry.nausea;
-    document.getElementById('out_nausea').textContent = entry.nausea;
-    document.getElementById('brainfog').value = entry.brainfog;
-    document.getElementById('out_brainfog').textContent = entry.brainfog;
-    document.getElementById('sleep').value = entry.sleep;
-    document.getElementById('out_sleep').textContent = entry.sleep;
-
-    const appetites = { Low: 'app_low', Normal: 'app_norm', High: 'app_high' };
-    const appId = appetites[entry.appetite] || 'app_norm';
-    if (document.getElementById(appId)) document.getElementById(appId).checked = true;
-
-    ['fx_itch', 'fx_vision', 'fx_headache', 'fx_gi'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.checked = false;
-    });
+    ['out_dose','out_pain','out_sedation','out_dizziness','out_nausea','out_brainfog','out_sleep']
+      .forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = entry[id.split('_')[1]] ?? 0;
+      });
+    const appetites = { Low:'app_low', Normal:'app_norm', High:'app_high' };
+    document.getElementById(appetites[entry.appetite] || 'app_norm').checked = true;
+    ['fx_itch','fx_vision','fx_headache','fx_gi'].forEach(id => document.getElementById(id).checked = false);
     (entry.effects || []).forEach(val => {
-      const map = { 'Itching': 'fx_itch', 'Vision change': 'fx_vision', 'Headache': 'fx_headache', 'GI upset': 'fx_gi' };
+      const map = {'Itching':'fx_itch','Vision change':'fx_vision','Headache':'fx_headache','GI upset':'fx_gi'};
       const id = map[val];
-      const el = id && document.getElementById(id);
-      if (el) el.checked = true;
+      if (id) document.getElementById(id).checked = true;
     });
-
     document.getElementById('notes').value = entry.notes || '';
   }
 
+  // ===== Initialization =====
   document.addEventListener('DOMContentLoaded', () => {
     const dateEl = document.getElementById('date');
     if (dateEl && 'valueAsDate' in dateEl) dateEl.valueAsDate = new Date();
     const timeEl = document.getElementById('time');
     if (timeEl) timeEl.value = nowTime();
 
-    renderTable();
+    const selector = document.getElementById('data-source');
+    const status = document.getElementById('source-status');
 
+    async function renderBySource() {
+      const val = selector?.value || 'local';
+      if (val === 'local') {
+        status.textContent = `Local: ${loadEntries().length} rows`;
+        renderTable();
+      } else if (val === 'repo') {
+        const repo = await loadEntriesRepo();
+        renderTableFrom(repo);
+      } else {
+        const merged = await loadEntriesMerged();
+        status.textContent = `Merged: ${merged.length} rows`;
+        renderTableFrom(merged);
+      }
+    }
+
+    renderBySource();
+    selector?.addEventListener('change', renderBySource);
+
+    // Local form submit
     const form = document.getElementById('entryForm');
     if (form) {
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', e => {
         e.preventDefault();
         const entry = formToEntry();
         const entries = loadEntries();
         entries.push(entry);
         saveEntries(entries);
-        renderTable();
-
+        if ((selector?.value || 'local') !== 'repo') renderBySource();
         form.reset();
         if (dateEl && 'valueAsDate' in dateEl) dateEl.valueAsDate = new Date();
         if (timeEl) timeEl.value = nowTime();
-        ['out_dose','out_pain','out_sedation','out_dizziness','out_nausea','out_brainfog'].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.textContent = '0';
-        });
-        const outSleep = document.getElementById('out_sleep');
-        if (outSleep) outSleep.textContent = '7';
       });
     }
 
-    const clearTodayBtn = document.getElementById('btn-clear-today');
-    if (clearTodayBtn) {
-      clearTodayBtn.addEventListener('click', () => {
-        const today = document.getElementById('date')?.value || nowDate();
-        const filtered = loadEntries().filter(e => e.date !== today);
-        saveEntries(filtered);
-        renderTable();
-      });
-    }
-
+    // Table actions
     const table = document.querySelector('#entriesTable');
-    if (table) {
-      table.addEventListener('click', (ev) => {
-        const btn = ev.target.closest('button[data-action]');
-        if (!btn) return;
-        const id = btn.getAttribute('data-id');
-        const action = btn.getAttribute('data-action');
-        let entries = loadEntries();
-        const idx = entries.findIndex(e => e.id === id);
-        if (idx === -1) return;
-        if (action === 'delete') {
-          entries.splice(idx, 1);
-          saveEntries(entries);
-          renderTable();
-        } else if (action === 'edit') {
-          fillForm(entries[idx]);
-          entries.splice(idx, 1);           // remove old; saving writes a new row
-          saveEntries(entries);
-          renderTable();
-        }
-      });
-    }
+    table?.addEventListener('click', ev => {
+      const btn = ev.target.closest('button[data-action]');
+      if (!btn) return;
+      const id = btn.getAttribute('data-id');
+      const action = btn.getAttribute('data-action');
+      let entries = loadEntries();
+      const idx = entries.findIndex(e => e.id === id);
+      if (idx === -1) return;
+      if (action === 'delete') {
+        entries.splice(idx, 1);
+        saveEntries(entries);
+        renderBySource();
+      } else if (action === 'edit') {
+        fillForm(entries[idx]);
+        entries.splice(idx, 1);
+        saveEntries(entries);
+        renderBySource();
+      }
+    });
 
-    const btnJson = document.getElementById('btn-export-json');
-    if (btnJson) btnJson.addEventListener('click', () => {
+    // Export/Import/Clear
+    document.getElementById('btn-export-json')?.addEventListener('click', () => {
       const data = JSON.stringify(loadEntries(), null, 2);
       download('carbamazepine-tracker.json', data, 'application/json');
     });
-
-    const btnCsv = document.getElementById('btn-export-csv');
-    if (btnCsv) btnCsv.addEventListener('click', () => {
+    document.getElementById('btn-export-csv')?.addEventListener('click', () => {
       const data = toCSV(loadEntries());
       download('carbamazepine-tracker.csv', data, 'text/csv');
     });
-
-    const importBtn = document.getElementById('btn-import-json');
     const importInput = document.getElementById('import-file');
-    if (importBtn && importInput) {
-      importBtn.addEventListener('click', () => importInput.click());
-      importInput.addEventListener('change', (e) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = () => {
-          try {
-            const arr = JSON.parse(reader.result);
-            if (Array.isArray(arr)) {
-              saveEntries(arr);
-              renderTable();
-            } else {
-              alert('Invalid JSON format');
-            }
-          } catch (err) {
-            alert('Import failed');
-          }
-        };
-        reader.readAsText(file);
-      });
-    }
-
-    const clearAllBtn = document.getElementById('btn-clear-all');
-    if (clearAllBtn) {
-      clearAllBtn.addEventListener('click', () => {
-        if (confirm('Clear all entries stored in this browser?')) {
-          saveEntries([]);
-          renderTable();
-        }
-      });
-    }
+    document.getElementById('btn-import-json')?.addEventListener('click', () => importInput.click());
+    importInput?.addEventListener('change', e => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const arr = JSON.parse(reader.result);
+          if (Array.isArray(arr)) {
+            saveEntries(arr);
+            renderBySource();
+          } else alert('Invalid JSON format');
+        } catch { alert('Import failed'); }
+      };
+      reader.readAsText(file);
+    });
+    document.getElementById('btn-clear-all')?.addEventListener('click', () => {
+      if (confirm('Clear all entries stored in this browser?')) {
+        saveEntries([]);
+        renderBySource();
+      }
+    });
   });
 </script>
+
 
 </body>
 </html>
