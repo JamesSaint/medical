@@ -189,11 +189,20 @@
         </section>
     </main>
     <script>
-    /* Carbamazepine Tracker – streamlined (local/repo/merged + safe export) */
+    /* Carbamazepine Tracker – streamlined, bullet-proof repo loading */
     const KEY = 'carbamazepine_entries_v1';
-    const REPO_JSON_URL = 'https://jamessaint.github.io/medical/neurological/carbamazepine-tracker.json';
 
-    // Unique per-device prefix for entry IDs
+    // Try multiple URLs silently until one works
+    const ORIGIN = window.location.origin;
+    const REPO_URLS = [
+        '/medical/neurological/carbamazepine-tracker.json',
+        `${ORIGIN}/medical/neurological/carbamazepine-tracker.json`,
+        'https://jamessaint.github.io/medical/neurological/carbamazepine-tracker.json',
+        'https://raw.githubusercontent.com/jamessaint/jamessaint.github.io/main/medical/neurological/carbamazepine-tracker.json',
+        'https://raw.githubusercontent.com/jamessaint/jamessaint.github.io/master/medical/neurological/carbamazepine-tracker.json'
+    ];
+
+    // Per-device ID so new entries are globally unique
     const DEVICE_ID = (() => {
         const k = 'carbamazepine_device_id';
         let v = localStorage.getItem(k);
@@ -213,12 +222,12 @@
         return `${DEVICE_ID}-${core}`;
     }
 
-    function loadEntries() {
-        try { const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : []; } catch { return []; }
-    }
+    /* ---------- Storage helpers ---------- */
+    function loadEntries() { try { const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : []; } catch { return []; } }
 
     function saveEntries(entries) { localStorage.setItem(KEY, JSON.stringify(entries)); }
 
+    /* ---------- Normalisation ---------- */
     const escapeHTML = s => String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' } [c]));
     const badge = txt => `<span class="badge-soft">${escapeHTML(txt)}</span>`;
 
@@ -241,6 +250,7 @@
         }));
     }
 
+    /* ---------- Table render ---------- */
     function entryRow(e) {
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -284,6 +294,7 @@
     }
     const renderTable = () => renderTableFrom(loadEntries());
 
+    /* ---------- Merge & CSV ---------- */
     function mergeDedup(a, b) {
         const map = new Map();
         const put = e => {
@@ -299,24 +310,6 @@
         normalizeEntries(a).forEach(put);
         normalizeEntries(b).forEach(put);
         return Array.from(map.values());
-    }
-
-    async function loadEntriesRepo() {
-        const res = await fetch(`${REPO_JSON_URL}?ts=${Date.now()}`, { cache: 'no-store', mode: 'cors' });
-        if (!res.ok) return [];
-        let data;
-        try { data = await res.json(); } catch {
-            const txt = await res.text();
-            try { data = JSON.parse(txt); } catch { return []; }
-        }
-        const arr = Array.isArray(data) ? data : (Array.isArray(data ? .entries) ? data.entries : []);
-        return arr ? normalizeEntries(arr) : [];
-    }
-
-    async function loadEntriesMerged() {
-        const local = loadEntries();
-        const repo = await loadEntriesRepo();
-        return mergeDedup(local, repo);
     }
 
     function toCSV(entries) {
@@ -342,8 +335,48 @@
         URL.revokeObjectURL(url);
     }
 
+    /* ---------- Robust Repo loader ---------- */
+    async function fetchJSON(url) {
+        const res = await fetch(`${url}${url.includes('?') ? '&' : '?'}ts=${Date.now()}`, { cache: 'no-store', mode: 'cors' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        let data;
+        try { data = await res.json(); } catch {
+            const txt = await res.text();
+            data = JSON.parse(txt);
+        }
+        // Accept several shapes: [], {entries:[]}, {data:[]}, {items:[]}, {rows:[]}, {records:[]}
+        let arr = null;
+        if (Array.isArray(data)) arr = data;
+        else if (data && typeof data === 'object') {
+            const candidates = ['entries', 'data', 'items', 'rows', 'records', 'list'];
+            for (const k of candidates) {
+                if (Array.isArray(data[k])) { arr = data[k]; break; }
+            }
+        }
+        if (!arr) throw new Error('Unexpected schema');
+        return normalizeEntries(arr);
+    }
+
+    async function loadEntriesRepo() {
+        for (const url of REPO_URLS) {
+            try {
+                const rows = await fetchJSON(url);
+                if (rows && rows.length >= 0) return rows;
+            } catch (e) {
+                // quietly try next
+            }
+        }
+        return [];
+    }
+
+    async function loadEntriesMerged() {
+        const local = loadEntries();
+        const repo = await loadEntriesRepo();
+        return mergeDedup(local, repo);
+    }
+
+    /* ---------- Init & events ---------- */
     document.addEventListener('DOMContentLoaded', () => {
-        // Pre-fill time if your form inputs exist
         const timeEl = document.getElementById('time');
         if (timeEl) timeEl.value = nowTime();
 
@@ -378,7 +411,7 @@
 
         selector ? .addEventListener('change', renderBySource);
 
-        // Form submit (local add)
+        // Form submit (local save)
         const form = document.getElementById('entryForm');
         form ? .addEventListener('submit', e => {
             e.preventDefault();
@@ -426,10 +459,14 @@
                 renderBySource();
             } else if (action === 'edit') {
                 const e = entries[idx];
-                document.getElementById('date').value = e.date;
-                document.getElementById('time').value = e.time;
-                document.getElementById('dose').value = e.dose;
-                document.getElementById('notes').value = e.notes || '';
+                const dateEl = document.getElementById('date');
+                const timeEl2 = document.getElementById('time');
+                const doseEl = document.getElementById('dose');
+                const notesEl = document.getElementById('notes');
+                if (dateEl) dateEl.value = e.date;
+                if (timeEl2) timeEl2.value = e.time;
+                if (doseEl) doseEl.value = e.dose;
+                if (notesEl) notesEl.value = e.notes || '';
                 entries.splice(idx, 1);
                 saveEntries(entries);
                 renderBySource();
