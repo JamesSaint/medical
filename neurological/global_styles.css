@@ -306,7 +306,6 @@ tbody tr:nth-child(even) {}
   overflow-wrap: normal !important;
   letter-spacing: .02em;
   text-transform: none;
-  background: #f7f3ea;
   color: #003366;
   padding: .55rem .6rem;
   border: 1px solid #C9B694;
@@ -399,7 +398,6 @@ tbody tr:nth-child(even) {}
   }
 
   #entries .entries-table tr {
-    background: #fffef8;
     border: 1px solid #C9B694;
     margin: .65rem 0;
     padding: 0;
