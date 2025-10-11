@@ -1,0 +1,22 @@
+[
+  {
+    "id": "b8cafb1a-87f7-4fbf-82ba-9faadd8f5cd6",
+    "date": "2025-10-11",
+    "time": "09:34",
+    "dose": 100,
+    "pain": 8,
+    "sedation": 7,
+    "dizziness": 8,
+    "nausea": 6,
+    "brainfog": 8,
+    "sleep": 3,
+    "appetite": "Low",
+    "effects": [
+      "Itching",
+      "Vision change",
+      "Headache",
+      "GI upset"
+    ],
+    "notes": ""
+  }
+]

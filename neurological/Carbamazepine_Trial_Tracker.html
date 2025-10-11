@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carbamazepine Trial Tracker</title>
+  <meta name="description" content="Lightweight daily tracker for Carbamazepine titration, symptoms, and side effects. Data stays in your browser. Export JSON or CSV for GitHub.">
+  <meta property="og:title" content="Carbamazepine Trial Tracker">
+  <meta property="og:description" content="Lightweight daily tracker for Carbamazepine titration, symptoms, and side effects.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://jamessaint.github.io/images/seed-of-life-gold.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Carbamazepine Trial Tracker">
+  <meta name="twitter:description" content="Lightweight daily tracker for Carbamazepine titration, symptoms, and side effects.">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Montserrat, sans-serif;
+      background-color: #EEEEEE;
+      color: #003366;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+    .content {
+      max-width: 900px;
+      width: 100%;
+      padding: 0;
+    }
+    h1 {
+      color: #003366;
+      border-bottom: 1px solid #C9B694;
+      padding-bottom: 0.3em;
+      text-transform: uppercase;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    h2 {
+      color: #003366;
+      margin-top: 1.5em;
+      text-transform: uppercase;
+      font-size: 1rem;
+      border-bottom: 1px solid #C9B694;
+      padding-bottom: 0.3em;
+      font-weight: 700;
+    }
+    .section { margin-top: 1em; }
+
+    .note {
+      background-color: rgba(4, 87, 255, 0.04);
+      border-left: 1px solid #C9B694;
+      padding: 10px;
+      margin-top: 20px;
+    }
+
+    .card-like {
+      border-left: 3px solid #C9B694;
+      padding: 16px;
+      margin-bottom: 16px;
+      background: #fefbf3;
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      margin-bottom: 1.5em;
+      border-collapse: collapse;
+      background: #fefbf3;
+    }
+
+    th, td {
+      padding: 0.75em;
+      border: 1px solid #C9B694;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    footer {
+      margin-top: 2em;
+      font-size: 0.85rem;
+      color: #003366;
+      opacity: 0.85;
+      text-align: left;
+    }
+
+    a {
+      color: #003366;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .range-output {
+      font-weight: 600;
+      min-width: 2ch;
+      display: inline-block;
+      text-align: right;
+    }
+
+    .small-label {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .btn-wrap {
+      gap: .5rem;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .import-input { display: none; }
+  </style>
+</head>
+<body>
+  <main class="content">
+    <header class="mb-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Medical</a></li>
+          <li class="breadcrumb-item"><a href="#">Neurological</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Carbamazepine Trial Tracker</li>
+        </ol>
+      </nav>
+      <h1>Carbamazepine Trial Tracker</h1>
+      <p class="meta">Data is stored locally in your browser. Export regularly and commit JSON or CSV to your GitHub repo.</p>
+    </header>
+
+    <section class="section card-like">
+      <h2>Quick Entry</h2>
+      <form id="entryForm">
+        <div class="row g-3">
+          <div class="col-12 col-md-4">
+            <label class="form-label">Date</label>
+            <input type="date" id="date" class="form-control" required>
+          </div>
+          <div class="col-12 col-md-4">
+            <label class="form-label">Time</label>
+            <input type="time" id="time" class="form-control" required>
+          </div>
+          <div class="col-12 col-md-4">
+            <label class="form-label">Dose (mg)</label>
+            <input type="range" id="dose" class="form-range" min="0" max="1200" step="100" value="0" oninput="out_dose.textContent=value">
+            <div><span class="small-label">Selected:</span> <span id="out_dose" class="range-output">0</span> mg</div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label">Pain (0 to 10)</label>
+            <input type="range" id="pain" class="form-range" min="0" max="10" step="1" value="0" oninput="out_pain.textContent=value">
+            <div><span class="small-label">Selected:</span> <span id="out_pain" class="range-output">0</span></div>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Sedation / Sleepiness (0 to 10)</label>
+            <input type="range" id="sedation" class="form-range" min="0" max="10" step="1" value="0" oninput="out_sedation.textContent=value">
+            <div><span class="small-label">Selected:</span> <span id="out_sedation" class="range-output">0</span></div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label">Dizziness (0 to 10)</label>
+            <input type="range" id="dizziness" class="form-range" min="0" max="10" step="1" value="0" oninput="out_dizziness.textContent=value">
+            <div><span class="small-label">Selected:</span> <span id="out_dizziness" class="range-output">0</span></div>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Nausea (0 to 10)</label>
+            <input type="range" id="nausea" class="form-range" min="0" max="10" step="1" value="0" oninput="out_nausea.textContent=value">
+            <div><span class="small-label">Selected:</span> <span id="out_nausea" class="range-output">0</span></div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label">Brain Fog / Clarity (0 to 10)</label>
+            <input type="range" id="brainfog" class="form-range" min="0" max="10" step="1" value="0" oninput="out_brainfog.textContent=value">
+            <div><span class="small-label">Selected:</span> <span id="out_brainfog" class="range-output">0</span></div>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Sleep (hours)</label>
+            <input type="range" id="sleep" class="form-range" min="0" max="14" step="1" value="7" oninput="out_sleep.textContent=value">
+            <div><span class="small-label">Selected:</span> <span id="out_sleep" class="range-output">7</span> h</div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label d-block">Appetite</label>
+            <div class="btn-group" role="group" aria-label="Appetite">
+              <input type="radio" class="btn-check" name="appetite" id="app_low" autocomplete="off" value="Low">
+              <label class="btn btn-outline-primary" for="app_low">Low</label>
+              <input type="radio" class="btn-check" name="appetite" id="app_norm" autocomplete="off" value="Normal" checked>
+              <label class="btn btn-outline-primary" for="app_norm">Normal</label>
+              <input type="radio" class="btn-check" name="appetite" id="app_high" autocomplete="off" value="High">
+              <label class="btn btn-outline-primary" for="app_high">High</label>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label d-block">Notable Effects</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="fx_itch" value="Itching">
+              <label class="form-check-label" for="fx_itch">Itching</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="fx_vision" value="Vision change">
+              <label class="form-check-label" for="fx_vision">Vision change</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="fx_headache" value="Headache">
+              <label class="form-check-label" for="fx_headache">Headache</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="fx_gi" value="GI upset">
+              <label class="form-check-label" for="fx_gi">GI upset</label>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Notes</label>
+            <textarea id="notes" class="form-control" rows="2" placeholder="Optional short note"></textarea>
+          </div>
+        </div>
+
+        <div class="btn-wrap mt-3">
+          <button type="submit" class="btn btn-primary">Save Entry</button>
+          <button type="button" id="btn-clear-today" class="btn btn-outline-secondary">Clear Today</button>
+        </div>
+      </form>
+      <p class="note small mt-3">Tip: Use it like a clicker. Date and time default to now. Sliders and buttons only, minimal typing.</p>
+    </section>
+
+    <section class="section card-like">
+      <h2>Entries</h2>
+      <div class="btn-wrap mb-2">
+        <button type="button" id="btn-export-json" class="btn btn-success">Export JSON</button>
+        <button type="button" id="btn-export-csv" class="btn btn-success">Export CSV</button>
+        <button type="button" id="btn-import-json" class="btn btn-outline-primary">Import JSON</button>
+        <input type="file" id="import-file" class="import-input" accept=".json,application/json">
+        <button type="button" id="btn-clear-all" class="btn btn-outline-danger">Clear All</button>
+      </div>
+      <div class="table-responsive">
+        <table id="entriesTable" class="table table-sm">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Dose</th>
+              <th>Pain</th>
+              <th>Sedation</th>
+              <th>Dizziness</th>
+              <th>Nausea</th>
+              <th>Brain Fog</th>
+              <th>Sleep</th>
+              <th>Appetite</th>
+              <th>Effects</th>
+              <th>Notes</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      © James Saint 2025
+    </footer>
+  </main>
+
+  <script>
+    const KEY = 'carbamazepine_entries_v1';
+
+    function nowDate() {
+      const d = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+    }
+
+    function nowTime() {
+      const d = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      return pad(d.getHours()) + ':' + pad(d.getMinutes());
+    }
+
+    function loadEntries() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch(e) {
+        console.error('Load failed', e);
+        return [];
+      }
+    }
+
+    function saveEntries(entries) {
+      localStorage.setItem(KEY, JSON.stringify(entries));
+    }
+
+    function formToEntry() {
+      const appetite = document.querySelector('input[name="appetite"]:checked')?.value || 'Normal';
+      const effects = [];
+      ['fx_itch','fx_vision','fx_headache','fx_gi'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el.checked) effects.push(el.value);
+      });
+      return {
+        id: crypto.randomUUID(),
+        date: document.getElementById('date').value,
+        time: document.getElementById('time').value,
+        dose: Number(document.getElementById('dose').value),
+        pain: Number(document.getElementById('pain').value),
+        sedation: Number(document.getElementById('sedation').value),
+        dizziness: Number(document.getElementById('dizziness').value),
+        nausea: Number(document.getElementById('nausea').value),
+        brainfog: Number(document.getElementById('brainfog').value),
+        sleep: Number(document.getElementById('sleep').value),
+        appetite,
+        effects,
+        notes: document.getElementById('notes').value.trim()
+      };
+    }
+
+    function entryRow(entry) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${entry.date}</td>
+        <td>${entry.time}</td>
+        <td>${entry.dose}</td>
+        <td>${entry.pain}</td>
+        <td>${entry.sedation}</td>
+        <td>${entry.dizziness}</td>
+        <td>${entry.nausea}</td>
+        <td>${entry.brainfog}</td>
+        <td>${entry.sleep}</td>
+        <td>${entry.appetite}</td>
+        <td>${(entry.effects||[]).join('; ')}</td>
+        <td>${entry.notes ? entry.notes.replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])) : ''}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-secondary me-1" data-action="edit" data-id="${entry.id}">Edit</button>
+          <button class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${entry.id}">Delete</button>
+        </td>
+      `;
+      return tr;
+    }
+
+    function renderTable() {
+      const tbody = document.querySelector('#entriesTable tbody');
+      tbody.innerHTML = '';
+      const entries = loadEntries().sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
+      entries.forEach(e => tbody.appendChild(entryRow(e)));
+    }
+
+    function toCSV(entries) {
+      const cols = ["date","time","dose","pain","sedation","dizziness","nausea","brainfog","sleep","appetite","effects","notes","id"];
+      const header = cols.join(',');
+      const lines = entries.map(e => {
+        return cols.map(c => {
+          let v = e[c];
+          if (Array.isArray(v)) v = v.join('; ');
+          if (v === null || v === undefined) v = '';
+          v = String(v).replace(/"/g, '""');
+          return `"${v}"`;
+        }).join(',');
+      });
+      return [header].concat(lines).join('\n');
+    }
+
+    function download(filename, content, mime) {
+      const blob = new Blob([content], {type: mime});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function fillForm(entry) {
+      document.getElementById('date').value = entry.date;
+      document.getElementById('time').value = entry.time;
+      document.getElementById('dose').value = entry.dose;
+      document.getElementById('out_dose').textContent = entry.dose;
+      document.getElementById('pain').value = entry.pain;
+      document.getElementById('out_pain').textContent = entry.pain;
+      document.getElementById('sedation').value = entry.sedation;
+      document.getElementById('out_sedation').textContent = entry.sedation;
+      document.getElementById('dizziness').value = entry.dizziness;
+      document.getElementById('out_dizziness').textContent = entry.dizziness;
+      document.getElementById('nausea').value = entry.nausea;
+      document.getElementById('out_nausea').textContent = entry.nausea;
+      document.getElementById('brainfog').value = entry.brainfog;
+      document.getElementById('out_brainfog').textContent = entry.brainfog;
+      document.getElementById('sleep').value = entry.sleep;
+      document.getElementById('out_sleep').textContent = entry.sleep;
+      // appetite
+      const appetites = {Low:'app_low', Normal:'app_norm', High:'app_high'};
+      document.getElementById(appetites[entry.appetite] || 'app_norm').checked = true;
+      // effects
+      ['fx_itch','fx_vision','fx_headache','fx_gi'].forEach(id => document.getElementById(id).checked = false);
+      (entry.effects || []).forEach(val => {
+        const map = {'Itching':'fx_itch','Vision change':'fx_vision','Headache':'fx_headache','GI upset':'fx_gi'};
+        const id = map[val];
+        if (id) document.getElementById(id).checked = true;
+      });
+      document.getElementById('notes').value = entry.notes || '';
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      // defaults
+      document.getElementById('date').valueAsDate = new Date();
+      document.getElementById('time').value = nowTime();
+
+      renderTable();
+
+      // Save
+      document.getElementById('entryForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const entry = formToEntry();
+        const entries = loadEntries();
+        entries.push(entry);
+        saveEntries(entries);
+        renderTable();
+        e.target.reset();
+        document.getElementById('date').valueAsDate = new Date();
+        document.getElementById('time').value = nowTime();
+        document.getElementById('out_dose').textContent = '0';
+        document.getElementById('out_pain').textContent = '0';
+        document.getElementById('out_sedation').textContent = '0';
+        document.getElementById('out_dizziness').textContent = '0';
+        document.getElementById('out_nausea').textContent = '0';
+        document.getElementById('out_brainfog').textContent = '0';
+        document.getElementById('out_sleep').textContent = '7';
+      });
+
+      // Clear today's entries (by date)
+      document.getElementById('btn-clear-today').addEventListener('click', () => {
+        const today = document.getElementById('date').value || nowDate();
+        const filtered = loadEntries().filter(e => e.date !== today);
+        saveEntries(filtered);
+        renderTable();
+      });
+
+      // Table actions: edit, delete
+      document.querySelector('#entriesTable').addEventListener('click', (ev) => {
+        const btn = ev.target.closest('button[data-action]');
+        if (!btn) return;
+        const id = btn.getAttribute('data-id');
+        const action = btn.getAttribute('data-action');
+        let entries = loadEntries();
+        const idx = entries.findIndex(e => e.id === id);
+        if (idx === -1) return;
+        if (action === 'delete') {
+          entries.splice(idx, 1);
+          saveEntries(entries);
+          renderTable();
+        } else if (action === 'edit') {
+          fillForm(entries[idx]);
+          // remove old so saving writes a new id row
+          entries.splice(idx, 1);
+          saveEntries(entries);
+          renderTable();
+        }
+      });
+
+      // Export JSON
+      document.getElementById('btn-export-json').addEventListener('click', () => {
+        const data = JSON.stringify(loadEntries(), null, 2);
+        download('carbamazepine-tracker.json', data, 'application/json');
+      });
+
+      // Export CSV
+      document.getElementById('btn-export-csv').addEventListener('click', () => {
+        const data = toCSV(loadEntries());
+        download('carbamazepine-tracker.csv', data, 'text/csv');
+      });
+
+      // Import JSON
+      const importBtn = document.getElementById('btn-import-json');
+      const importInput = document.getElementById('import-file');
+      importBtn.addEventListener('click', () => importInput.click());
+      importInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const arr = JSON.parse(reader.result);
+            if (Array.isArray(arr)) {
+              saveEntries(arr);
+              renderTable();
+            } else {
+              alert('Invalid JSON format');
+            }
+          } catch (err) {
+            alert('Import failed');
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      // Clear all
+      document.getElementById('btn-clear-all').addEventListener('click', () => {
+        if (confirm('Clear all entries stored in this browser?')) {
+          saveEntries([]);
+          renderTable();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
