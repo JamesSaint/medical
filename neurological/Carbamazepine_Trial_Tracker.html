@@ -143,133 +143,107 @@
                 </div>
             </form>
         </section>
-<section id="entries" class="section card-like">
-  <h2>Entries</h2>
-
-  <!-- Live diagnostics -->
-  <p id="js-diagnostic" class="small text-muted" style="margin-top:-.25rem;">
-    Initialising…
-  </p>
-
-  <div class="btn-wrap mb-2 d-flex flex-wrap align-items-center gap-2">
-    <button type="button" id="btn-export-json" class="btn btn-success">Export JSON</button>
-    <button type="button" id="btn-export-csv" class="btn btn-success">Export CSV</button>
-    <button type="button" id="btn-import-json" class="btn btn-outline-primary">Import JSON</button>
-    <input type="file" id="import-file" class="import-input" accept=".json,application/json">
-    <button type="button" id="btn-clear-all" class="btn btn-outline-danger">Clear All</button>
-
-    <!-- Safe merge & archive -->
-    <button type="button" id="btn-safe-export" class="btn btn-primary">Safe Export (Merge First)</button>
-    <button type="button" id="btn-archive-snapshot" class="btn btn-outline-secondary">Archive Snapshot</button>
-
-    <!-- Data Source Switch + diagnostics -->
-    <div class="d-inline-flex align-items-center gap-2 ms-auto">
-      <label for="data-source" class="small mb-0 text-uppercase fw-semibold">Data source:</label>
-      <select id="data-source" class="form-select form-select-sm" style="width:auto;">
-        <option value="local" selected>Local (This Browser)</option>
-        <option value="repo">Repo (GitHub JSON)</option>
-        <option value="merged">Merged (Repo + Local)</option>
-      </select>
-      <button id="btn-repo-reload" type="button" class="btn btn-sm btn-outline-secondary">Force Repo Reload</button>
-    </div>
-    <div class="w-100"></div>
-    <span id="source-status" class="small text-muted"></span>
-  </div>
-
-  <div class="table-responsive entries-wrap">
-    <table id="entriesTable" class="entries-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th class="num">Dose</th>
-          <th class="num">Pain</th>
-          <th class="num">Sedation</th>
-          <th class="num">Dizziness</th>
-          <th class="num">Nausea</th>
-          <th class="num">Brain Fog</th>
-          <th class="num">Sleep</th>
-          <th>Appetite</th>
-          <th>Effects</th>
-          <th>Notes</th>
-          <th class="actions-col">Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-</section>
-
+        <section id="entries" class="section card-like">
+            <h2>Entries</h2>
+            <div class="btn-wrap mb-2 d-flex flex-wrap align-items-center gap-2">
+                <button type="button" id="btn-export-json" class="btn btn-success">Export JSON</button>
+                <button type="button" id="btn-export-csv" class="btn btn-success">Export CSV</button>
+                <button type="button" id="btn-import-json" class="btn btn-outline-primary">Import JSON</button>
+                <input type="file" id="import-file" class="import-input" accept=".json,application/json">
+                <button type="button" id="btn-clear-all" class="btn btn-outline-danger">Clear All</button>
+                <!-- Safe merge & archive -->
+                <button type="button" id="btn-safe-export" class="btn btn-primary">Safe Export (Merge First)</button>
+                <button type="button" id="btn-archive-snapshot" class="btn btn-outline-secondary">Archive Snapshot</button>
+                <!-- Data Source -->
+                <div class="d-inline-flex align-items-center gap-2 ms-auto">
+                    <label for="data-source" class="small mb-0 text-uppercase fw-semibold">Data source:</label>
+                    <select id="data-source" class="form-select form-select-sm" style="width:auto;">
+                        <option value="local" selected>Local</option>
+                        <option value="repo">Repo</option>
+                        <option value="merged">Merged</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-responsive entries-wrap">
+                <table id="entriesTable" class="entries-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th class="num">Dose</th>
+                            <th class="num">Pain</th>
+                            <th class="num">Sedation</th>
+                            <th class="num">Dizziness</th>
+                            <th class="num">Nausea</th>
+                            <th class="num">Brain Fog</th>
+                            <th class="num">Sleep</th>
+                            <th>Appetite</th>
+                            <th>Effects</th>
+                            <th>Notes</th>
+                            <th class="actions-col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
     </main>
-<script>
-  /* Carbamazepine Tracker – bullet-proof repo loading + diagnostics + safe export */
-  const KEY = 'carbamazepine_entries_v1';
+    <script>
+    /* Carbamazepine Tracker – streamlined (local/repo/merged + safe export) */
+    const KEY = 'carbamazepine_entries_v1';
+    const REPO_JSON_URL = 'https://jamessaint.github.io/medical/neurological/carbamazepine-tracker.json';
 
-  // Candidate URLs (try these in order)
-  const ORIGIN = window.location.origin;
-  const REPO_CANDIDATES = [
-    // same-origin (relative/absolute)
-    '/medical/neurological/carbamazepine-tracker.json',
-    `${ORIGIN}/medical/neurological/carbamazepine-tracker.json`,
-    'https://jamessaint.github.io/medical/neurological/carbamazepine-tracker.json',
-    // raw GitHub (CORS-enabled)
-    'https://raw.githubusercontent.com/jamessaint/jamessaint.github.io/main/medical/neurological/carbamazepine-tracker.json',
-    'https://raw.githubusercontent.com/jamessaint/jamessaint.github.io/master/medical/neurological/carbamazepine-tracker.json'
-  ];
+    // Unique per-device prefix for entry IDs
+    const DEVICE_ID = (() => {
+        const k = 'carbamazepine_device_id';
+        let v = localStorage.getItem(k);
+        if (!v) {
+            v = (crypto ? .randomUUID ? .() || ('dev-' + Date.now() + '-' + Math.random().toString(36).slice(2)));
+            localStorage.setItem(k, v);
+        }
+        return v;
+    })();
 
-  // Per-device ID to make entry IDs globally unique
-  const DEVICE_ID = (() => {
-    const k = 'carbamazepine_device_id';
-    let v = localStorage.getItem(k);
-    if (!v) {
-      v = (crypto?.randomUUID?.() || ('dev-' + Date.now() + '-' + Math.random().toString(36).slice(2)));
-      localStorage.setItem(k, v);
+    const pad = n => String(n).padStart(2, '0');
+    const nowTime = () => { const d = new Date(); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+
+    function uid() {
+        const core = crypto ? .randomUUID ? crypto.randomUUID() :
+            (Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10));
+        return `${DEVICE_ID}-${core}`;
     }
-    return v;
-  })();
 
-  const pad = n => String(n).padStart(2, '0');
-  const nowDate = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; };
-  const nowTime = () => { const d = new Date(); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+    function loadEntries() {
+        try { const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : []; } catch { return []; }
+    }
 
-  function uid() {
-    const core = crypto?.randomUUID
-      ? crypto.randomUUID()
-      : (Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,10));
-    return `${DEVICE_ID}-${core}`;
-  }
+    function saveEntries(entries) { localStorage.setItem(KEY, JSON.stringify(entries)); }
 
-  function loadEntries() {
-    try { const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : []; }
-    catch { return []; }
-  }
-  function saveEntries(entries) { localStorage.setItem(KEY, JSON.stringify(entries)); }
+    const escapeHTML = s => String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' } [c]));
+    const badge = txt => `<span class="badge-soft">${escapeHTML(txt)}</span>`;
 
-  const escapeHTML = s => String(s).replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
-  const badge = txt => `<span class="badge-soft">${escapeHTML(txt)}</span>`;
+    function normalizeEntries(arr) {
+        return arr.map(e => ({
+            id: e.id ? ? `${e.date ?? ''}_${e.time ?? ''}_${e.dose ?? ''}`,
+            date: e.date ? ? '',
+            time: e.time ? ? '',
+            dose: Number(e.dose ? ? 0),
+            pain: Number(e.pain ? ? 0),
+            sedation: Number(e.sedation ? ? 0),
+            dizziness: Number(e.dizziness ? ? 0),
+            nausea: Number(e.nausea ? ? 0),
+            brainfog: Number(e.brainfog ? ? 0),
+            sleep: Number(e.sleep ? ? 0),
+            appetite: e.appetite ? ? 'Normal',
+            effects: Array.isArray(e.effects) ? e.effects :
+                String(e.effects ? ? '').split(';').map(s => s.trim()).filter(Boolean),
+            notes: e.notes ? ? ''
+        }));
+    }
 
-  function normalizeEntries(arr) {
-    return arr.map(e => ({
-      id: e.id ?? `${e.date ?? ''}_${e.time ?? ''}_${e.dose ?? ''}`,
-      date: e.date ?? '',
-      time: e.time ?? '',
-      dose: Number(e.dose ?? 0),
-      pain: Number(e.pain ?? 0),
-      sedation: Number(e.sedation ?? 0),
-      dizziness: Number(e.dizziness ?? 0),
-      nausea: Number(e.nausea ?? 0),
-      brainfog: Number(e.brainfog ?? 0),
-      sleep: Number(e.sleep ?? 0),
-      appetite: e.appetite ?? 'Normal',
-      effects: Array.isArray(e.effects) ? e.effects
-        : String(e.effects ?? '').split(';').map(s => s.trim()).filter(Boolean),
-      notes: e.notes ?? ''
-    }));
-  }
-
-  function entryRow(e) {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
+    function entryRow(e) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
       <td data-label="Date">${e.date}</td>
       <td data-label="Time">${e.time}</td>
       <td class="num" data-label="Dose">${e.dose}</td>
@@ -286,261 +260,223 @@
         <button class="btn btn-outline-secondary btn-sm" data-action="edit" data-id="${e.id}">Edit</button>
         <button class="btn btn-outline-danger btn-sm" data-action="delete" data-id="${e.id}">Delete</button>
       </td>`;
-    return tr;
-  }
-
-  function renderEmptyRow(msg) {
-    const tbody = document.querySelector('#entriesTable tbody');
-    const cols = document.querySelectorAll('#entriesTable thead th').length || 13;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td colspan="${cols}" class="text-center py-3 small text-muted">${msg}</td>`;
-    tbody.appendChild(tr);
-  }
-
-  function renderTableFrom(entries) {
-    const tbody = document.querySelector('#entriesTable tbody');
-    if (!tbody) return;
-    tbody.innerHTML = '';
-    if (!entries || entries.length === 0) {
-      renderEmptyRow('No data found. Try “Repo (GitHub JSON)” or “Merged”, or add a local entry.');
-      return;
-    }
-    entries.slice().sort((a,b) => (a.date + a.time).localeCompare(b.date + b.time))
-      .forEach(e => tbody.appendChild(entryRow(e)));
-  }
-
-  const renderTable = () => renderTableFrom(loadEntries());
-
-  function mergeDedup(a, b) {
-    const map = new Map();
-    const put = e => {
-      const key = e.id || `${e.date}_${e.time}_${e.dose}`;
-      const prev = map.get(key);
-      if (!prev) map.set(key, e);
-      else {
-        const A = (prev.date||'') + (prev.time||'');
-        const B = (e.date||'') + (e.time||'');
-        if (B > A) map.set(key, e);
-      }
-    };
-    normalizeEntries(a).forEach(put);
-    normalizeEntries(b).forEach(put);
-    return Array.from(map.values());
-  }
-
-  async function fetchJSONWithDiagnostics(url) {
-    const res = await fetch(`${url}${url.includes('?') ? '&' : '?'}ts=${Date.now()}`, {
-      cache: 'no-store',
-      mode: 'cors',
-      headers: { 'Accept': 'application/json' }
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status} @ ${url}`);
-    let data;
-    try { data = await res.json(); }
-    catch {
-      const txt = await res.text();
-      try { data = JSON.parse(txt); }
-      catch (e2) { throw new Error(`Invalid JSON @ ${url}`); }
-    }
-    const arr = Array.isArray(data) ? data : (Array.isArray(data?.entries) ? data.entries : null);
-    if (!arr) throw new Error(`Unexpected schema (expected array) @ ${url}`);
-    return normalizeEntries(arr);
-  }
-
-  async function loadEntriesRepoMulti() {
-    const status = document.getElementById('source-status');
-    const diag = document.getElementById('js-diagnostic');
-    status && (status.textContent = 'Repo: probing URLs…');
-    for (const u of REPO_CANDIDATES) {
-      try {
-        const rows = await fetchJSONWithDiagnostics(u);
-        status && (status.textContent = `Repo: ${rows.length} rows • ${u}`);
-        console.log('Repo loaded from:', u, 'rows:', rows.length);
-        return rows;
-      } catch (err) {
-        console.warn('Repo candidate failed:', u, err?.message || err);
-        diag && (diag.textContent = `JS: tried ${u} → ${err?.message || err}`);
-      }
-    }
-    status && (status.textContent = 'Repo: all URL candidates failed');
-    return [];
-  }
-
-  async function loadEntriesMerged() {
-    const local = loadEntries();
-    const repo = await loadEntriesRepoMulti();
-    return mergeDedup(local, repo);
-  }
-
-  function toCSV(entries) {
-    const cols = ["date","time","dose","pain","sedation","dizziness","nausea","brainfog","sleep","appetite","effects","notes","id"];
-    const header = cols.join(',');
-    const lines = entries.map(e => cols.map(c => {
-      let v = e[c]; if (Array.isArray(v)) v = v.join('; ');
-      if (v == null) v = ''; v = String(v).replace(/"/g,'""'); return `"${v}"`;
-    }).join(','));
-    return [header, ...lines].join('\n');
-  }
-
-  function download(filename, content, mime) {
-    const blob = new Blob([content], { type: mime });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename; a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const diag = document.getElementById('js-diagnostic');
-    const selector = document.getElementById('data-source');
-    const status = document.getElementById('source-status');
-
-    // Prove scripts are running
-    diag.textContent = 'JS: running — initialising UI…';
-
-    // Prefill date/time (if your form exists above)
-    const dateEl = document.getElementById('date');
-    if (dateEl && 'valueAsDate' in dateEl) dateEl.valueAsDate = new Date();
-    const timeEl = document.getElementById('time');
-    if (timeEl) timeEl.value = nowTime();
-
-    async function renderBySource(opts = {}) {
-      const val = selector?.value || 'local';
-      if (val === 'local') {
-        status && (status.textContent = `Local: ${loadEntries().length} rows`);
-        renderTable();
-      } else if (val === 'repo') {
-        const repo = await loadEntriesRepoMulti();
-        renderTableFrom(repo);
-      } else {
-        const merged = await loadEntriesMerged();
-        status && (status.textContent = `Merged: ${merged.length} rows`);
-        renderTableFrom(merged);
-      }
-      if (opts.scrollToTable) document.getElementById('entriesTable')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return tr;
     }
 
-    // Start-up logic:
-    (async () => {
-      const localCount = loadEntries().length;
-      let repoRows = [];
-      try { repoRows = await loadEntriesRepoMulti(); } catch {}
-      const repoCount = repoRows.length;
+    function renderEmptyRow(msg) {
+        const tbody = document.querySelector('#entriesTable tbody');
+        const cols = document.querySelectorAll('#entriesTable thead th').length || 13;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="${cols}" class="text-center py-3 small text-muted">${msg}</td>`;
+        tbody.appendChild(tr);
+    }
 
-      // If local is empty and repo has data, default view to Repo
-      if (localCount === 0 && repoCount > 0 && selector) {
-        selector.value = 'repo';
-      }
-      // Render whatever is selected now
-      await renderBySource();
+    function renderTableFrom(entries) {
+        const tbody = document.querySelector('#entriesTable tbody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        if (!entries || entries.length === 0) {
+            renderEmptyRow('No data.');
+            return;
+        }
+        entries.slice().sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
+            .forEach(e => tbody.appendChild(entryRow(e)));
+    }
+    const renderTable = () => renderTableFrom(loadEntries());
 
-      // Update diag summary
-      diag.textContent = `JS: ready. Local=${localCount} • Repo=${repoCount}`;
-    })();
+    function mergeDedup(a, b) {
+        const map = new Map();
+        const put = e => {
+            const key = e.id || `${e.date}_${e.time}_${e.dose}`;
+            const prev = map.get(key);
+            if (!prev) map.set(key, e);
+            else {
+                const A = (prev.date || '') + (prev.time || '');
+                const B = (e.date || '') + (e.time || '');
+                if (B > A) map.set(key, e);
+            }
+        };
+        normalizeEntries(a).forEach(put);
+        normalizeEntries(b).forEach(put);
+        return Array.from(map.values());
+    }
 
-    selector?.addEventListener('change', () => renderBySource({ scrollToTable: true }));
-    document.getElementById('btn-repo-reload')?.addEventListener('click', () => renderBySource({ scrollToTable: true }));
+    async function loadEntriesRepo() {
+        const res = await fetch(`${REPO_JSON_URL}?ts=${Date.now()}`, { cache: 'no-store', mode: 'cors' });
+        if (!res.ok) return [];
+        let data;
+        try { data = await res.json(); } catch {
+            const txt = await res.text();
+            try { data = JSON.parse(txt); } catch { return []; }
+        }
+        const arr = Array.isArray(data) ? data : (Array.isArray(data ? .entries) ? data.entries : []);
+        return arr ? normalizeEntries(arr) : [];
+    }
 
-    // Local form submit (if present)
-    const form = document.getElementById('entryForm');
-    form?.addEventListener('submit', e => {
-      e.preventDefault();
-      const appetite = document.querySelector('input[name="appetite"]:checked')?.value || 'Normal';
-      const effects = [];
-      ['fx_itch','fx_vision','fx_headache','fx_gi'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el && el.checked) effects.push(el.value);
-      });
-      const entry = {
-        id: uid(),
-        date: document.getElementById('date').value,
-        time: document.getElementById('time').value,
-        dose: Number(document.getElementById('dose').value),
-        pain: Number(document.getElementById('pain').value),
-        sedation: Number(document.getElementById('sedation').value),
-        dizziness: Number(document.getElementById('dizziness').value),
-        nausea: Number(document.getElementById('nausea').value),
-        brainfog: Number(document.getElementById('brainfog').value),
-        sleep: Number(document.getElementById('sleep').value),
-        appetite, effects,
-        notes: document.getElementById('notes').value.trim()
-      };
-      const entries = loadEntries();
-      entries.push(entry);
-      saveEntries(entries);
-      if ((selector?.value || 'local') !== 'repo') renderBySource();
-      form.reset();
-      if (dateEl && 'valueAsDate' in dateEl) dateEl.valueAsDate = new Date();
-      if (timeEl) timeEl.value = nowTime();
-    });
+    async function loadEntriesMerged() {
+        const local = loadEntries();
+        const repo = await loadEntriesRepo();
+        return mergeDedup(local, repo);
+    }
 
-    // Table actions
-    document.querySelector('#entriesTable')?.addEventListener('click', ev => {
-      const btn = ev.target.closest('button[data-action]');
-      if (!btn) return;
-      const id = btn.getAttribute('data-id');
-      const action = btn.getAttribute('data-action');
-      let entries = loadEntries();
-      const idx = entries.findIndex(e => e.id === id);
-      if (idx === -1) return;
-      if (action === 'delete') {
-        entries.splice(idx, 1); saveEntries(entries); renderBySource();
-      } else if (action === 'edit') {
-        const e = entries[idx];
-        document.getElementById('date').value = e.date;
-        document.getElementById('time').value = e.time;
-        document.getElementById('dose').value = e.dose;
-        document.getElementById('notes').value = e.notes || '';
-        entries.splice(idx, 1); saveEntries(entries); renderBySource();
-      }
-    });
+    function toCSV(entries) {
+        const cols = ["date", "time", "dose", "pain", "sedation", "dizziness", "nausea", "brainfog", "sleep", "appetite", "effects", "notes", "id"];
+        const header = cols.join(',');
+        const lines = entries.map(e => cols.map(c => {
+            let v = e[c];
+            if (Array.isArray(v)) v = v.join('; ');
+            if (v == null) v = '';
+            v = String(v).replace(/"/g, '""');
+            return `"${v}"`;
+        }).join(','));
+        return [header, ...lines].join('\n');
+    }
 
-    // Export / import / clear
-    document.getElementById('btn-export-json')?.addEventListener('click', () => {
-      const data = JSON.stringify(loadEntries(), null, 2);
-      download('carbamazepine-tracker.json', data, 'application/json');
-    });
-    document.getElementById('btn-export-csv')?.addEventListener('click', () => {
-      const cols = ["date","time","dose","pain","sedation","dizziness","nausea","brainfog","sleep","appetite","effects","notes","id"];
-      const entries = loadEntries();
-      const header = cols.join(',');
-      const lines = entries.map(e => cols.map(c => {
-        let v = e[c]; if (Array.isArray(v)) v = v.join('; ');
-        if (v == null) v = ''; v = String(v).replace(/"/g,'""'); return `"${v}"`;
-      }).join(','));
-      download('carbamazepine-tracker.csv', [header, ...lines].join('\n'), 'text/csv');
-    });
-    const importInput = document.getElementById('import-file');
-    document.getElementById('btn-import-json')?.addEventListener('click', () => importInput.click());
-    importInput?.addEventListener('change', e => {
-      const file = e.target.files?.[0]; if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const arr = JSON.parse(reader.result);
-          if (Array.isArray(arr)) { saveEntries(arr); renderBySource(); }
-          else alert('Invalid JSON format');
-        } catch { alert('Import failed'); }
-      };
-      reader.readAsText(file);
-    });
-    document.getElementById('btn-clear-all')?.addEventListener('click', () => {
-      if (confirm('Clear all entries stored in this browser?')) { saveEntries([]); renderBySource(); }
-    });
+    function download(filename, content, mime) {
+        const blob = new Blob([content], { type: mime });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
 
-    // Safe export & archive
-    function stamp() { const d=new Date(); return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`; }
-    document.getElementById('btn-safe-export')?.addEventListener('click', async () => {
-      const merged = mergeDedup(loadEntries(), await loadEntriesRepoMulti());
-      download('carbamazepine-tracker.json', JSON.stringify(merged, null, 2), 'application/json');
-    });
-    document.getElementById('btn-archive-snapshot')?.addEventListener('click', async () => {
-      const merged = mergeDedup(loadEntries(), await loadEntriesRepoMulti());
-      download(`carbamazepine-tracker-${stamp()}.json`, JSON.stringify(merged, null, 2), 'application/json');
-    });
-  });
-</script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Pre-fill time if your form inputs exist
+        const timeEl = document.getElementById('time');
+        if (timeEl) timeEl.value = nowTime();
 
+        const selector = document.getElementById('data-source');
+
+        async function renderBySource() {
+            const val = selector ? .value || 'local';
+            if (val === 'local') {
+                renderTable();
+            } else if (val === 'repo') {
+                const repo = await loadEntriesRepo();
+                renderTableFrom(repo);
+            } else {
+                const merged = await loadEntriesMerged();
+                renderTableFrom(merged);
+            }
+        }
+
+        // Default to Repo if Local is empty and Repo has data
+        (async () => {
+            const localCount = loadEntries().length;
+            if (localCount === 0 && selector) {
+                const repo = await loadEntriesRepo();
+                if (repo.length > 0) {
+                    selector.value = 'repo';
+                    renderTableFrom(repo);
+                    return;
+                }
+            }
+            renderBySource();
+        })();
+
+        selector ? .addEventListener('change', renderBySource);
+
+        // Form submit (local add)
+        const form = document.getElementById('entryForm');
+        form ? .addEventListener('submit', e => {
+            e.preventDefault();
+            const appetite = document.querySelector('input[name="appetite"]:checked') ? .value || 'Normal';
+            const effects = [];
+            ['fx_itch', 'fx_vision', 'fx_headache', 'fx_gi'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el && el.checked) effects.push(el.value);
+            });
+            const entry = {
+                id: uid(),
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                dose: Number(document.getElementById('dose').value),
+                pain: Number(document.getElementById('pain').value),
+                sedation: Number(document.getElementById('sedation').value),
+                dizziness: Number(document.getElementById('dizziness').value),
+                nausea: Number(document.getElementById('nausea').value),
+                brainfog: Number(document.getElementById('brainfog').value),
+                sleep: Number(document.getElementById('sleep').value),
+                appetite,
+                effects,
+                notes: document.getElementById('notes').value.trim()
+            };
+            const entries = loadEntries();
+            entries.push(entry);
+            saveEntries(entries);
+            if ((selector ? .value || 'local') !== 'repo') renderBySource();
+            form.reset();
+            if (timeEl) timeEl.value = nowTime();
+        });
+
+        // Table actions
+        document.querySelector('#entriesTable') ? .addEventListener('click', ev => {
+            const btn = ev.target.closest('button[data-action]');
+            if (!btn) return;
+            const id = btn.getAttribute('data-id');
+            const action = btn.getAttribute('data-action');
+            let entries = loadEntries();
+            const idx = entries.findIndex(e => e.id === id);
+            if (idx === -1) return;
+            if (action === 'delete') {
+                entries.splice(idx, 1);
+                saveEntries(entries);
+                renderBySource();
+            } else if (action === 'edit') {
+                const e = entries[idx];
+                document.getElementById('date').value = e.date;
+                document.getElementById('time').value = e.time;
+                document.getElementById('dose').value = e.dose;
+                document.getElementById('notes').value = e.notes || '';
+                entries.splice(idx, 1);
+                saveEntries(entries);
+                renderBySource();
+            }
+        });
+
+        // Export / import / clear
+        document.getElementById('btn-export-json') ? .addEventListener('click', () => {
+            const data = JSON.stringify(loadEntries(), null, 2);
+            download('carbamazepine-tracker.json', data, 'application/json');
+        });
+        document.getElementById('btn-export-csv') ? .addEventListener('click', () => {
+            const csv = toCSV(loadEntries());
+            download('carbamazepine-tracker.csv', csv, 'text/csv');
+        });
+        const importInput = document.getElementById('import-file');
+        document.getElementById('btn-import-json') ? .addEventListener('click', () => importInput.click());
+        importInput ? .addEventListener('change', e => {
+            const file = e.target.files ? . [0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const arr = JSON.parse(reader.result);
+                    if (Array.isArray(arr)) { saveEntries(arr);
+                        renderBySource(); } else alert('Invalid JSON format');
+                } catch { alert('Import failed'); }
+            };
+            reader.readAsText(file);
+        });
+        document.getElementById('btn-clear-all') ? .addEventListener('click', () => {
+            if (confirm('Clear all entries stored in this browser?')) { saveEntries([]);
+                renderBySource(); }
+        });
+
+        // Safe export & archive (merge with repo first)
+        function stamp() { const d = new Date(); return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`; }
+        document.getElementById('btn-safe-export') ? .addEventListener('click', async () => {
+            const merged = mergeDedup(loadEntries(), await loadEntriesRepo());
+            download('carbamazepine-tracker.json', JSON.stringify(merged, null, 2), 'application/json');
+        });
+        document.getElementById('btn-archive-snapshot') ? .addEventListener('click', async () => {
+            const merged = mergeDedup(loadEntries(), await loadEntriesRepo());
+            download(`carbamazepine-tracker-${stamp()}.json`, JSON.stringify(merged, null, 2), 'application/json');
+        });
+    });
+    </script>
 </body>
 
 </html>
