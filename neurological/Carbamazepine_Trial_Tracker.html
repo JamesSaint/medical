@@ -151,7 +151,7 @@
                 <button type="button" id="btn-import-json" class="btn btn-outline-primary">Import JSON</button>
                 <input type="file" id="import-file" class="import-input" accept=".json,application/json">
                 <button type="button" id="btn-clear-all" class="btn btn-outline-danger">Clear All</button>
-                <!-- Safe export and archive buttons -->
+                <!-- Safe merge & archive -->
                 <button type="button" id="btn-safe-export" class="btn btn-primary">Safe Export (Merge First)</button>
                 <button type="button" id="btn-archive-snapshot" class="btn btn-outline-secondary">Archive Snapshot</button>
                 <!-- Data Source Switch -->
@@ -162,7 +162,8 @@
                         <option value="repo">Repo (GitHub JSON)</option>
                         <option value="merged">Merged (Repo + Local)</option>
                     </select>
-                    <span id="source-status" class="small text-muted"></span>
+                    <button id="btn-repo-reload" type="button" class="btn btn-sm btn-outline-secondary">Force Repo Reload</button>
+                    <span id="source-status" class="small text-muted ms-2"></span>
                 </div>
             </div>
             <div class="table-responsive entries-wrap">
@@ -190,11 +191,11 @@
         </section>
     </main>
     <script>
-    /* Carbamazepine Tracker – entries table with repo diagnostics & safe merge */
+    /* Carbamazepine Tracker – entries table with robust repo loading & safe export */
     const KEY = 'carbamazepine_entries_v1';
     const REPO_JSON_URL = 'https://jamessaint.github.io/medical/neurological/carbamazepine-tracker.json';
 
-    // Unique per-device prefix for entry IDs
+    // Per-device ID to guarantee unique entry IDs across browsers/devices
     const DEVICE_ID = (() => {
         const k = 'carbamazepine_device_id';
         let v = localStorage.getItem(k);
@@ -228,22 +229,14 @@
         try {
             const raw = localStorage.getItem(KEY);
             return raw ? JSON.parse(raw) : [];
-        } catch {
-            return [];
-        }
+        } catch { return []; }
     }
 
-    function saveEntries(entries) {
-        localStorage.setItem(KEY, JSON.stringify(entries));
-    }
+    function saveEntries(entries) { localStorage.setItem(KEY, JSON.stringify(entries)); }
 
-    function escapeHTML(s) {
-        return String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' } [c]));
-    }
+    function escapeHTML(s) { return String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' } [c])); }
 
-    function badge(text) {
-        return `<span class="badge-soft">${escapeHTML(text)}</span>`;
-    }
+    function badge(text) { return `<span class="badge-soft">${escapeHTML(text)}</span>`; }
 
     function formToEntry() {
         const appetite = document.querySelector('input[name="appetite"]:checked') ? .value || 'Normal';
@@ -313,11 +306,9 @@
             .forEach(e => tbody.appendChild(entryRow(e)));
     }
 
-    function renderTable() {
-        renderTableFrom(loadEntries());
-    }
+    function renderTable() { renderTableFrom(loadEntries()); }
 
-    // Normalize and merge helpers
+    // ---- Normalization + merge helpers ----
     function normalizeEntries(arr) {
         return arr.map(e => ({
             id: e.id ? ? `${e.date}_${e.time}_${e.dose}`,
@@ -331,7 +322,8 @@
             brainfog: Number(e.brainfog ? ? 0),
             sleep: Number(e.sleep ? ? 0),
             appetite: e.appetite ? ? 'Normal',
-            effects: Array.isArray(e.effects) ? e.effects : String(e.effects ? ? '').split(';').map(s => s.trim()).filter(Boolean),
+            effects: Array.isArray(e.effects) ? e.effects :
+                String(e.effects ? ? '').split(';').map(s => s.trim()).filter(Boolean),
             notes: e.notes ? ? ''
         }));
     }
@@ -353,13 +345,17 @@
         return Array.from(map.values());
     }
 
+    // ---- Robust repo loader with diagnostics ----
     async function loadEntriesRepo() {
         const status = document.getElementById('source-status');
-        const stamp = Date.now();
+        const ts = Date.now();
         try {
             status && (status.textContent = 'Loading repo…');
-            const res = await fetch(`${REPO_JSON_URL}?ts=${stamp}`, { cache: 'no-store' });
-
+            const res = await fetch(`${REPO_JSON_URL}?ts=${ts}`, {
+                cache: 'no-store',
+                mode: 'cors',
+                headers: { 'Accept': 'application/json' }
+            });
             if (!res.ok) {
                 const msg = `Repo HTTP ${res.status}`;
                 status && (status.textContent = msg);
@@ -367,20 +363,26 @@
                 return [];
             }
 
+            // Try json(), then fall back to text() + JSON.parse
             let data;
             try {
                 data = await res.json();
             } catch (e) {
-                status && (status.textContent = 'Repo: invalid JSON');
-                console.error('Repo JSON parse error:', e);
-                return [];
+                const txt = await res.text();
+                try {
+                    data = JSON.parse(txt);
+                } catch (e2) {
+                    status && (status.textContent = 'Repo: invalid JSON');
+                    console.error('Repo JSON parse error:', e2, '\nRaw text:', txt.slice(0, 200));
+                    return [];
+                }
             }
 
             const arr = Array.isArray(data) ? data : (Array.isArray(data ? .entries) ? data.entries : []);
             status && (status.textContent = `Repo: ${arr.length} rows`);
             return normalizeEntries(arr);
         } catch (err) {
-            const msg = `Repo load failed: ${err.message || err}`;
+            const msg = `Repo load failed: ${err?.message || err}`;
             status && (status.textContent = msg);
             console.error(msg);
             return [];
@@ -393,14 +395,14 @@
         return mergeDedup(local, repo);
     }
 
-    // Timestamp for archive filenames
+    // ---- Timestamp for archive filenames ----
     function stamp() {
         const d = new Date();
         const p = n => String(n).padStart(2, '0');
         return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
     }
 
-    // ===== Initialization =====
+    // ---- Init & event wiring ----
     document.addEventListener('DOMContentLoaded', () => {
         const dateEl = document.getElementById('date');
         if (dateEl && 'valueAsDate' in dateEl) dateEl.valueAsDate = new Date();
@@ -409,6 +411,7 @@
 
         const selector = document.getElementById('data-source');
         const status = document.getElementById('source-status');
+        const btnRepoReload = document.getElementById('btn-repo-reload');
 
         async function renderBySource() {
             const val = selector ? .value || 'local';
@@ -427,8 +430,17 @@
 
         renderBySource();
         selector ? .addEventListener('change', renderBySource);
+        btnRepoReload ? .addEventListener('click', async () => {
+            // Force a repo refresh regardless of current selection
+            const repo = await loadEntriesRepo();
+            if ((selector ? .value || 'local') === 'repo') renderTableFrom(repo);
+            if ((selector ? .value || 'local') === 'merged') {
+                const merged = await loadEntriesMerged();
+                renderTableFrom(merged);
+            }
+        });
 
-        // Form submit
+        // Local form submit
         const form = document.getElementById('entryForm');
         if (form) {
             form.addEventListener('submit', e => {
@@ -459,11 +471,12 @@
                 saveEntries(entries);
                 renderBySource();
             } else if (action === 'edit') {
+                // Fill form and remove old row so saving writes the updated one
                 const entry = entries[idx];
                 document.getElementById('date').value = entry.date;
                 document.getElementById('time').value = entry.time;
                 document.getElementById('dose').value = entry.dose;
-                document.getElementById('notes').value = entry.notes;
+                document.getElementById('notes').value = entry.notes || '';
                 entries.splice(idx, 1);
                 saveEntries(entries);
                 renderBySource();
@@ -475,12 +488,22 @@
             const data = JSON.stringify(loadEntries(), null, 2);
             download('carbamazepine-tracker.json', data, 'application/json');
         });
-
         document.getElementById('btn-export-csv') ? .addEventListener('click', () => {
-            const data = toCSV(loadEntries());
-            download('carbamazepine-tracker.csv', data, 'text/csv');
+            const cols = ["date", "time", "dose", "pain", "sedation", "dizziness", "nausea", "brainfog", "sleep", "appetite", "effects", "notes", "id"];
+            const entries = loadEntries();
+            const header = cols.join(',');
+            const lines = entries.map(e =>
+                cols.map(c => {
+                    let v = e[c];
+                    if (Array.isArray(v)) v = v.join('; ');
+                    if (v == null) v = '';
+                    v = String(v).replace(/"/g, '""');
+                    return `"${v}"`;
+                }).join(',')
+            );
+            const csv = [header, ...lines].join('\n');
+            download('carbamazepine-tracker.csv', csv, 'text/csv');
         });
-
         const importInput = document.getElementById('import-file');
         document.getElementById('btn-import-json') ? .addEventListener('click', () => importInput.click());
         importInput ? .addEventListener('change', e => {
@@ -498,7 +521,6 @@
             };
             reader.readAsText(file);
         });
-
         document.getElementById('btn-clear-all') ? .addEventListener('click', () => {
             if (confirm('Clear all entries stored in this browser?')) {
                 saveEntries([]);
@@ -506,7 +528,7 @@
             }
         });
 
-        // Safe export & archive
+        // Safe export & archive (merge with repo first)
         document.getElementById('btn-safe-export') ? .addEventListener('click', async () => {
             const local = loadEntries();
             const repo = await loadEntriesRepo();
@@ -514,7 +536,6 @@
             const json = JSON.stringify(merged, null, 2);
             download('carbamazepine-tracker.json', json, 'application/json');
         });
-
         document.getElementById('btn-archive-snapshot') ? .addEventListener('click', async () => {
             const local = loadEntries();
             const repo = await loadEntriesRepo();
