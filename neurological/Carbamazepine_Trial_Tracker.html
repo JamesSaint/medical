@@ -137,195 +137,201 @@
                         <textarea id="notes" class="form-control" rows="2" placeholder="Optional short note"></textarea>
                     </div>
                 </div>
-                <!-- =========================
-     Add inside your existing form#entryForm
-     (Place anywhere logical, e.g., before the submit buttons)
-     ========================= -->
-                <fieldset class="mt-3">
-                    <legend class="h6 mb-2 text-uppercase">Vitals</legend>
-                    <div class="row g-2 align-items-end">
-                        <!-- Morning -->
-                        <div class="col-12 col-md-6">
-                            <label class="form-label fw-semibold mb-1">Morning (AM)</label>
-                            <div class="row g-2">
-                                <div class="col-4">
-                                    <label for="am_sys" class="form-label small mb-1">Systolic</label>
-                                    <input type="number" class="form-control" id="am_sys" inputmode="numeric" min="70" max="250" step="1" placeholder="e.g. 120">
-                                </div>
-                                <div class="col-4">
-                                    <label for="am_dia" class="form-label small mb-1">Diastolic</label>
-                                    <input type="number" class="form-control" id="am_dia" inputmode="numeric" min="40" max="150" step="1" placeholder="e.g. 80">
-                                </div>
-                                <div class="col-4">
-                                    <label for="am_hr" class="form-label small mb-1">Pulse</label>
-                                    <input type="number" class="form-control" id="am_hr" inputmode="numeric" min="30" max="220" step="1" placeholder="e.g. 70">
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Evening -->
-                        <div class="col-12 col-md-6">
-                            <label class="form-label fw-semibold mb-1">Evening (PM)</label>
-                            <div class="row g-2">
-                                <div class="col-4">
-                                    <label for="pm_sys" class="form-label small mb-1">Systolic</label>
-                                    <input type="number" class="form-control" id="pm_sys" inputmode="numeric" min="70" max="250" step="1" placeholder="e.g. 118">
-                                </div>
-                                <div class="col-4">
-                                    <label for="pm_dia" class="form-label small mb-1">Diastolic</label>
-                                    <input type="number" class="form-control" id="pm_dia" inputmode="numeric" min="40" max="150" step="1" placeholder="e.g. 78">
-                                </div>
-                                <div class="col-4">
-                                    <label for="pm_hr" class="form-label small mb-1">Pulse</label>
-                                    <input type="number" class="form-control" id="pm_hr" inputmode="numeric" min="30" max="220" step="1" placeholder="e.g. 66">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
+<!-- Vitals (AM/PM) -->
+<fieldset class="mt-3">
+  <legend class="h6 mb-2 text-uppercase">Vitals</legend>
+
+  <div class="row g-2 align-items-end">
+    <!-- Morning -->
+    <div class="col-12 col-md-6">
+      <label class="form-label fw-semibold mb-1">Morning (AM)</label>
+      <div class="row g-2">
+        <div class="col-4">
+          <label for="am_sys" class="form-label small mb-1">Systolic</label>
+          <input type="number" class="form-control" id="am_sys" inputmode="numeric" min="70" max="250" step="1" placeholder="e.g. 120">
+        </div>
+        <div class="col-4">
+          <label for="am_dia" class="form-label small mb-1">Diastolic</label>
+          <input type="number" class="form-control" id="am_dia" inputmode="numeric" min="40" max="150" step="1" placeholder="e.g. 80">
+        </div>
+        <div class="col-4">
+          <label for="am_hr" class="form-label small mb-1">Pulse</label>
+          <input type="number" class="form-control" id="am_hr" inputmode="numeric" min="30" max="220" step="1" placeholder="e.g. 70">
+        </div>
+      </div>
+    </div>
+
+    <!-- Evening -->
+    <div class="col-12 col-md-6">
+      <label class="form-label fw-semibold mb-1">Evening (PM)</label>
+      <div class="row g-2">
+        <div class="col-4">
+          <label for="pm_sys" class="form-label small mb-1">Systolic</label>
+          <input type="number" class="form-control" id="pm_sys" inputmode="numeric" min="70" max="250" step="1" placeholder="e.g. 118">
+        </div>
+        <div class="col-4">
+          <label for="pm_dia" class="form-label small mb-1">Diastolic</label>
+          <input type="number" class="form-control" id="pm_dia" inputmode="numeric" min="40" max="150" step="1" placeholder="e.g. 78">
+        </div>
+        <div class="col-4">
+          <label for="pm_hr" class="form-label small mb-1">Pulse</label>
+          <input type="number" class="form-control" id="pm_hr" inputmode="numeric" min="30" max="220" step="1" placeholder="e.g. 66">
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
                 <div class="btn-wrap mt-3">
                     <button type="submit" class="btn btn-primary">Save Entry</button>
                     <button type="button" id="btn-clear-today" class="btn btn-outline-secondary">Clear Today</button>
                 </div>
             </form>
         </section>
-        <section id="entries" class="section card-like">
-            <h2>Entries</h2>
-            <div class="btn-wrap mb-2 d-flex flex-wrap align-items-center gap-2">
-                <button type="button" id="btn-export-json" class="btn btn-success">Export JSON</button>
-                <button type="button" id="btn-export-csv" class="btn btn-success">Export CSV</button>
-                <button type="button" id="btn-import-json" class="btn btn-outline-primary">Import JSON</button>
-                <input type="file" id="import-file" class="import-input" accept=".json,application/json">
-                <button type="button" id="btn-clear-all" class="btn btn-outline-danger">Clear All</button>
-                <!-- Safe merge & archive -->
-                <button type="button" id="btn-safe-export" class="btn btn-primary">Safe Export (Merge First)</button>
-                <button type="button" id="btn-archive-snapshot" class="btn btn-outline-secondary">Archive Snapshot</button>
-                <!-- Data Source -->
-                <div class="d-inline-flex align-items-center gap-2 ms-auto">
-                    <label for="data-source" class="small mb-0 text-uppercase fw-semibold">Data source:</label>
-                    <select id="data-source" class="form-select form-select-sm" style="width:auto;">
-                        <option value="local" selected>Local</option>
-                        <option value="repo">Repo</option>
-                        <option value="merged">Merged</option>
-                    </select>
-                </div>
-            </div>
-            <div class="table-responsive entries-wrap">
-                <table id="entriesTable" class="entries-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th class="num">Dose</th>
-                            <th class="num">Pain</th>
-                            <th class="num">Sedation</th>
-                            <th class="num">Dizziness</th>
-                            <th class="num">Nausea</th>
-                            <th class="num">Brain Fog</th>
-                            <th class="num">Sleep</th>
-                            <th>Appetite</th>
-                            <th>Effects</th>
-                            <!-- NEW vitals columns -->
-                            <th>AM BP / Pulse</th>
-                            <th>PM BP / Pulse</th>
-                            <!-- /NEW -->
-                            <th>Notes</th>
-                            <th class="actions-col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </section>
+
+        
+<section id="entries" class="section card-like">
+  <h2>Entries</h2>
+
+  <div class="btn-wrap mb-2 d-flex flex-wrap align-items-center gap-2">
+    <button type="button" id="btn-export-json" class="btn btn-success">Export JSON</button>
+    <button type="button" id="btn-export-csv" class="btn btn-success">Export CSV</button>
+    <button type="button" id="btn-import-json" class="btn btn-outline-primary">Import JSON</button>
+    <input type="file" id="import-file" class="import-input" accept=".json,application/json">
+    <button type="button" id="btn-clear-all" class="btn btn-outline-danger">Clear All</button>
+
+    <!-- Safe merge & archive -->
+    <button type="button" id="btn-safe-export" class="btn btn-primary">Safe Export (Merge First)</button>
+    <button type="button" id="btn-archive-snapshot" class="btn btn-outline-secondary">Archive Snapshot</button>
+
+    <!-- Data Source -->
+    <div class="d-inline-flex align-items-center gap-2 ms-auto">
+      <label for="data-source" class="small mb-0 text-uppercase fw-semibold">Data source:</label>
+      <select id="data-source" class="form-select form-select-sm" style="width:auto;">
+        <option value="local" selected>Local</option>
+        <option value="repo">Repo</option>
+        <option value="merged">Merged</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="table-responsive entries-wrap">
+    <table id="entriesTable" class="entries-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th class="num">Dose</th>
+          <th class="num">Pain</th>
+          <th class="num">Sedation</th>
+          <th class="num">Dizziness</th>
+          <th class="num">Nausea</th>
+          <th class="num">Brain Fog</th>
+          <th class="num">Sleep</th>
+          <th>Appetite</th>
+          <th>Effects</th>
+          <!-- NEW -->
+          <th>AM BP / Pulse</th>
+          <th>PM BP / Pulse</th>
+          <!-- /NEW -->
+          <th>Notes</th>
+          <th class="actions-col">Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
     </main>
-    <script>
-    /**
-     * Carbamazepine Tracker – adds morning/evening BP & pulse, keeps Local/Repo/Merged, safe export.
-     * Backward compatible: old entries (no vitals) render as "—".
-     */
+  <script>
+  /**
+   * Carbamazepine Tracker – adds AM/PM vitals and keeps Local / Repo / Merged viewing,
+   * Safe Export, Archive Snapshot, Import/Export CSV+JSON.
+   * Backward compatible: older rows (no vitals) render as "—".
+   */
 
-    const KEY = 'carbamazepine_entries_v1';
+  const KEY = 'carbamazepine_entries_v1';
 
-    // Repo JSON candidates (GitHub Pages + Raw; tries in order, quietly falls back)
-    const ORIGIN = window.location.origin;
-    const REPO_URLS = [
-        '/medical/neurological/carbamazepine-tracker.json',
-        `${ORIGIN}/medical/neurological/carbamazepine-tracker.json`,
-        'https://jamessaint.github.io/medical/neurological/carbamazepine-tracker.json',
-        'https://raw.githubusercontent.com/jamessaint/jamessaint.github.io/main/medical/neurological/carbamazepine-tracker.json',
-        'https://raw.githubusercontent.com/jamessaint/jamessaint.github.io/master/medical/neurological/carbamazepine-tracker.json'
-    ];
+  // Repo JSON candidates (tries in order; quiet fallback). Update if you ever move the JSON.
+  const ORIGIN = window.location.origin;
+  const REPO_URLS = [
+    '/medical/neurological/carbamazepine-tracker.json',
+    `${ORIGIN}/medical/neurological/carbamazepine-tracker.json`,
+    'https://jamessaint.github.io/medical/neurological/carbamazepine-tracker.json',
+    'https://raw.githubusercontent.com/jamessaint/jamessaint.github.io/main/medical/neurological/carbamazepine-tracker.json',
+    'https://raw.githubusercontent.com/jamessaint/jamessaint.github.io/master/medical/neurological/carbamazepine-tracker.json'
+  ];
 
-    // Stable per-device prefix to make new IDs globally unique across devices
-    const DEVICE_ID = (() => {
-        const k = 'carbamazepine_device_id';
-        let v = localStorage.getItem(k);
-        if (!v) {
-            v = (crypto ? .randomUUID ? .() || ('dev-' + Date.now() + '-' + Math.random().toString(36).slice(2)));
-            localStorage.setItem(k, v);
-        }
-        return v;
-    })();
-
-    // ---- Small utilities ----
-    const pad = n => String(n).padStart(2, '0');
-    const nowTime = () => { const d = new Date(); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
-    const toNum = v => (v === '' || v === null || v === undefined) ? null : Number(v);
-    const escapeHTML = s => String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' } [c]));
-    const badge = txt => `<span class="badge-soft">${escapeHTML(txt)}</span>`;
-
-    function uid() {
-        const core = crypto ? .randomUUID ?
-            crypto.randomUUID() :
-            (Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10));
-        return `${DEVICE_ID}-${core}`;
+  // Stable per-device prefix so new IDs won't collide across devices
+  const DEVICE_ID = (() => {
+    const k = 'carbamazepine_device_id';
+    let v = localStorage.getItem(k);
+    if (!v) {
+      v = (crypto?.randomUUID?.() || ('dev-' + Date.now() + '-' + Math.random().toString(36).slice(2)));
+      localStorage.setItem(k, v);
     }
+    return v;
+  })();
 
-    // ---- Local persistence ----
-    function loadEntries() {
-        try { const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : []; } catch { return []; }
-    }
+  // ---------- small utils ----------
+  const pad = n => String(n).padStart(2, '0');
+  const nowTime = () => { const d = new Date(); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+  const toNum = v => (v === '' || v === null || v === undefined) ? null : Number(v);
+  const escapeHTML = s => String(s).replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+  const badge = txt => `<span class="badge-soft">${escapeHTML(txt)}</span>`;
 
-    function saveEntries(entries) { localStorage.setItem(KEY, JSON.stringify(entries)); }
+  function uid() {
+    const core = crypto?.randomUUID ? crypto.randomUUID()
+      : (Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,10));
+    return `${DEVICE_ID}-${core}`;
+  }
 
-    // ---- Normalisation (accepts repo/local shapes + adds vitals) ----
-    function normalizeEntries(arr) {
-        return arr.map(e => ({
-            id: e.id ? ? `${e.date ?? ''}_${e.time ?? ''}_${e.dose ?? ''}`,
-            date: e.date ? ? '',
-            time: e.time ? ? '',
-            dose: Number(e.dose ? ? 0),
-            pain: Number(e.pain ? ? 0),
-            sedation: Number(e.sedation ? ? 0),
-            dizziness: Number(e.dizziness ? ? 0),
-            nausea: Number(e.nausea ? ? 0),
-            brainfog: Number(e.brainfog ? ? 0),
-            sleep: Number(e.sleep ? ? 0),
-            appetite: e.appetite ? ? 'Normal',
-            effects: Array.isArray(e.effects) ? e.effects :
-                String(e.effects ? ? '').split(';').map(s => s.trim()).filter(Boolean),
-            notes: e.notes ? ? '',
-            // NEW: vitals (nullable numbers)
-            am_sys: toNum(e.am_sys),
-            am_dia: toNum(e.am_dia),
-            am_hr: toNum(e.am_hr),
-            pm_sys: toNum(e.pm_sys),
-            pm_dia: toNum(e.pm_dia),
-            pm_hr: toNum(e.pm_hr),
-        }));
-    }
+  // ---------- local storage ----------
+  function loadEntries() {
+    try { const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : []; }
+    catch { return []; }
+  }
+  function saveEntries(entries) { localStorage.setItem(KEY, JSON.stringify(entries)); }
 
-    // ---- Render helpers ----
-    const fmtVitals = (sys, dia, hr) => {
-        // Shows "120/80 • 68" or "—" if nothing
-        if (sys == null && dia == null && hr == null) return '—';
-        const bp = (sys != null || dia != null) ? `${sys ?? '?'}\/${dia ?? '?'}` : '';
-        const pulse = (hr != null) ? ` • ${hr}` : '';
-        return (bp || pulse) ? `${bp}${pulse}` : '—';
-    };
+  // ---------- normalize rows (adds vitals, tolerates varying shapes) ----------
+  function normalizeEntries(arr) {
+    return arr.map(e => ({
+      id: e.id ?? `${e.date ?? ''}_${e.time ?? ''}_${e.dose ?? ''}`,
+      date: e.date ?? '',
+      time: e.time ?? '',
+      dose: Number(e.dose ?? 0),
+      pain: Number(e.pain ?? 0),
+      sedation: Number(e.sedation ?? 0),
+      dizziness: Number(e.dizziness ?? 0),
+      nausea: Number(e.nausea ?? 0),
+      brainfog: Number(e.brainfog ?? 0),
+      sleep: Number(e.sleep ?? 0),
+      appetite: e.appetite ?? 'Normal',
+      effects: Array.isArray(e.effects) ? e.effects
+        : String(e.effects ?? '').split(';').map(s => s.trim()).filter(Boolean),
+      notes: e.notes ?? '',
+      // NEW vitals (nullable)
+      am_sys: toNum(e.am_sys),
+      am_dia: toNum(e.am_dia),
+      am_hr:  toNum(e.am_hr),
+      pm_sys: toNum(e.pm_sys),
+      pm_dia: toNum(e.pm_dia),
+      pm_hr:  toNum(e.pm_hr),
+    }));
+  }
 
-    function entryRow(e) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
+  // ---------- table render ----------
+  const fmtVitals = (sys, dia, hr) => {
+    if (sys == null && dia == null && hr == null) return '—';
+    const bp = (sys != null || dia != null) ? `${sys ?? '?'}\/${dia ?? '?'}` : '';
+    const pulse = (hr != null) ? ` • ${hr}` : '';
+    return (bp || pulse) ? `${bp}${pulse}` : '—';
+  };
+
+  function entryRow(e) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
       <td data-label="Date">${e.date}</td>
       <td data-label="Time">${e.time}</td>
       <td class="num" data-label="Dose">${e.dose}</td>
@@ -337,301 +343,292 @@
       <td class="num" data-label="Sleep">${e.sleep}</td>
       <td data-label="Appetite">${badge(e.appetite)}</td>
       <td data-label="Effects">${(e.effects||[]).map(badge).join(' ')}</td>
-      <!-- NEW vitals columns -->
       <td data-label="AM BP / Pulse">${fmtVitals(e.am_sys, e.am_dia, e.am_hr)}</td>
       <td data-label="PM BP / Pulse">${fmtVitals(e.pm_sys, e.pm_dia, e.pm_hr)}</td>
-      <!-- /NEW -->
       <td class="notes" data-label="Notes">${e.notes ? escapeHTML(e.notes) : ''}</td>
       <td class="actions d-flex gap-1" data-label="Actions">
         <button class="btn btn-outline-secondary btn-sm" data-action="edit" data-id="${e.id}">Edit</button>
         <button class="btn btn-outline-danger btn-sm" data-action="delete" data-id="${e.id}">Delete</button>
       </td>`;
-        return tr;
-    }
+    return tr;
+  }
 
-    function renderEmptyRow(msg) {
-        const tbody = document.querySelector('#entriesTable tbody');
-        const cols = document.querySelectorAll('#entriesTable thead th').length || 15; // +2 for vitals
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="${cols}" class="text-center py-3 small text-muted">${msg}</td>`;
-        tbody.appendChild(tr);
-    }
+  function renderEmptyRow(msg) {
+    const tbody = document.querySelector('#entriesTable tbody');
+    const cols = document.querySelectorAll('#entriesTable thead th').length || 15; // includes vitals cols
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="${cols}" class="text-center py-3 small text-muted">${msg}</td>`;
+    tbody.appendChild(tr);
+  }
 
-    function renderTableFrom(entries) {
-        const tbody = document.querySelector('#entriesTable tbody');
-        if (!tbody) return;
-        tbody.innerHTML = '';
-        if (!entries || entries.length === 0) {
-            renderEmptyRow('No data.');
-            return;
-        }
-        entries.slice().sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
-            .forEach(e => tbody.appendChild(entryRow(e)));
+  function renderTableFrom(entries) {
+    const tbody = document.querySelector('#entriesTable tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    if (!entries || entries.length === 0) {
+      renderEmptyRow('No data.');
+      return;
     }
-    const renderTable = () => renderTableFrom(loadEntries());
+    entries.slice().sort((a,b) => (a.date + a.time).localeCompare(b.date + b.time))
+      .forEach(e => tbody.appendChild(entryRow(e)));
+  }
+  const renderTable = () => renderTableFrom(loadEntries());
 
-    // ---- Merge + CSV + downloads ----
-    function mergeDedup(a, b) {
-        // Prefer the later (date+time) if IDs collide or are missing
-        const map = new Map();
-        const put = e => {
-            const key = e.id || `${e.date}_${e.time}_${e.dose}`;
-            const prev = map.get(key);
-            if (!prev) map.set(key, e);
-            else {
-                const A = (prev.date || '') + (prev.time || '');
-                const B = (e.date || '') + (e.time || '');
-                if (B > A) map.set(key, e);
-            }
-        };
-        normalizeEntries(a).forEach(put);
-        normalizeEntries(b).forEach(put);
-        return Array.from(map.values());
+  // ---------- merge + CSV + download ----------
+  function mergeDedup(a, b) {
+    const map = new Map();
+    const put = e => {
+      const key = e.id || `${e.date}_${e.time}_${e.dose}`;
+      const prev = map.get(key);
+      if (!prev) map.set(key, e);
+      else {
+        const A = (prev.date||'') + (prev.time||'');
+        const B = (e.date||'') + (e.time||'');
+        if (B > A) map.set(key, e);
+      }
+    };
+    normalizeEntries(a).forEach(put);
+    normalizeEntries(b).forEach(put);
+    return Array.from(map.values());
+  }
+
+  function toCSV(entries) {
+    const cols = [
+      "date","time","dose","pain","sedation","dizziness","nausea","brainfog","sleep",
+      "appetite","effects","am_sys","am_dia","am_hr","pm_sys","pm_dia","pm_hr","notes","id"
+    ];
+    const header = cols.join(',');
+    const lines = entries.map(e => cols.map(c => {
+      let v = e[c];
+      if (Array.isArray(v)) v = v.join('; ');
+      if (v == null) v = '';
+      v = String(v).replace(/"/g,'""');
+      return `"${v}"`;
+    }).join(','));
+    return [header, ...lines].join('\n');
+  }
+
+  function download(filename, content, mime) {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ---------- robust repo loader (tries multiple URLs; tolerant JSON shapes) ----------
+  async function fetchJSON(url) {
+    const bust = url.includes('?') ? '&' : '?';
+    const res = await fetch(`${url}${bust}ts=${Date.now()}`, { cache: 'no-store', mode: 'cors' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    let data;
+    try { data = await res.json(); }
+    catch {
+      const txt = await res.text();
+      data = JSON.parse(txt);
     }
-
-    function toCSV(entries) {
-        // NEW: vitals included
-        const cols = [
-            "date", "time", "dose", "pain", "sedation", "dizziness", "nausea", "brainfog", "sleep",
-            "appetite", "effects", "am_sys", "am_dia", "am_hr", "pm_sys", "pm_dia", "pm_hr", "notes", "id"
-        ];
-        const header = cols.join(',');
-        const lines = entries.map(e => cols.map(c => {
-            let v = e[c];
-            if (Array.isArray(v)) v = v.join('; ');
-            if (v == null) v = '';
-            v = String(v).replace(/"/g, '""');
-            return `"${v}"`;
-        }).join(','));
-        return [header, ...lines].join('\n');
-    }
-
-    function download(filename, content, mime) {
-        const blob = new Blob([content], { type: mime });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        a.click();
-        URL.revokeObjectURL(url);
-    }
-
-    // ---- Robust Repo loader (tries multiple URLs; accepts many JSON shapes) ----
-    async function fetchJSON(url) {
-        const res = await fetch(`${url}${url.includes('?') ? '&' : '?'}ts=${Date.now()}`, {
-            cache: 'no-store',
-            mode: 'cors'
+    // Accept: [], {entries:[]}, {data:[]}, {items:[]}, {rows:[]}, {records:[]}, or shallow flatten
+    let arr = null;
+    if (Array.isArray(data)) arr = data;
+    else if (data && typeof data === 'object') {
+      const keys = ['entries','data','items','rows','records','list'];
+      for (const k of keys) { if (Array.isArray(data[k])) { arr = data[k]; break; } }
+      if (!arr) {
+        const bucket = [];
+        Object.values(data).forEach(v => {
+          if (Array.isArray(v)) v.forEach(x => { if (x && typeof x === 'object') bucket.push(x); });
         });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        let data;
-        try { data = await res.json(); } catch {
-            const txt = await res.text();
-            data = JSON.parse(txt);
-        }
-        // Accept: [], {entries:[]}, {data:[]}, {items:[]}, {rows:[]}, {records:[]}, or shallowly nested
-        let arr = null;
-        if (Array.isArray(data)) arr = data;
-        else if (data && typeof data === 'object') {
-            const keys = ['entries', 'data', 'items', 'rows', 'records', 'list'];
-            for (const k of keys) { if (Array.isArray(data[k])) { arr = data[k]; break; } }
-            if (!arr) {
-                // best-effort: flatten any arrays of objects one level deep
-                const vals = Object.values(data);
-                const bucket = [];
-                vals.forEach(v => {
-                    if (Array.isArray(v)) v.forEach(x => { if (x && typeof x === 'object') bucket.push(x); });
-                });
-                if (bucket.length) arr = bucket;
-            }
-        }
-        if (!arr) return [];
-        return normalizeEntries(arr);
+        if (bucket.length) arr = bucket;
+      }
+    }
+    if (!arr) return [];
+    return normalizeEntries(arr);
+  }
+
+  async function loadEntriesRepo() {
+    for (const url of REPO_URLS) {
+      try {
+        const rows = await fetchJSON(url);
+        if (rows) return rows;
+      } catch (_) { /* try next */ }
+    }
+    return [];
+  }
+
+  async function loadEntriesMerged() {
+    const local = loadEntries();
+    const repo = await loadEntriesRepo();
+    return mergeDedup(local, repo);
+  }
+
+  // ---------- init & events ----------
+  document.addEventListener('DOMContentLoaded', () => {
+    // Optional: prefill time input if present in your form
+    const timeEl = document.getElementById('time');
+    if (timeEl) timeEl.value = nowTime();
+
+    const selector = document.getElementById('data-source');
+
+    async function renderBySource() {
+      const val = selector?.value || 'local';
+      if (val === 'local') {
+        renderTable();
+      } else if (val === 'repo') {
+        renderTableFrom(await loadEntriesRepo());
+      } else {
+        renderTableFrom(await loadEntriesMerged());
+      }
     }
 
-    async function loadEntriesRepo() {
-        for (const url of REPO_URLS) {
-            try {
-                const rows = await fetchJSON(url);
-                if (rows) return rows;
-            } catch (_) { /* try next */ }
-        }
-        return [];
-    }
-
-    async function loadEntriesMerged() {
-        const local = loadEntries();
+    // Default to Repo if Local is empty and Repo returns rows
+    (async () => {
+      const localCount = loadEntries().length;
+      if (localCount === 0 && selector) {
         const repo = await loadEntriesRepo();
-        return mergeDedup(local, repo);
-    }
-
-    // ---- Init & events ----
-    document.addEventListener('DOMContentLoaded', () => {
-        // Prefill time if present
-        const timeEl = document.getElementById('time');
-        if (timeEl) timeEl.value = nowTime();
-
-        const selector = document.getElementById('data-source');
-
-        async function renderBySource() {
-            const val = selector ? .value || 'local';
-            if (val === 'local') {
-                renderTable();
-            } else if (val === 'repo') {
-                renderTableFrom(await loadEntriesRepo());
-            } else {
-                renderTableFrom(await loadEntriesMerged());
-            }
+        if (repo.length > 0) {
+          selector.value = 'repo';
+          renderTableFrom(repo);
+          return;
         }
+      }
+      renderBySource();
+    })();
 
-        // Default to Repo if Local is empty and Repo has rows
-        (async () => {
-            const localCount = loadEntries().length;
-            if (localCount === 0 && selector) {
-                const repo = await loadEntriesRepo();
-                if (repo.length > 0) {
-                    selector.value = 'repo';
-                    renderTableFrom(repo);
-                    return;
-                }
-            }
-            renderBySource();
-        })();
+    selector?.addEventListener('change', renderBySource);
 
-        selector ? .addEventListener('change', renderBySource);
+    // Save from form (local only)
+    const form = document.getElementById('entryForm');
+    form?.addEventListener('submit', e => {
+      e.preventDefault();
 
-        // Handle form submit (saves to Local only)
-        const form = document.getElementById('entryForm');
-        form ? .addEventListener('submit', e => {
-            e.preventDefault();
+      // Existing fields
+      const appetite = document.querySelector('input[name="appetite"]:checked')?.value || 'Normal';
+      const effects = [];
+      ['fx_itch','fx_vision','fx_headache','fx_gi'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.checked) effects.push(el.value);
+      });
 
-            // Existing fields
-            const appetite = document.querySelector('input[name="appetite"]:checked') ? .value || 'Normal';
-            const effects = [];
-            ['fx_itch', 'fx_vision', 'fx_headache', 'fx_gi'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el && el.checked) effects.push(el.value);
-            });
+      // New vitals fields (nullable numbers)
+      const entry = {
+        id: uid(),
+        date: document.getElementById('date').value,
+        time: document.getElementById('time').value,
+        dose: Number(document.getElementById('dose').value),
+        pain: Number(document.getElementById('pain').value),
+        sedation: Number(document.getElementById('sedation').value),
+        dizziness: Number(document.getElementById('dizziness').value),
+        nausea: Number(document.getElementById('nausea').value),
+        brainfog: Number(document.getElementById('brainfog').value),
+        sleep: Number(document.getElementById('sleep').value),
+        appetite, effects,
+        notes: document.getElementById('notes').value.trim(),
+        am_sys: toNum(document.getElementById('am_sys')?.value),
+        am_dia: toNum(document.getElementById('am_dia')?.value),
+        am_hr:  toNum(document.getElementById('am_hr')?.value),
+        pm_sys: toNum(document.getElementById('pm_sys')?.value),
+        pm_dia: toNum(document.getElementById('pm_dia')?.value),
+        pm_hr:  toNum(document.getElementById('pm_hr')?.value),
+      };
 
-            // NEW: read vitals (nullable numbers)
-            const entry = {
-                id: uid(),
-                date: document.getElementById('date').value,
-                time: document.getElementById('time').value,
-                dose: Number(document.getElementById('dose').value),
-                pain: Number(document.getElementById('pain').value),
-                sedation: Number(document.getElementById('sedation').value),
-                dizziness: Number(document.getElementById('dizziness').value),
-                nausea: Number(document.getElementById('nausea').value),
-                brainfog: Number(document.getElementById('brainfog').value),
-                sleep: Number(document.getElementById('sleep').value),
-                appetite,
-                effects,
-                notes: document.getElementById('notes').value.trim(),
-                am_sys: toNum(document.getElementById('am_sys') ? .value),
-                am_dia: toNum(document.getElementById('am_dia') ? .value),
-                am_hr: toNum(document.getElementById('am_hr') ? .value),
-                pm_sys: toNum(document.getElementById('pm_sys') ? .value),
-                pm_dia: toNum(document.getElementById('pm_dia') ? .value),
-                pm_hr: toNum(document.getElementById('pm_hr') ? .value),
-            };
+      const entries = loadEntries();
+      entries.push(entry);
+      saveEntries(entries);
 
-            const entries = loadEntries();
-            entries.push(entry);
-            saveEntries(entries);
+      // Re-render unless viewing Repo-only
+      if ((selector?.value || 'local') !== 'repo') renderBySource();
 
-            // Re-render unless viewing Repo-only
-            if ((selector ? .value || 'local') !== 'repo') renderBySource();
-
-            // Reset form; keep current time helpful for next entry
-            form.reset();
-            if (timeEl) timeEl.value = nowTime();
-        });
-
-        // Row buttons: Edit (loads row back to form) / Delete
-        document.querySelector('#entriesTable') ? .addEventListener('click', ev => {
-            const btn = ev.target.closest('button[data-action]');
-            if (!btn) return;
-            const id = btn.getAttribute('data-id');
-            const action = btn.getAttribute('data-action');
-
-            let entries = loadEntries();
-            const idx = entries.findIndex(e => e.id === id);
-            if (idx === -1) return;
-
-            if (action === 'delete') {
-                entries.splice(idx, 1);
-                saveEntries(entries);
-                renderBySource();
-            } else if (action === 'edit') {
-                const e = entries[idx];
-                // Minimal back-fill; extend if you want to repopulate sliders/badges
-                const dateEl = document.getElementById('date');
-                const timeEl2 = document.getElementById('time');
-                const doseEl = document.getElementById('dose');
-                const notesEl = document.getElementById('notes');
-                if (dateEl) dateEl.value = e.date;
-                if (timeEl2) timeEl2.value = e.time;
-                if (doseEl) doseEl.value = e.dose;
-                if (notesEl) notesEl.value = e.notes || '';
-                // NEW: repopulate vitals if present
-                ['am_sys', 'am_dia', 'am_hr', 'pm_sys', 'pm_dia', 'pm_hr'].forEach(k => {
-                    const el = document.getElementById(k);
-                    if (el) el.value = (e[k] ? ? '');
-                });
-
-                // Remove old row; saving writes an updated record
-                entries.splice(idx, 1);
-                saveEntries(entries);
-                renderBySource();
-            }
-        });
-
-        // Export / Import / Clear
-        document.getElementById('btn-export-json') ? .addEventListener('click', () => {
-            const data = JSON.stringify(loadEntries(), null, 2);
-            download('carbamazepine-tracker.json', data, 'application/json');
-        });
-
-        document.getElementById('btn-export-csv') ? .addEventListener('click', () => {
-            const csv = toCSV(loadEntries());
-            download('carbamazepine-tracker.csv', csv, 'text/csv');
-        });
-
-        const importInput = document.getElementById('import-file');
-        document.getElementById('btn-import-json') ? .addEventListener('click', () => importInput.click());
-        importInput ? .addEventListener('change', e => {
-            const file = e.target.files ? . [0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = () => {
-                try {
-                    const arr = JSON.parse(reader.result);
-                    if (Array.isArray(arr)) { saveEntries(arr);
-                        renderBySource(); } else alert('Invalid JSON format');
-                } catch { alert('Import failed'); }
-            };
-            reader.readAsText(file);
-        });
-
-        document.getElementById('btn-clear-all') ? .addEventListener('click', () => {
-            if (confirm('Clear all entries stored in this browser?')) {
-                saveEntries([]);
-                renderBySource();
-            }
-        });
-
-        // Safe export & archive (merge with Repo first to avoid data loss)
-        function stamp() { const d = new Date(); return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`; }
-        document.getElementById('btn-safe-export') ? .addEventListener('click', async () => {
-            const merged = mergeDedup(loadEntries(), await loadEntriesRepo());
-            download('carbamazepine-tracker.json', JSON.stringify(merged, null, 2), 'application/json');
-        });
-        document.getElementById('btn-archive-snapshot') ? .addEventListener('click', async () => {
-            const merged = mergeDedup(loadEntries(), await loadEntriesRepo());
-            download(`carbamazepine-tracker-${stamp()}.json`, JSON.stringify(merged, null, 2), 'application/json');
-        });
+      // Reset form for next quick entry; keep time useful
+      form.reset();
+      if (timeEl) timeEl.value = nowTime();
     });
-    </script>
+
+    // Row actions: edit → puts values back in form (incl. vitals); delete → removes
+    document.querySelector('#entriesTable')?.addEventListener('click', ev => {
+      const btn = ev.target.closest('button[data-action]');
+      if (!btn) return;
+      const id = btn.getAttribute('data-id');
+      const action = btn.getAttribute('data-action');
+
+      let entries = loadEntries();
+      const idx = entries.findIndex(e => e.id === id);
+      if (idx === -1) return;
+
+      if (action === 'delete') {
+        entries.splice(idx, 1);
+        saveEntries(entries);
+        renderBySource();
+      } else if (action === 'edit') {
+        const e = entries[idx];
+        // Minimal back-fill; extend if you want more fields re-populated
+        const dateEl = document.getElementById('date');
+        const timeEl2 = document.getElementById('time');
+        const doseEl = document.getElementById('dose');
+        const notesEl = document.getElementById('notes');
+        if (dateEl) dateEl.value = e.date;
+        if (timeEl2) timeEl2.value = e.time;
+        if (doseEl) doseEl.value = e.dose;
+        if (notesEl) notesEl.value = e.notes || '';
+
+        // Vitals back to form if present
+        ['am_sys','am_dia','am_hr','pm_sys','pm_dia','pm_hr'].forEach(k => {
+          const el = document.getElementById(k);
+          if (el) el.value = (e[k] ?? '');
+        });
+
+        // Remove old; saving writes updated entry
+        entries.splice(idx, 1);
+        saveEntries(entries);
+        renderBySource();
+      }
+    });
+
+    // Export / Import / Clear
+    document.getElementById('btn-export-json')?.addEventListener('click', () => {
+      const data = JSON.stringify(loadEntries(), null, 2);
+      download('carbamazepine-tracker.json', data, 'application/json');
+    });
+
+    document.getElementById('btn-export-csv')?.addEventListener('click', () => {
+      const csv = toCSV(loadEntries());
+      download('carbamazepine-tracker.csv', csv, 'text/csv');
+    });
+
+    const importInput = document.getElementById('import-file');
+    document.getElementById('btn-import-json')?.addEventListener('click', () => importInput.click());
+    importInput?.addEventListener('change', e => {
+      const file = e.target.files?.[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const arr = JSON.parse(reader.result);
+          if (Array.isArray(arr)) { saveEntries(arr); renderBySource(); }
+          else alert('Invalid JSON format');
+        } catch { alert('Import failed'); }
+      };
+      reader.readAsText(file);
+    });
+
+    document.getElementById('btn-clear-all')?.addEventListener('click', () => {
+      if (confirm('Clear all entries stored in this browser?')) {
+        saveEntries([]);
+        renderBySource();
+      }
+    });
+
+    // Safe export & archive (merge with Repo first → avoids data loss)
+    function stamp() { const d = new Date(); return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`; }
+    document.getElementById('btn-safe-export')?.addEventListener('click', async () => {
+      const merged = mergeDedup(loadEntries(), await loadEntriesRepo());
+      download('carbamazepine-tracker.json', JSON.stringify(merged, null, 2), 'application/json');
+    });
+    document.getElementById('btn-archive-snapshot')?.addEventListener('click', async () => {
+      const merged = mergeDedup(loadEntries(), await loadEntriesRepo());
+      download(`carbamazepine-tracker-${stamp()}.json`, JSON.stringify(merged, null, 2), 'application/json');
+    });
+  });
+</script>
+
 </body>
 
 </html>
