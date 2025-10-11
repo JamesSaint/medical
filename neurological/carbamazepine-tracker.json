@@ -25,4 +25,30 @@
     "pm_dia": null,
     "pm_hr": null
   },
+  {
+    "id": "4fd56ac9-7129-427b-9d3d-92dddddcaca1",
+    "date": "2025-10-10",
+    "time": "15:05",
+    "dose": 100,
+    "pain": 9,
+    "sedation": 8,
+    "dizziness": 8,
+    "nausea": 7,
+    "brainfog": 8,
+    "sleep": 3,
+    "appetite": "Low",
+    "effects": [
+      "Itching",
+      "Vision change",
+      "Headache",
+      "GI upset"
+    ],
+    "notes": "",
+    "am_sys": null,
+    "am_dia": null,
+    "am_hr": null,
+    "pm_sys": null,
+    "pm_dia": null,
+    "pm_hr": null
+  }
 ]
