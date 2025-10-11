@@ -151,7 +151,7 @@
                 <button type="button" id="btn-import-json" class="btn btn-outline-primary">Import JSON</button>
                 <input type="file" id="import-file" class="import-input" accept=".json,application/json">
                 <button type="button" id="btn-clear-all" class="btn btn-outline-danger">Clear All</button>
-                <!-- New: Safe merge & archive (prevents data loss) -->
+                <!-- Safe export and archive buttons -->
                 <button type="button" id="btn-safe-export" class="btn btn-primary">Safe Export (Merge First)</button>
                 <button type="button" id="btn-archive-snapshot" class="btn btn-outline-secondary">Archive Snapshot</button>
                 <!-- Data Source Switch -->
@@ -190,11 +190,11 @@
         </section>
     </main>
     <script>
-    /* Carbamazepine Tracker – entries table with repo integration & safe export */
+    /* Carbamazepine Tracker – entries table with repo diagnostics & safe merge */
     const KEY = 'carbamazepine_entries_v1';
-    const REPO_JSON_URL = '/medical/neurological/carbamazepine-tracker.json';
+    const REPO_JSON_URL = 'https://jamessaint.github.io/medical/neurological/carbamazepine-tracker.json';
 
-    // Stable per-device ID to make entry IDs unique across browsers/devices
+    // Unique per-device prefix for entry IDs
     const DEVICE_ID = (() => {
         const k = 'carbamazepine_device_id';
         let v = localStorage.getItem(k);
@@ -228,8 +228,7 @@
         try {
             const raw = localStorage.getItem(KEY);
             return raw ? JSON.parse(raw) : [];
-        } catch (e) {
-            console.error('Load failed', e);
+        } catch {
             return [];
         }
     }
@@ -292,10 +291,22 @@
         return tr;
     }
 
+    function renderEmptyRow(message) {
+        const tbody = document.querySelector('#entriesTable tbody');
+        const cols = document.querySelectorAll('#entriesTable thead th').length || 13;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="${cols}" class="text-center py-3 small text-muted">${message}</td>`;
+        tbody.appendChild(tr);
+    }
+
     function renderTableFrom(entries) {
         const tbody = document.querySelector('#entriesTable tbody');
         if (!tbody) return;
         tbody.innerHTML = '';
+        if (!entries || entries.length === 0) {
+            renderEmptyRow('No data found. Try "Repo (GitHub JSON)" or "Merged", or add a local entry.');
+            return;
+        }
         entries
             .slice()
             .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
@@ -306,52 +317,10 @@
         renderTableFrom(loadEntries());
     }
 
-    function toCSV(entries) {
-        const cols = ["date", "time", "dose", "pain", "sedation", "dizziness", "nausea", "brainfog", "sleep", "appetite", "effects", "notes", "id"];
-        const header = cols.join(',');
-        const lines = entries.map(e =>
-            cols.map(c => {
-                let v = e[c];
-                if (Array.isArray(v)) v = v.join('; ');
-                if (v == null) v = '';
-                v = String(v).replace(/"/g, '""');
-                return `"${v}"`;
-            }).join(',')
-        );
-        return [header, ...lines].join('\n');
-    }
-
-    function download(filename, content, mime) {
-        const blob = new Blob([content], { type: mime });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        a.click();
-        URL.revokeObjectURL(url);
-    }
-
-    // ===== Repo Integration =====
-    async function loadEntriesRepo() {
-        const status = document.getElementById('source-status');
-        try {
-            status && (status.textContent = 'Loading repo…');
-            const res = await fetch(`${REPO_JSON_URL}?t=${Date.now()}`, { cache: 'no-store' });
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const data = await res.json();
-            const arr = Array.isArray(data) ? data : (Array.isArray(data ? .entries) ? data.entries : []);
-            status && (status.textContent = `Repo: ${arr.length} rows`);
-            return normalizeEntries(arr);
-        } catch (err) {
-            console.error('Repo load failed:', err);
-            status && (status.textContent = 'Repo load failed');
-            return [];
-        }
-    }
-
+    // Normalize and merge helpers
     function normalizeEntries(arr) {
         return arr.map(e => ({
-            id: e.id ? ? `${e.date ?? ''}_${e.time ?? ''}_${e.dose ?? ''}`,
+            id: e.id ? ? `${e.date}_${e.time}_${e.dose}`,
             date: e.date ? ? '',
             time: e.time ? ? '',
             dose: Number(e.dose ? ? 0),
@@ -367,13 +336,6 @@
         }));
     }
 
-    async function loadEntriesMerged() {
-        const local = loadEntries();
-        const repo = await loadEntriesRepo();
-        return mergeDedup(local, repo);
-    }
-
-    // Merge + de-dupe (keep the later date+time on id clash)
     function mergeDedup(a, b) {
         const map = new Map();
         const put = e => {
@@ -391,32 +353,51 @@
         return Array.from(map.values());
     }
 
+    async function loadEntriesRepo() {
+        const status = document.getElementById('source-status');
+        const stamp = Date.now();
+        try {
+            status && (status.textContent = 'Loading repo…');
+            const res = await fetch(`${REPO_JSON_URL}?ts=${stamp}`, { cache: 'no-store' });
+
+            if (!res.ok) {
+                const msg = `Repo HTTP ${res.status}`;
+                status && (status.textContent = msg);
+                console.error(msg);
+                return [];
+            }
+
+            let data;
+            try {
+                data = await res.json();
+            } catch (e) {
+                status && (status.textContent = 'Repo: invalid JSON');
+                console.error('Repo JSON parse error:', e);
+                return [];
+            }
+
+            const arr = Array.isArray(data) ? data : (Array.isArray(data ? .entries) ? data.entries : []);
+            status && (status.textContent = `Repo: ${arr.length} rows`);
+            return normalizeEntries(arr);
+        } catch (err) {
+            const msg = `Repo load failed: ${err.message || err}`;
+            status && (status.textContent = msg);
+            console.error(msg);
+            return [];
+        }
+    }
+
+    async function loadEntriesMerged() {
+        const local = loadEntries();
+        const repo = await loadEntriesRepo();
+        return mergeDedup(local, repo);
+    }
+
     // Timestamp for archive filenames
     function stamp() {
         const d = new Date();
         const p = n => String(n).padStart(2, '0');
         return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
-    }
-
-    // ===== Form filling (for editing) =====
-    function fillForm(entry) {
-        document.getElementById('date').value = entry.date;
-        document.getElementById('time').value = entry.time;
-        document.getElementById('dose').value = entry.dose;
-        ['out_dose', 'out_pain', 'out_sedation', 'out_dizziness', 'out_nausea', 'out_brainfog', 'out_sleep']
-        .forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = entry[id.split('_')[1]] ? ? 0;
-        });
-        const appetites = { Low: 'app_low', Normal: 'app_norm', High: 'app_high' };
-        document.getElementById(appetites[entry.appetite] || 'app_norm').checked = true;
-        ['fx_itch', 'fx_vision', 'fx_headache', 'fx_gi'].forEach(id => document.getElementById(id).checked = false);
-        (entry.effects || []).forEach(val => {
-            const map = { 'Itching': 'fx_itch', 'Vision change': 'fx_vision', 'Headache': 'fx_headache', 'GI upset': 'fx_gi' };
-            const id = map[val];
-            if (id) document.getElementById(id).checked = true;
-        });
-        document.getElementById('notes').value = entry.notes || '';
     }
 
     // ===== Initialization =====
@@ -447,7 +428,7 @@
         renderBySource();
         selector ? .addEventListener('change', renderBySource);
 
-        // Local form submit
+        // Form submit
         const form = document.getElementById('entryForm');
         if (form) {
             form.addEventListener('submit', e => {
@@ -478,22 +459,28 @@
                 saveEntries(entries);
                 renderBySource();
             } else if (action === 'edit') {
-                fillForm(entries[idx]);
+                const entry = entries[idx];
+                document.getElementById('date').value = entry.date;
+                document.getElementById('time').value = entry.time;
+                document.getElementById('dose').value = entry.dose;
+                document.getElementById('notes').value = entry.notes;
                 entries.splice(idx, 1);
                 saveEntries(entries);
                 renderBySource();
             }
         });
 
-        // Export/Import/Clear
+        // Export / Import / Clear
         document.getElementById('btn-export-json') ? .addEventListener('click', () => {
             const data = JSON.stringify(loadEntries(), null, 2);
             download('carbamazepine-tracker.json', data, 'application/json');
         });
+
         document.getElementById('btn-export-csv') ? .addEventListener('click', () => {
             const data = toCSV(loadEntries());
             download('carbamazepine-tracker.csv', data, 'text/csv');
         });
+
         const importInput = document.getElementById('import-file');
         document.getElementById('btn-import-json') ? .addEventListener('click', () => importInput.click());
         importInput ? .addEventListener('change', e => {
@@ -511,6 +498,7 @@
             };
             reader.readAsText(file);
         });
+
         document.getElementById('btn-clear-all') ? .addEventListener('click', () => {
             if (confirm('Clear all entries stored in this browser?')) {
                 saveEntries([]);
@@ -518,14 +506,13 @@
             }
         });
 
-        // ===== Safe Export (merge first) & Archive Snapshot =====
+        // Safe export & archive
         document.getElementById('btn-safe-export') ? .addEventListener('click', async () => {
             const local = loadEntries();
             const repo = await loadEntriesRepo();
             const merged = mergeDedup(local, repo);
             const json = JSON.stringify(merged, null, 2);
             download('carbamazepine-tracker.json', json, 'application/json');
-            // Upload this merged file to the repo path to avoid overwriting newer data.
         });
 
         document.getElementById('btn-archive-snapshot') ? .addEventListener('click', async () => {
