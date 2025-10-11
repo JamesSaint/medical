@@ -35,7 +35,7 @@
     "dizziness": 6,
     "nausea": 5,
     "brainfog": 6,
-    "sleep": 7,
+    "sleep": 0,
     "appetite": "Low",
     "effects": [
       "Itching",
