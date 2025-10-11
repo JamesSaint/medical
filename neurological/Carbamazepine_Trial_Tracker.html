@@ -244,16 +244,18 @@
 </section>
 
     </main>
-  <script>
+<script>
   /**
-   * Carbamazepine Tracker – adds AM/PM vitals and keeps Local / Repo / Merged viewing,
-   * Safe Export, Archive Snapshot, Import/Export CSV+JSON.
-   * Backward compatible: older rows (no vitals) render as "—".
+   * Entries table with AM/PM vitals and robust Repo/Local/Merged handling.
+   * - Local: edit/delete works as usual.
+   * - Repo: read-only (browser can't write to GitHub) – we alert on edit/delete.
+   * - Merged: edit/delete only affects your local copy; repo-only rows are read-only.
+   * - Local wins on ID collisions in merged view (so edited local version can override repo).
    */
 
   const KEY = 'carbamazepine_entries_v1';
 
-  // Repo JSON candidates (tries in order; quiet fallback). Update if you ever move the JSON.
+  // Repo URLs (tries in order)
   const ORIGIN = window.location.origin;
   const REPO_URLS = [
     '/medical/neurological/carbamazepine-tracker.json',
@@ -263,7 +265,7 @@
     'https://raw.githubusercontent.com/jamessaint/jamessaint.github.io/master/medical/neurological/carbamazepine-tracker.json'
   ];
 
-  // Stable per-device prefix so new IDs won't collide across devices
+  // Per-device ID prefix so new entries are globally unique
   const DEVICE_ID = (() => {
     const k = 'carbamazepine_device_id';
     let v = localStorage.getItem(k);
@@ -274,27 +276,23 @@
     return v;
   })();
 
-  // ---------- small utils ----------
+  // Utils
   const pad = n => String(n).padStart(2, '0');
-  const nowTime = () => { const d = new Date(); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+  const nowTime = () => { const d=new Date(); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
   const toNum = v => (v === '' || v === null || v === undefined) ? null : Number(v);
   const escapeHTML = s => String(s).replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
   const badge = txt => `<span class="badge-soft">${escapeHTML(txt)}</span>`;
-
   function uid() {
     const core = crypto?.randomUUID ? crypto.randomUUID()
       : (Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,10));
     return `${DEVICE_ID}-${core}`;
   }
 
-  // ---------- local storage ----------
-  function loadEntries() {
-    try { const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : []; }
-    catch { return []; }
-  }
+  // Local storage
+  function loadEntries() { try { const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : []; } catch { return []; } }
   function saveEntries(entries) { localStorage.setItem(KEY, JSON.stringify(entries)); }
 
-  // ---------- normalize rows (adds vitals, tolerates varying shapes) ----------
+  // Normalization (adds vitals)
   function normalizeEntries(arr) {
     return arr.map(e => ({
       id: e.id ?? `${e.date ?? ''}_${e.time ?? ''}_${e.dose ?? ''}`,
@@ -311,7 +309,6 @@
       effects: Array.isArray(e.effects) ? e.effects
         : String(e.effects ?? '').split(';').map(s => s.trim()).filter(Boolean),
       notes: e.notes ?? '',
-      // NEW vitals (nullable)
       am_sys: toNum(e.am_sys),
       am_dia: toNum(e.am_dia),
       am_hr:  toNum(e.am_hr),
@@ -321,7 +318,7 @@
     }));
   }
 
-  // ---------- table render ----------
+  // Rendering
   const fmtVitals = (sys, dia, hr) => {
     if (sys == null && dia == null && hr == null) return '—';
     const bp = (sys != null || dia != null) ? `${sys ?? '?'}\/${dia ?? '?'}` : '';
@@ -355,7 +352,7 @@
 
   function renderEmptyRow(msg) {
     const tbody = document.querySelector('#entriesTable tbody');
-    const cols = document.querySelectorAll('#entriesTable thead th').length || 15; // includes vitals cols
+    const cols = document.querySelectorAll('#entriesTable thead th').length || 15;
     const tr = document.createElement('tr');
     tr.innerHTML = `<td colspan="${cols}" class="text-center py-3 small text-muted">${msg}</td>`;
     tbody.appendChild(tr);
@@ -365,16 +362,13 @@
     const tbody = document.querySelector('#entriesTable tbody');
     if (!tbody) return;
     tbody.innerHTML = '';
-    if (!entries || entries.length === 0) {
-      renderEmptyRow('No data.');
-      return;
-    }
+    if (!entries || entries.length === 0) { renderEmptyRow('No data.'); return; }
     entries.slice().sort((a,b) => (a.date + a.time).localeCompare(b.date + b.time))
       .forEach(e => tbody.appendChild(entryRow(e)));
   }
   const renderTable = () => renderTableFrom(loadEntries());
 
-  // ---------- merge + CSV + download ----------
+  // Merge: **repo first, then local** so local wins on key collision
   function mergeDedup(a, b) {
     const map = new Map();
     const put = e => {
@@ -384,11 +378,12 @@
       else {
         const A = (prev.date||'') + (prev.time||'');
         const B = (e.date||'') + (e.time||'');
-        if (B > A) map.set(key, e);
+        if (B >= A) map.set(key, e); // >= so later put wins on tie
       }
     };
-    normalizeEntries(a).forEach(put);
-    normalizeEntries(b).forEach(put);
+    // repo then local -> local overrides
+    normalizeEntries(a).forEach(put); // a = repo
+    normalizeEntries(b).forEach(put); // b = local
     return Array.from(map.values());
   }
 
@@ -399,11 +394,8 @@
     ];
     const header = cols.join(',');
     const lines = entries.map(e => cols.map(c => {
-      let v = e[c];
-      if (Array.isArray(v)) v = v.join('; ');
-      if (v == null) v = '';
-      v = String(v).replace(/"/g,'""');
-      return `"${v}"`;
+      let v = e[c]; if (Array.isArray(v)) v = v.join('; ');
+      if (v == null) v = ''; v = String(v).replace(/"/g,'""'); return `"${v}"`;
     }).join(','));
     return [header, ...lines].join('\n');
   }
@@ -416,100 +408,70 @@
     URL.revokeObjectURL(url);
   }
 
-  // ---------- robust repo loader (tries multiple URLs; tolerant JSON shapes) ----------
+  // Repo loader
   async function fetchJSON(url) {
     const bust = url.includes('?') ? '&' : '?';
     const res = await fetch(`${url}${bust}ts=${Date.now()}`, { cache: 'no-store', mode: 'cors' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     let data;
     try { data = await res.json(); }
-    catch {
-      const txt = await res.text();
-      data = JSON.parse(txt);
-    }
-    // Accept: [], {entries:[]}, {data:[]}, {items:[]}, {rows:[]}, {records:[]}, or shallow flatten
+    catch { data = JSON.parse(await res.text()); }
     let arr = null;
     if (Array.isArray(data)) arr = data;
     else if (data && typeof data === 'object') {
       const keys = ['entries','data','items','rows','records','list'];
-      for (const k of keys) { if (Array.isArray(data[k])) { arr = data[k]; break; } }
+      for (const k of keys) if (Array.isArray(data[k])) { arr = data[k]; break; }
       if (!arr) {
         const bucket = [];
-        Object.values(data).forEach(v => {
-          if (Array.isArray(v)) v.forEach(x => { if (x && typeof x === 'object') bucket.push(x); });
-        });
+        Object.values(data).forEach(v => { if (Array.isArray(v)) v.forEach(x => { if (x && typeof x === 'object') bucket.push(x); }); });
         if (bucket.length) arr = bucket;
       }
     }
-    if (!arr) return [];
-    return normalizeEntries(arr);
+    return arr ? normalizeEntries(arr) : [];
   }
-
   async function loadEntriesRepo() {
-    for (const url of REPO_URLS) {
-      try {
-        const rows = await fetchJSON(url);
-        if (rows) return rows;
-      } catch (_) { /* try next */ }
-    }
+    for (const u of REPO_URLS) { try { const rows = await fetchJSON(u); if (rows) return rows; } catch {} }
     return [];
   }
-
   async function loadEntriesMerged() {
-    const local = loadEntries();
-    const repo = await loadEntriesRepo();
-    return mergeDedup(local, repo);
+    const [repo, local] = await Promise.all([loadEntriesRepo(), Promise.resolve(loadEntries())]);
+    return mergeDedup(repo, local);
   }
 
-  // ---------- init & events ----------
+  // Init
   document.addEventListener('DOMContentLoaded', () => {
-    // Optional: prefill time input if present in your form
     const timeEl = document.getElementById('time');
     if (timeEl) timeEl.value = nowTime();
 
     const selector = document.getElementById('data-source');
+    const source = () => (selector?.value || 'local');
 
     async function renderBySource() {
-      const val = selector?.value || 'local';
-      if (val === 'local') {
-        renderTable();
-      } else if (val === 'repo') {
-        renderTableFrom(await loadEntriesRepo());
-      } else {
-        renderTableFrom(await loadEntriesMerged());
-      }
+      const s = source();
+      if (s === 'local') renderTable();
+      else if (s === 'repo') renderTableFrom(await loadEntriesRepo());
+      else renderTableFrom(await loadEntriesMerged());
     }
 
-    // Default to Repo if Local is empty and Repo returns rows
+    // Prefer Repo if Local is empty and Repo has rows
     (async () => {
-      const localCount = loadEntries().length;
-      if (localCount === 0 && selector) {
+      if (loadEntries().length === 0 && selector) {
         const repo = await loadEntriesRepo();
-        if (repo.length > 0) {
-          selector.value = 'repo';
-          renderTableFrom(repo);
-          return;
-        }
+        if (repo.length) { selector.value = 'repo'; renderTableFrom(repo); return; }
       }
       renderBySource();
     })();
 
     selector?.addEventListener('change', renderBySource);
 
-    // Save from form (local only)
+    // Form submit -> LOCAL only
     const form = document.getElementById('entryForm');
     form?.addEventListener('submit', e => {
       e.preventDefault();
-
-      // Existing fields
       const appetite = document.querySelector('input[name="appetite"]:checked')?.value || 'Normal';
       const effects = [];
-      ['fx_itch','fx_vision','fx_headache','fx_gi'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el && el.checked) effects.push(el.value);
-      });
+      ['fx_itch','fx_vision','fx_headache','fx_gi'].forEach(id => { const el = document.getElementById(id); if (el?.checked) effects.push(el.value); });
 
-      // New vitals fields (nullable numbers)
       const entry = {
         id: uid(),
         date: document.getElementById('date').value,
@@ -531,55 +493,91 @@
         pm_hr:  toNum(document.getElementById('pm_hr')?.value),
       };
 
-      const entries = loadEntries();
-      entries.push(entry);
-      saveEntries(entries);
+      const entries = loadEntries(); entries.push(entry); saveEntries(entries);
+      if (source() !== 'repo') renderBySource();
 
-      // Re-render unless viewing Repo-only
-      if ((selector?.value || 'local') !== 'repo') renderBySource();
-
-      // Reset form for next quick entry; keep time useful
-      form.reset();
-      if (timeEl) timeEl.value = nowTime();
+      form.reset(); if (timeEl) timeEl.value = nowTime();
     });
 
-    // Row actions: edit → puts values back in form (incl. vitals); delete → removes
-    document.querySelector('#entriesTable')?.addEventListener('click', ev => {
-      const btn = ev.target.closest('button[data-action]');
-      if (!btn) return;
-      const id = btn.getAttribute('data-id');
-      const action = btn.getAttribute('data-action');
+    // Table actions — handle Local vs Repo vs Merged
+    document.querySelector('#entriesTable')?.addEventListener('click', async ev => {
+      const btn = ev.target.closest('button[data-action]'); if (!btn) return;
+      const id = btn.getAttribute('data-id'); const action = btn.getAttribute('data-action');
+      const s = source();
 
-      let entries = loadEntries();
-      const idx = entries.findIndex(e => e.id === id);
-      if (idx === -1) return;
+      // Helper: find row by id in current source
+      async function getRowById(id) {
+        if (s === 'local') {
+          const local = loadEntries(); return local.find(e => e.id === id) || null;
+        } else if (s === 'repo') {
+          const repo = await loadEntriesRepo(); return repo.find(e => e.id === id) || null;
+        } else {
+          const merged = await loadEntriesMerged(); return merged.find(e => e.id === id) || null;
+        }
+      }
 
       if (action === 'delete') {
-        entries.splice(idx, 1);
-        saveEntries(entries);
-        renderBySource();
-      } else if (action === 'edit') {
-        const e = entries[idx];
-        // Minimal back-fill; extend if you want more fields re-populated
-        const dateEl = document.getElementById('date');
-        const timeEl2 = document.getElementById('time');
-        const doseEl = document.getElementById('dose');
-        const notesEl = document.getElementById('notes');
-        if (dateEl) dateEl.value = e.date;
-        if (timeEl2) timeEl2.value = e.time;
-        if (doseEl) doseEl.value = e.dose;
-        if (notesEl) notesEl.value = e.notes || '';
+        if (s === 'local') {
+          const local = loadEntries();
+          const idx = local.findIndex(e => e.id === id);
+          if (idx !== -1) { local.splice(idx, 1); saveEntries(local); }
+          renderBySource();
+        } else if (s === 'merged') {
+          // Delete only affects local rows
+          const local = loadEntries();
+          const idx = local.findIndex(e => e.id === id);
+          if (idx !== -1) {
+            local.splice(idx, 1); saveEntries(local); renderBySource();
+          } else {
+            alert('This row comes from the Repo and is read-only here.');
+          }
+        } else {
+          alert('Repo view is read-only. Switch to Local or Merged to manage your local copy.');
+        }
+      }
 
-        // Vitals back to form if present
-        ['am_sys','am_dia','am_hr','pm_sys','pm_dia','pm_hr'].forEach(k => {
-          const el = document.getElementById(k);
-          if (el) el.value = (e[k] ?? '');
-        });
+      if (action === 'edit') {
+        if (s === 'local') {
+          const local = loadEntries();
+          const idx = local.findIndex(e => e.id === id);
+          if (idx === -1) return;
+          const eRow = local[idx];
 
-        // Remove old; saving writes updated entry
-        entries.splice(idx, 1);
-        saveEntries(entries);
-        renderBySource();
+          // Fill minimal fields for quick edit
+          const set = (i,v)=>{ const el=document.getElementById(i); if(el) el.value=(v ?? ''); };
+          set('date', eRow.date); set('time', eRow.time); set('dose', eRow.dose); set('notes', eRow.notes);
+          set('am_sys', eRow.am_sys); set('am_dia', eRow.am_dia); set('am_hr', eRow.am_hr);
+          set('pm_sys', eRow.pm_sys); set('pm_dia', eRow.pm_dia); set('pm_hr', eRow.pm_hr);
+
+          // Remove old local row — saving will write updated one
+          local.splice(idx, 1); saveEntries(local); renderBySource();
+        } else if (s === 'merged') {
+          // Prefer editing local copy if it exists; otherwise we can load repo values into the form
+          const local = loadEntries();
+          let idx = local.findIndex(e => e.id === id);
+          let eRow = idx !== -1 ? local[idx] : await getRowById(id);
+          if (!eRow) return;
+
+          // Fill form
+          const set = (i,v)=>{ const el=document.getElementById(i); if(el) el.value=(v ?? ''); };
+          set('date', eRow.date); set('time', eRow.time); set('dose', eRow.dose); set('notes', eRow.notes);
+          set('am_sys', eRow.am_sys); set('am_dia', eRow.am_dia); set('am_hr', eRow.am_hr);
+          set('pm_sys', eRow.pm_sys); set('pm_dia', eRow.pm_dia); set('pm_hr', eRow.pm_hr);
+
+          // If local row exists, remove it so the saved edit replaces it cleanly
+          if (idx !== -1) { local.splice(idx, 1); saveEntries(local); }
+          // If it only exists in repo, we simply load values; saving will create a local edited copy.
+          renderBySource();
+        } else {
+          // Repo view: read-only; allow user to edit by loading values but warn that saving creates a local copy
+          const eRow = await getRowById(id);
+          if (!eRow) return;
+          const set = (i,v)=>{ const el=document.getElementById(i); if(el) el.value=(v ?? ''); };
+          set('date', eRow.date); set('time', eRow.time); set('dose', eRow.dose); set('notes', eRow.notes);
+          set('am_sys', eRow.am_sys); set('am_dia', eRow.am_dia); set('am_hr', eRow.am_hr);
+          set('pm_sys', eRow.pm_sys); set('pm_dia', eRow.pm_dia); set('pm_hr', eRow.pm_hr);
+          alert('Repo view is read-only. Any changes you save will be stored in your Local data.');
+        }
       }
     });
 
@@ -588,7 +586,6 @@
       const data = JSON.stringify(loadEntries(), null, 2);
       download('carbamazepine-tracker.json', data, 'application/json');
     });
-
     document.getElementById('btn-export-csv')?.addEventListener('click', () => {
       const csv = toCSV(loadEntries());
       download('carbamazepine-tracker.csv', csv, 'text/csv');
@@ -610,24 +607,22 @@
     });
 
     document.getElementById('btn-clear-all')?.addEventListener('click', () => {
-      if (confirm('Clear all entries stored in this browser?')) {
-        saveEntries([]);
-        renderBySource();
-      }
+      if (confirm('Clear all entries stored in this browser?')) { saveEntries([]); renderBySource(); }
     });
 
-    // Safe export & archive (merge with Repo first → avoids data loss)
+    // Safe export & archive (merge with Repo first)
     function stamp() { const d = new Date(); return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`; }
     document.getElementById('btn-safe-export')?.addEventListener('click', async () => {
-      const merged = mergeDedup(loadEntries(), await loadEntriesRepo());
+      const merged = mergeDedup(await loadEntriesRepo(), loadEntries());
       download('carbamazepine-tracker.json', JSON.stringify(merged, null, 2), 'application/json');
     });
     document.getElementById('btn-archive-snapshot')?.addEventListener('click', async () => {
-      const merged = mergeDedup(loadEntries(), await loadEntriesRepo());
+      const merged = mergeDedup(await loadEntriesRepo(), loadEntries());
       download(`carbamazepine-tracker-${stamp()}.json`, JSON.stringify(merged, null, 2), 'application/json');
     });
   });
 </script>
+
 
 </body>
 
