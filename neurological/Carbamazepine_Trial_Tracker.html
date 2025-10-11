@@ -151,216 +151,248 @@
       </form>
     </section>
 
-    <section class="section card-like">
-      <h2>Entries</h2>
-      <div class="btn-wrap mb-2">
-        <button type="button" id="btn-export-json" class="btn btn-success">Export JSON</button>
-        <button type="button" id="btn-export-csv" class="btn btn-success">Export CSV</button>
-        <button type="button" id="btn-import-json" class="btn btn-outline-primary">Import JSON</button>
-        <input type="file" id="import-file" class="import-input" accept=".json,application/json">
-        <button type="button" id="btn-clear-all" class="btn btn-outline-danger">Clear All</button>
-      </div>
-      <div class="table-responsive">
-        <table id="entriesTable" class="table table-sm">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Dose</th>
-              <th>Pain</th>
-              <th>Sedation</th>
-              <th>Dizziness</th>
-              <th>Nausea</th>
-              <th>Brain Fog</th>
-              <th>Sleep</th>
-              <th>Appetite</th>
-              <th>Effects</th>
-              <th>Notes</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </section>
+<section id="entries" class="section card-like">
+  <h2>Entries</h2>
+
+  <div class="btn-wrap mb-2">
+    <button type="button" id="btn-export-json" class="btn btn-success">Export JSON</button>
+    <button type="button" id="btn-export-csv" class="btn btn-success">Export CSV</button>
+    <button type="button" id="btn-import-json" class="btn btn-outline-primary">Import JSON</button>
+    <input type="file" id="import-file" class="import-input" accept=".json,application/json">
+    <button type="button" id="btn-clear-all" class="btn btn-outline-danger">Clear All</button>
+  </div>
+
+  <div class="table-responsive entries-wrap">
+    <table id="entriesTable" class="entries-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th class="num">Dose</th>
+          <th class="num">Pain</th>
+          <th class="num">Sedation</th>
+          <th class="num">Dizziness</th>
+          <th class="num">Nausea</th>
+          <th class="num">Brain Fog</th>
+          <th class="num">Sleep</th>
+          <th>Appetite</th>
+          <th>Effects</th>
+          <th>Notes</th>
+          <th class="actions-col">Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+
+
   </main>
 
-  <script>
-    const KEY = 'carbamazepine_entries_v1';
+<script>
+  /* Carbamazepine Tracker – entries table renderer (drop-in) */
+  const KEY = 'carbamazepine_entries_v1';
 
-    function nowDate() {
-      const d = new Date();
-      const pad = n => String(n).padStart(2, '0');
-      return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+  // Fallback UUID (for older browsers)
+  function uid() {
+    if (window.crypto?.randomUUID) return crypto.randomUUID();
+    return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+  }
+
+  function nowDate() {
+    const d = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+
+  function nowTime() {
+    const d = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    return pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+
+  function loadEntries() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      console.error('Load failed', e);
+      return [];
     }
+  }
 
-    function nowTime() {
-      const d = new Date();
-      const pad = n => String(n).padStart(2, '0');
-      return pad(d.getHours()) + ':' + pad(d.getMinutes());
-    }
+  function saveEntries(entries) {
+    localStorage.setItem(KEY, JSON.stringify(entries));
+  }
 
-    function loadEntries() {
-      try {
-        const raw = localStorage.getItem(KEY);
-        return raw ? JSON.parse(raw) : [];
-      } catch(e) {
-        console.error('Load failed', e);
-        return [];
-      }
-    }
+  function formToEntry() {
+    const appetite = document.querySelector('input[name="appetite"]:checked')?.value || 'Normal';
+    const effects = [];
+    ['fx_itch', 'fx_vision', 'fx_headache', 'fx_gi'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.checked) effects.push(el.value);
+    });
+    return {
+      id: uid(),
+      date: document.getElementById('date').value,
+      time: document.getElementById('time').value,
+      dose: Number(document.getElementById('dose').value),
+      pain: Number(document.getElementById('pain').value),
+      sedation: Number(document.getElementById('sedation').value),
+      dizziness: Number(document.getElementById('dizziness').value),
+      nausea: Number(document.getElementById('nausea').value),
+      brainfog: Number(document.getElementById('brainfog').value),
+      sleep: Number(document.getElementById('sleep').value),
+      appetite,
+      effects,
+      notes: document.getElementById('notes').value.trim()
+    };
+  }
 
-    function saveEntries(entries) {
-      localStorage.setItem(KEY, JSON.stringify(entries));
-    }
+  function escapeHTML(s) {
+    return String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
+  }
 
-    function formToEntry() {
-      const appetite = document.querySelector('input[name="appetite"]:checked')?.value || 'Normal';
-      const effects = [];
-      ['fx_itch','fx_vision','fx_headache','fx_gi'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el.checked) effects.push(el.value);
-      });
-      return {
-        id: crypto.randomUUID(),
-        date: document.getElementById('date').value,
-        time: document.getElementById('time').value,
-        dose: Number(document.getElementById('dose').value),
-        pain: Number(document.getElementById('pain').value),
-        sedation: Number(document.getElementById('sedation').value),
-        dizziness: Number(document.getElementById('dizziness').value),
-        nausea: Number(document.getElementById('nausea').value),
-        brainfog: Number(document.getElementById('brainfog').value),
-        sleep: Number(document.getElementById('sleep').value),
-        appetite,
-        effects,
-        notes: document.getElementById('notes').value.trim()
-      };
-    }
+  function badge(text) {
+    return `<span class="badge-soft">${escapeHTML(text)}</span>`;
+  }
 
-    function entryRow(entry) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${entry.date}</td>
-        <td>${entry.time}</td>
-        <td>${entry.dose}</td>
-        <td>${entry.pain}</td>
-        <td>${entry.sedation}</td>
-        <td>${entry.dizziness}</td>
-        <td>${entry.nausea}</td>
-        <td>${entry.brainfog}</td>
-        <td>${entry.sleep}</td>
-        <td>${entry.appetite}</td>
-        <td>${(entry.effects||[]).join('; ')}</td>
-        <td>${entry.notes ? entry.notes.replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])) : ''}</td>
-        <td>
-          <button class="btn btn-sm btn-outline-secondary me-1" data-action="edit" data-id="${entry.id}">Edit</button>
-          <button class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${entry.id}">Delete</button>
-        </td>
-      `;
-      return tr;
-    }
+  function entryRow(entry) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td data-label="Date">${entry.date}</td>
+      <td data-label="Time">${entry.time}</td>
+      <td class="num" data-label="Dose">${entry.dose}</td>
+      <td class="num" data-label="Pain">${entry.pain}</td>
+      <td class="num" data-label="Sedation">${entry.sedation}</td>
+      <td class="num" data-label="Dizziness">${entry.dizziness}</td>
+      <td class="num" data-label="Nausea">${entry.nausea}</td>
+      <td class="num" data-label="Brain Fog">${entry.brainfog}</td>
+      <td class="num" data-label="Sleep">${entry.sleep}</td>
+      <td data-label="Appetite">${badge(entry.appetite)}</td>
+      <td data-label="Effects">${(entry.effects || []).map(badge).join(' ')}</td>
+      <td class="notes" data-label="Notes">${entry.notes ? escapeHTML(entry.notes) : ''}</td>
+      <td class="actions d-flex gap-1" data-label="Actions">
+        <button class="btn btn-outline-secondary btn-sm" data-action="edit" data-id="${entry.id}">Edit</button>
+        <button class="btn btn-outline-danger btn-sm" data-action="delete" data-id="${entry.id}">Delete</button>
+      </td>
+    `;
+    return tr;
+  }
 
-    function renderTable() {
-      const tbody = document.querySelector('#entriesTable tbody');
-      tbody.innerHTML = '';
-      const entries = loadEntries().sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
-      entries.forEach(e => tbody.appendChild(entryRow(e)));
-    }
+  function renderTable() {
+    const tbody = document.querySelector('#entriesTable tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    const entries = loadEntries().sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+    entries.forEach(e => tbody.appendChild(entryRow(e)));
+  }
 
-    function toCSV(entries) {
-      const cols = ["date","time","dose","pain","sedation","dizziness","nausea","brainfog","sleep","appetite","effects","notes","id"];
-      const header = cols.join(',');
-      const lines = entries.map(e => {
-        return cols.map(c => {
-          let v = e[c];
-          if (Array.isArray(v)) v = v.join('; ');
-          if (v === null || v === undefined) v = '';
-          v = String(v).replace(/"/g, '""');
-          return `"${v}"`;
-        }).join(',');
-      });
-      return [header].concat(lines).join('\n');
-    }
+  function toCSV(entries) {
+    const cols = ["date","time","dose","pain","sedation","dizziness","nausea","brainfog","sleep","appetite","effects","notes","id"];
+    const header = cols.join(',');
+    const lines = entries.map(e => {
+      return cols.map(c => {
+        let v = e[c];
+        if (Array.isArray(v)) v = v.join('; ');
+        if (v === null || v === undefined) v = '';
+        v = String(v).replace(/"/g, '""');
+        return `"${v}"`;
+      }).join(',');
+    });
+    return [header].concat(lines).join('\n');
+  }
 
-    function download(filename, content, mime) {
-      const blob = new Blob([content], {type: mime});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
+  function download(filename, content, mime) {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
-    function fillForm(entry) {
-      document.getElementById('date').value = entry.date;
-      document.getElementById('time').value = entry.time;
-      document.getElementById('dose').value = entry.dose;
-      document.getElementById('out_dose').textContent = entry.dose;
-      document.getElementById('pain').value = entry.pain;
-      document.getElementById('out_pain').textContent = entry.pain;
-      document.getElementById('sedation').value = entry.sedation;
-      document.getElementById('out_sedation').textContent = entry.sedation;
-      document.getElementById('dizziness').value = entry.dizziness;
-      document.getElementById('out_dizziness').textContent = entry.dizziness;
-      document.getElementById('nausea').value = entry.nausea;
-      document.getElementById('out_nausea').textContent = entry.nausea;
-      document.getElementById('brainfog').value = entry.brainfog;
-      document.getElementById('out_brainfog').textContent = entry.brainfog;
-      document.getElementById('sleep').value = entry.sleep;
-      document.getElementById('out_sleep').textContent = entry.sleep;
-      // appetite
-      const appetites = {Low:'app_low', Normal:'app_norm', High:'app_high'};
-      document.getElementById(appetites[entry.appetite] || 'app_norm').checked = true;
-      // effects
-      ['fx_itch','fx_vision','fx_headache','fx_gi'].forEach(id => document.getElementById(id).checked = false);
-      (entry.effects || []).forEach(val => {
-        const map = {'Itching':'fx_itch','Vision change':'fx_vision','Headache':'fx_headache','GI upset':'fx_gi'};
-        const id = map[val];
-        if (id) document.getElementById(id).checked = true;
-      });
-      document.getElementById('notes').value = entry.notes || '';
-    }
+  function fillForm(entry) {
+    document.getElementById('date').value = entry.date;
+    document.getElementById('time').value = entry.time;
+    document.getElementById('dose').value = entry.dose;
+    document.getElementById('out_dose').textContent = entry.dose;
+    document.getElementById('pain').value = entry.pain;
+    document.getElementById('out_pain').textContent = entry.pain;
+    document.getElementById('sedation').value = entry.sedation;
+    document.getElementById('out_sedation').textContent = entry.sedation;
+    document.getElementById('dizziness').value = entry.dizziness;
+    document.getElementById('out_dizziness').textContent = entry.dizziness;
+    document.getElementById('nausea').value = entry.nausea;
+    document.getElementById('out_nausea').textContent = entry.nausea;
+    document.getElementById('brainfog').value = entry.brainfog;
+    document.getElementById('out_brainfog').textContent = entry.brainfog;
+    document.getElementById('sleep').value = entry.sleep;
+    document.getElementById('out_sleep').textContent = entry.sleep;
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      // defaults
-      document.getElementById('date').valueAsDate = new Date();
-      document.getElementById('time').value = nowTime();
+    const appetites = { Low: 'app_low', Normal: 'app_norm', High: 'app_high' };
+    const appId = appetites[entry.appetite] || 'app_norm';
+    if (document.getElementById(appId)) document.getElementById(appId).checked = true;
 
-      renderTable();
+    ['fx_itch', 'fx_vision', 'fx_headache', 'fx_gi'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.checked = false;
+    });
+    (entry.effects || []).forEach(val => {
+      const map = { 'Itching': 'fx_itch', 'Vision change': 'fx_vision', 'Headache': 'fx_headache', 'GI upset': 'fx_gi' };
+      const id = map[val];
+      const el = id && document.getElementById(id);
+      if (el) el.checked = true;
+    });
 
-      // Save
-      document.getElementById('entryForm').addEventListener('submit', (e) => {
+    document.getElementById('notes').value = entry.notes || '';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const dateEl = document.getElementById('date');
+    if (dateEl && 'valueAsDate' in dateEl) dateEl.valueAsDate = new Date();
+    const timeEl = document.getElementById('time');
+    if (timeEl) timeEl.value = nowTime();
+
+    renderTable();
+
+    const form = document.getElementById('entryForm');
+    if (form) {
+      form.addEventListener('submit', (e) => {
         e.preventDefault();
         const entry = formToEntry();
         const entries = loadEntries();
         entries.push(entry);
         saveEntries(entries);
         renderTable();
-        e.target.reset();
-        document.getElementById('date').valueAsDate = new Date();
-        document.getElementById('time').value = nowTime();
-        document.getElementById('out_dose').textContent = '0';
-        document.getElementById('out_pain').textContent = '0';
-        document.getElementById('out_sedation').textContent = '0';
-        document.getElementById('out_dizziness').textContent = '0';
-        document.getElementById('out_nausea').textContent = '0';
-        document.getElementById('out_brainfog').textContent = '0';
-        document.getElementById('out_sleep').textContent = '7';
-      });
 
-      // Clear today's entries (by date)
-      document.getElementById('btn-clear-today').addEventListener('click', () => {
-        const today = document.getElementById('date').value || nowDate();
+        form.reset();
+        if (dateEl && 'valueAsDate' in dateEl) dateEl.valueAsDate = new Date();
+        if (timeEl) timeEl.value = nowTime();
+        ['out_dose','out_pain','out_sedation','out_dizziness','out_nausea','out_brainfog'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = '0';
+        });
+        const outSleep = document.getElementById('out_sleep');
+        if (outSleep) outSleep.textContent = '7';
+      });
+    }
+
+    const clearTodayBtn = document.getElementById('btn-clear-today');
+    if (clearTodayBtn) {
+      clearTodayBtn.addEventListener('click', () => {
+        const today = document.getElementById('date')?.value || nowDate();
         const filtered = loadEntries().filter(e => e.date !== today);
         saveEntries(filtered);
         renderTable();
       });
+    }
 
-      // Table actions: edit, delete
-      document.querySelector('#entriesTable').addEventListener('click', (ev) => {
+    const table = document.querySelector('#entriesTable');
+    if (table) {
+      table.addEventListener('click', (ev) => {
         const btn = ev.target.closest('button[data-action]');
         if (!btn) return;
         const id = btn.getAttribute('data-id');
@@ -374,31 +406,31 @@
           renderTable();
         } else if (action === 'edit') {
           fillForm(entries[idx]);
-          // remove old so saving writes a new id row
-          entries.splice(idx, 1);
+          entries.splice(idx, 1);           // remove old; saving writes a new row
           saveEntries(entries);
           renderTable();
         }
       });
+    }
 
-      // Export JSON
-      document.getElementById('btn-export-json').addEventListener('click', () => {
-        const data = JSON.stringify(loadEntries(), null, 2);
-        download('carbamazepine-tracker.json', data, 'application/json');
-      });
+    const btnJson = document.getElementById('btn-export-json');
+    if (btnJson) btnJson.addEventListener('click', () => {
+      const data = JSON.stringify(loadEntries(), null, 2);
+      download('carbamazepine-tracker.json', data, 'application/json');
+    });
 
-      // Export CSV
-      document.getElementById('btn-export-csv').addEventListener('click', () => {
-        const data = toCSV(loadEntries());
-        download('carbamazepine-tracker.csv', data, 'text/csv');
-      });
+    const btnCsv = document.getElementById('btn-export-csv');
+    if (btnCsv) btnCsv.addEventListener('click', () => {
+      const data = toCSV(loadEntries());
+      download('carbamazepine-tracker.csv', data, 'text/csv');
+    });
 
-      // Import JSON
-      const importBtn = document.getElementById('btn-import-json');
-      const importInput = document.getElementById('import-file');
+    const importBtn = document.getElementById('btn-import-json');
+    const importInput = document.getElementById('import-file');
+    if (importBtn && importInput) {
       importBtn.addEventListener('click', () => importInput.click());
       importInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0];
         if (!file) return;
         const reader = new FileReader();
         reader.onload = () => {
@@ -416,15 +448,19 @@
         };
         reader.readAsText(file);
       });
+    }
 
-      // Clear all
-      document.getElementById('btn-clear-all').addEventListener('click', () => {
+    const clearAllBtn = document.getElementById('btn-clear-all');
+    if (clearAllBtn) {
+      clearAllBtn.addEventListener('click', () => {
         if (confirm('Clear all entries stored in this browser?')) {
           saveEntries([]);
           renderTable();
         }
       });
-    });
-  </script>
+    }
+  });
+</script>
+
 </body>
 </html>
