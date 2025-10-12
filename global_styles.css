@@ -106,7 +106,7 @@ a {
     text-decoration: underline;
 }
 a:link {
-    text-decoration: none;
+    text-decoration: underline;
 }
 a:visited {
     text-decoration: none;
