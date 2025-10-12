@@ -1,0 +1,253 @@
+/* =========================================================
+   Global layout & typography
+   ========================================================= */
+body {
+  font-family: Montserrat, sans-serif;
+  background-color: #EEEEEE;
+  color: #003366;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  font-size: 0.9rem;
+}
+
+.content {
+  max-width: 900px;
+  width: 100%;
+  padding: 0;
+}
+
+/* Headings */
+h1 {
+  color: #003366;
+  border-bottom: 1px solid #C9B694;
+  padding-bottom: 0.3em;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+h2 {
+  color: #003366;
+  margin-top: 1.5em;
+  text-transform: uppercase;
+  font-size: 1rem;
+  border-bottom: 1px solid #C9B694;
+  padding-bottom: 0.3em;
+  font-weight: 700;
+}
+
+h3 {
+  color: #003366;
+  margin-top: 1.2em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  border-bottom: 1px solid #C9B694;
+  padding-bottom: 0.3em;
+  font-weight: 700;
+}
+
+/* Utilities & common elements */
+.section { 
+  margin-top: 2em;
+  margin-bottom: 2em;
+ }
+
+.note {
+  background-color: rgba(4, 87, 255, 0.04);
+  border-left: 1px solid #C9B694;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.card-like {
+  border-left: 3px solid #C9B694;
+  background: rgba(255, 255, 255, 0.46);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+ul { margin-left: 1.5em; }
+
+figure { margin: 0; }
+
+figcaption,
+.meta {
+  font-size: 0.85rem;
+  color: #003366;
+  opacity: 0.9;
+}
+
+footer {
+  margin-top: 2em;
+  font-size: 0.85rem;
+  color: #003366;
+  opacity: 0.85;
+  text-align: left;
+}
+
+a {
+  color: #003366;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* =========================================================
+   Breadcrumbs
+   ========================================================= */
+.breadcrumb {
+  background: transparent;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+  color: #C9B694;
+  padding: 0 0.3rem;
+}
+
+.breadcrumb-item.active {
+  color: #C9B694;
+  font-weight: 600;
+}
+
+/* =========================================================
+   Tables (responsive, clean, in-palette)
+   Usage:
+     <div class="table-wrap">
+       <table> ... </table>
+     </div>
+   ========================================================= */
+.table-wrap {
+  max-width: 100%;
+  overflow-x: auto;                 /* prevents page overspill */
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-left: 3px solid #C9B694;    /* gold accent bar */
+}
+
+th, td {
+  padding: 0.75rem;
+  border: 1px solid #C9B694;
+  text-align: left;
+  vertical-align: top;
+  color: #003366;
+  white-space: normal;
+  overflow-wrap: anywhere;           /* wraps long medical terms/URLs */
+  word-break: normal;
+  hyphens: auto;
+}
+
+thead th {
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+tbody tr:nth-child(even) {
+}
+
+/* ===== Appointments table: Date | Appointment | Location ===== */
+#appointments table { table-layout: auto; }
+
+#appointments th:nth-child(1),
+#appointments td:nth-child(1) {
+  width: 12ch;               /* compact dates */
+  white-space: nowrap;       /* keep dates on one line when space allows */
+}
+
+#appointments th:nth-child(2),
+#appointments td:nth-child(2) {
+  width: auto;               /* main description flexes and wraps */
+}
+
+#appointments th:nth-child(3),
+#appointments td:nth-child(3) {
+  max-width: 24ch;           /* keeps location tidy without blowing out */
+}
+
+@media (max-width: 600px) {
+  #appointments th:nth-child(1),
+  #appointments td:nth-child(1) {
+    white-space: normal;     /* let dates wrap on small screens */
+  }
+}
+/* ===== Symptom Overview: Category | Description | Functional Impact ===== */
+#symptoms table { table-layout: fixed; }  /* fixed layout yields even, readable columns */
+
+#symptoms th:nth-child(1),
+#symptoms td:nth-child(1) {
+  width: 20%;                /* compact Category label column */
+}
+
+#symptoms th:nth-child(2),
+#symptoms td:nth-child(2) {
+  width: 40%;                /* balanced long paragraph column */
+}
+
+#symptoms th:nth-child(3),
+#symptoms td:nth-child(3) {
+  width: 44%;                /* balanced long paragraph column */
+}
+
+@media (max-width: 600px) {
+  #symptoms th:nth-child(1),
+  #symptoms td:nth-child(1) {
+    white-space: normal;     /* allow Category to wrap on phones */
+  }
+}
+  /* --- CUSTOM COLOR OVERRIDES (#C9B694) --- */
+  .btn-primary {
+    background-color: #C9B694 !important;
+    border-color: #C9B694 !important;
+    color: #003366 !important;
+  }
+  .btn-primary:hover,
+  .btn-primary:focus,
+  .btn-primary:active {
+    background-color: #bda981 !important;
+    border-color: #bda981 !important;
+    color: #003366 !important;
+  }
+
+  .btn-outline-primary {
+    color: #C9B694 !important;
+    border-color: #C9B694 !important;
+  }
+  .btn-outline-primary:hover,
+  .btn-outline-primary:focus {
+    background-color: #C9B694 !important;
+    color: #003366 !important;
+  }
+
+  .form-check-input:checked {
+    background-color: #C9B694 !important;
+    border-color: #C9B694 !important;
+  }
+  .form-range::-webkit-slider-thumb {
+    background: #C9B694;
+  }
+  .form-range::-moz-range-thumb {
+    background: #C9B694;
+  }
+  .form-range::-ms-thumb {
+    background: #C9B694;
+  }
+  .form-range::-webkit-slider-runnable-track {
+    background: #ddd;
+  }
+  .form-range:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 0.25rem rgba(201,182,148,0.4);
+  }
+  .btn-check:checked + .btn-outline-primary {
+    background-color: #C9B694 !important;
+    border-color: #C9B694 !important;
+    color: #003366 !important;
+  }
