@@ -99,5 +99,30 @@
     "pm_sys": null,
     "pm_dia": null,
     "pm_hr": null
+  },
+  {
+    "id": "e5c23656-6784-4186-b203-81a23eb0c1a5-1f2392f0-e67a-40ff-bb6c-796b49b183c0",
+    "date": "2025-10-12",
+    "time": "10:30",
+    "dose": 100,
+    "pain": 8,
+    "sedation": 3,
+    "dizziness": 5,
+    "nausea": 6,
+    "brainfog": 7,
+    "sleep": 0,
+    "appetite": "Low",
+    "effects": [
+      "Vision change",
+      "Headache",
+      "GI upset"
+    ],
+    "notes": "a lot of wind",
+    "am_sys": 142,
+    "am_dia": 109,
+    "am_hr": 90,
+    "pm_sys": null,
+    "pm_dia": null,
+    "pm_hr": null
   }
 ]
