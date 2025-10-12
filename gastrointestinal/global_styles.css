@@ -103,10 +103,10 @@ footer {
 a {
     color: #003366;
     font-weight: 600;
-    text-decoration: underline;
+    text-decoration: none;
 }
 a:link {
-    text-decoration: underline;
+    text-decoration: none;
 }
 a:visited {
     text-decoration: none;
