@@ -103,7 +103,7 @@ footer {
 a {
     color: #003366;
     font-weight: 600;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 /* =========================================================
