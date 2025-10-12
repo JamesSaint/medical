@@ -40,6 +40,8 @@
     "effects": [
       "Itching",
       "Headache"
+      "GI upset",
+      "Dark Urine"
     ],
     "notes": "",
     "am_sys": null,
@@ -65,7 +67,8 @@
       "Itching",
       "Vision change",
       "Headache",
-      "GI upset"
+      "GI upset",
+      "Dark Urine"
     ],
     "notes": "Woke itching intensely groin, armpits, head & chest - Very dizzy - Stood almost fainting - high occipital & vagus nerve pain through chest - hot & clammy - called 111 who sent ambulance",
     "am_sys": 146,
@@ -90,7 +93,8 @@
     "effects": [
       "Vision change",
       "Headache",
-      "GI upset"
+      "GI upset",
+      "Dark Urine"
     ],
     "notes": "BP+PR confirmed by Ambulance Crew - Stabilised after Antihistamine + Nicotine - Cooled body - itching relived - Occipital + Vagus",
     "am_sys": 133,
@@ -115,9 +119,10 @@
     "effects": [
       "Vision change",
       "Headache",
-      "GI upset"
+      "GI upset",
+      "Dark Urine"
     ],
-    "notes": "a lot of wind",
+    "notes": "a lot of flatulence and dark urine", 
     "am_sys": 142,
     "am_dia": 109,
     "am_hr": 90,
