@@ -2,117 +2,128 @@
    Global layout & typography
    ========================================================= */
 body {
-  font-family: Montserrat, sans-serif;
-  background-color: #EEEEEE;
-  color: #003366;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 20px;
-  font-size: 0.9rem;
+    font-family: Montserrat, sans-serif;
+    background-color: #EEEEEE;
+    color: #003366;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    font-size: 0.9rem;
 }
 
 .content {
-  max-width: 900px;
-  width: 100%;
-  padding: 0;
+    max-width: 900px;
+    width: 100%;
+    padding: 0;
 }
 
 /* Headings */
 h1 {
-  color: #003366;
-  border-bottom: 1px solid #C9B694;
-  padding-bottom: 0.3em;
-  text-transform: uppercase;
-  font-size: 1.5rem;
-  font-weight: 600;
+    color: #003366;
+    border-bottom: 1px solid #C9B694;
+    padding-bottom: 0.3em;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 h2 {
-  color: #003366;
-  margin-top: 1.5em;
-  text-transform: uppercase;
-  font-size: 1rem;
-  border-bottom: 1px solid #C9B694;
-  padding-bottom: 0.3em;
-  font-weight: 700;
+    color: #003366;
+    margin-top: 1.5em;
+    text-transform: uppercase;
+    font-size: 1rem;
+    border-bottom: 1px solid #C9B694;
+    padding-bottom: 0.3em;
+    font-weight: 700;
 }
 
 h3 {
-  color: #003366;
-  margin-top: 1.2em;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  border-bottom: 1px solid #C9B694;
-  padding-bottom: 0.3em;
-  font-weight: 700;
+    color: #003366;
+    margin-top: 1.2em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #C9B694;
+    padding-bottom: 0.3em;
+    font-weight: 700;
+}
+h4 {
+    color: #003366;
+    margin-top: 1.2em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    padding-bottom: 0.3em;
+    font-weight: 700;
+}
+/* Utilities & common elements */
+.section {
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
-/* Utilities & common elements */
-.section { 
-  margin-top: 2em;
-  margin-bottom: 2em;
- }
-
 .note {
-  background-color: rgba(4, 87, 255, 0.04);
-  border-left: 1px solid #C9B694;
-  padding: 10px;
-  margin-top: 20px;
+    background-color: rgba(4, 87, 255, 0.04);
+    border-left: 1px solid #C9B694;
+    padding: 10px;
+    margin-top: 20px;
 }
 
 .card-like {
-  border-left: 3px solid #C9B694;
-  background: rgba(255, 255, 255, 0.46);
-  padding: 16px;
-  margin-bottom: 16px;
+    border-left: 3px solid #C9B694;
+    background: rgba(255, 255, 255, 0.46);
+    padding: 16px;
+    margin-bottom: 16px;
 }
 
-ul { margin-left: 1.5em; }
+ul {
+    margin-left: 1.5em;
+}
 
-figure { margin: 0; }
+figure {
+    margin: 0;
+}
 
 figcaption,
 .meta {
-  font-size: 0.85rem;
-  color: #003366;
-  opacity: 0.9;
+    font-size: 0.85rem;
+    color: #003366;
+    opacity: 0.9;
 }
 
 footer {
-  margin-top: 2em;
-  font-size: 0.85rem;
-  color: #003366;
-  opacity: 0.85;
-  text-align: left;
+    margin-top: 2em;
+    font-size: 0.85rem;
+    color: #003366;
+    opacity: 0.85;
+    text-align: left;
 }
 
 a {
-  color: #003366;
-  font-weight: 600;
-  text-decoration: none;
+    color: #003366;
+    font-weight: 600;
+    text-decoration: underline;
 }
 
 /* =========================================================
    Breadcrumbs
    ========================================================= */
 .breadcrumb {
-  background: transparent;
-  padding: 0;
-  margin-bottom: 1rem;
+    background: transparent;
+    padding: 0;
+    margin-bottom: 1rem;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
-  content: ">";
-  color: #C9B694;
-  padding: 0 0.3rem;
+.breadcrumb-item+.breadcrumb-item::before {
+    content: ">";
+    color: #C9B694;
+    padding: 0 0.3rem;
 }
 
 .breadcrumb-item.active {
-  color: #C9B694;
-  font-weight: 600;
+    color: #C9B694;
+    font-weight: 600;
 }
 
 /* =========================================================
@@ -123,131 +134,358 @@ a {
      </div>
    ========================================================= */
 .table-wrap {
-  max-width: 100%;
-  overflow-x: auto;                 /* prevents page overspill */
-  -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    overflow-x: auto;
+    /* prevents page overspill */
+    -webkit-overflow-scrolling: touch;
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
-  border-left: 3px solid #C9B694;    /* gold accent bar */
+    width: 100%;
+    border-collapse: collapse;
+    border-left: 3px solid #C9B694;
+    /* gold accent bar */
 }
 
-th, td {
-  padding: 0.75rem;
-  border: 1px solid #C9B694;
-  text-align: left;
-  vertical-align: top;
-  color: #003366;
-  white-space: normal;
-  overflow-wrap: anywhere;           /* wraps long medical terms/URLs */
-  word-break: normal;
-  hyphens: auto;
+th,
+td {
+    padding: 0.75rem;
+    border: 1px solid #C9B694;
+    text-align: left;
+    vertical-align: top;
+    color: #003366;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    /* wraps long medical terms/URLs */
+    word-break: normal;
+    hyphens: auto;
 }
 
 thead th {
-  text-transform: uppercase;
-  font-weight: 700;
+    text-transform: uppercase;
+    font-weight: 700;
 }
 
-tbody tr:nth-child(even) {
-}
+tbody tr:nth-child(even) {}
 
 /* ===== Appointments table: Date | Appointment | Location ===== */
-#appointments table { table-layout: auto; }
+#appointments table {
+    table-layout: auto;
+}
 
 #appointments th:nth-child(1),
 #appointments td:nth-child(1) {
-  width: 12ch;               /* compact dates */
-  white-space: nowrap;       /* keep dates on one line when space allows */
+    width: 12ch;
+    /* compact dates */
+    white-space: nowrap;
+    /* keep dates on one line when space allows */
 }
 
 #appointments th:nth-child(2),
 #appointments td:nth-child(2) {
-  width: auto;               /* main description flexes and wraps */
+    width: auto;
+    /* main description flexes and wraps */
 }
 
 #appointments th:nth-child(3),
 #appointments td:nth-child(3) {
-  max-width: 24ch;           /* keeps location tidy without blowing out */
+    max-width: 24ch;
+    /* keeps location tidy without blowing out */
 }
 
 @media (max-width: 600px) {
-  #appointments th:nth-child(1),
-  #appointments td:nth-child(1) {
-    white-space: normal;     /* let dates wrap on small screens */
-  }
+
+    #appointments th:nth-child(1),
+    #appointments td:nth-child(1) {
+        white-space: normal;
+        /* let dates wrap on small screens */
+    }
 }
+
 /* ===== Symptom Overview: Category | Description | Functional Impact ===== */
-#symptoms table { table-layout: fixed; }  /* fixed layout yields even, readable columns */
+#symptoms table {
+    table-layout: fixed;
+}
+
+/* fixed layout yields even, readable columns */
 
 #symptoms th:nth-child(1),
 #symptoms td:nth-child(1) {
-  width: 20%;                /* compact Category label column */
+    width: 20%;
+    /* compact Category label column */
 }
 
 #symptoms th:nth-child(2),
 #symptoms td:nth-child(2) {
-  width: 40%;                /* balanced long paragraph column */
+    width: 40%;
+    /* balanced long paragraph column */
 }
 
 #symptoms th:nth-child(3),
 #symptoms td:nth-child(3) {
-  width: 44%;                /* balanced long paragraph column */
+    width: 44%;
+    /* balanced long paragraph column */
 }
 
 @media (max-width: 600px) {
-  #symptoms th:nth-child(1),
-  #symptoms td:nth-child(1) {
-    white-space: normal;     /* allow Category to wrap on phones */
-  }
+
+    #symptoms th:nth-child(1),
+    #symptoms td:nth-child(1) {
+        white-space: normal;
+        /* allow Category to wrap on phones */
+    }
 }
-  /* --- CUSTOM COLOR OVERRIDES (#C9B694) --- */
-  .btn-primary {
+/* Recent Events table overrides */
+#recent-events table { table-layout: auto; width: 100%; }
+
+#recent-events th {
+  width: 12ch;                /* compact date column */
+  white-space: nowrap;        /* keep the date on one line */
+  overflow-wrap: normal;      /* cancel the global 'anywhere' */
+  word-break: keep-all;       /* avoid breaking inside words */
+  vertical-align: top;
+}
+
+#recent-events td {
+  overflow-wrap: anywhere;    /* allow long text to wrap nicely */
+  word-break: normal;
+  white-space: normal;
+}
+
+@media (max-width: 600px) {
+  /* let dates wrap if they truly must on small screens */
+  #recent-events th { white-space: normal; }
+}
+
+/* --- CUSTOM COLOR OVERRIDES (#C9B694) --- */
+.btn-primary {
     background-color: #C9B694 !important;
     border-color: #C9B694 !important;
     color: #003366 !important;
-  }
-  .btn-primary:hover,
-  .btn-primary:focus,
-  .btn-primary:active {
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
     background-color: #bda981 !important;
     border-color: #bda981 !important;
     color: #003366 !important;
-  }
+}
 
-  .btn-outline-primary {
+.btn-outline-primary {
     color: #C9B694 !important;
     border-color: #C9B694 !important;
-  }
-  .btn-outline-primary:hover,
-  .btn-outline-primary:focus {
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
     background-color: #C9B694 !important;
     color: #003366 !important;
+}
+
+.form-check-input:checked {
+    background-color: #C9B694 !important;
+    border-color: #C9B694 !important;
+}
+
+.form-range::-webkit-slider-thumb {
+    background: #C9B694;
+}
+
+.form-range::-moz-range-thumb {
+    background: #C9B694;
+}
+
+.form-range::-ms-thumb {
+    background: #C9B694;
+}
+
+.form-range::-webkit-slider-runnable-track {
+    background: #ddd;
+}
+
+.form-range:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 0.25rem rgba(201, 182, 148, 0.4);
+}
+
+.btn-check:checked+.btn-outline-primary {
+    background-color: #C9B694 !important;
+    border-color: #C9B694 !important;
+    color: #003366 !important;
+}
+
+/* ===============================
+   Carbamazepine Tracker – Entries Table (scoped to #entries, no border-radius)
+   =============================== */
+
+/* ===== DESKTOP & TABLET ===== */
+
+/* Keep headers single-line and clean */
+#entries .entries-table {
+  min-width: 1200px;           /* prevents column squeeze on desktop */
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #C9B694;
+}
+
+#entries .entries-table thead th {
+  white-space: nowrap !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  letter-spacing: .02em;
+  text-transform: none;
+  color: #003366;
+  padding: .55rem .6rem;
+  border: 1px solid #C9B694;
+  text-align: left;
+}
+
+#entries .entries-table td {
+  border: 1px solid #C9B694;
+  padding: .55rem .6rem;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Align numeric cells */
+#entries .entries-table td.num,
+#entries .entries-table th.num {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Allow wrapping for Effects and Notes */
+#entries .entries-table td[data-label="Effects"],
+#entries .entries-table td.notes {
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Notes column wrapping */
+#entries .entries-table td.notes {
+  max-width: 32ch;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+/* Actions column: buttons stay inline */
+#entries .entries-table th.actions-col {
+  min-width: 160px;
+  white-space: nowrap;
+}
+
+#entries .entries-table td.actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+#entries .entries-table td.actions .btn {
+  display: inline-block;
+  margin-left: .35rem;
+  padding: .2rem .5rem;
+  font-size: .78rem;
+  border-radius: 0;
+}
+
+/* Pills (badges) */
+#entries .badge-soft {
+  display: inline-block;
+  padding: .15rem .45rem;
+  border: 1px solid #C9B694;
+  border-radius: 0;
+  background: #fbf7ee;
+  color: #003366;
+  font-size: .78rem;
+  line-height: 1.1;
+  margin-right: .25rem;
+  margin-bottom: .2rem;
+  white-space: nowrap;
+}
+
+/* ===== MOBILE (≤575.98px) ===== */
+
+@media (max-width: 575.98px) {
+  #entries .entries-table {
+    min-width: unset;
+    width: 100%;
+    border: none;
   }
 
-  .form-check-input:checked {
-    background-color: #C9B694 !important;
-    border-color: #C9B694 !important;
+  /* Hide header; use card-style layout */
+  #entries .entries-table thead {
+    display: none;
   }
-  .form-range::-webkit-slider-thumb {
-    background: #C9B694;
+
+  #entries .entries-table,
+  #entries .entries-table tbody,
+  #entries .entries-table tr,
+  #entries .entries-table td {
+    display: block;
+    width: 100%;
   }
-  .form-range::-moz-range-thumb {
-    background: #C9B694;
+
+  #entries .entries-table tr {
+    border: 1px solid #C9B694;
+    margin: .65rem 0;
+    padding: 0;
   }
-  .form-range::-ms-thumb {
-    background: #C9B694;
+
+  #entries .entries-table td {
+    position: relative;
+    padding: .65rem .75rem .65rem 7.5rem;
+    border: 0;
+    border-bottom: 1px solid rgba(201,182,148,0.55);
+    line-height: 1.25;
+    white-space: normal;
   }
-  .form-range::-webkit-slider-runnable-track {
-    background: #ddd;
+
+  #entries .entries-table td:last-child {
+    border-bottom: 0;
   }
-  .form-range:focus::-webkit-slider-thumb {
-    box-shadow: 0 0 0 0.25rem rgba(201,182,148,0.4);
+
+  #entries .entries-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: .75rem;
+    top: .65rem;
+    width: 6.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #003366;
+    line-height: 1.25;
+    white-space: normal;
   }
-  .btn-check:checked + .btn-outline-primary {
-    background-color: #C9B694 !important;
-    border-color: #C9B694 !important;
-    color: #003366 !important;
+
+  /* Left-align numbers for mobile readability */
+  #entries .entries-table td.num {
+    text-align: left;
+    white-space: normal;
   }
+
+  /* Empty Notes show subtle placeholder */
+  #entries .entries-table td.notes:empty::after {
+    content: "—";
+    opacity: .6;
+  }
+
+  /* Pills spacing */
+  #entries .entries-table td[data-label="Effects"] .badge-soft {
+    margin-right: .35rem;
+    margin-bottom: .35rem;
+    border-radius: 0;
+  }
+
+  /* Actions: inline and right-aligned */
+  #entries .entries-table td.actions {
+    text-align: right;
+    padding-left: 7.5rem;
+  }
+
+  #entries .entries-table td.actions .btn {
+    display: inline-block;
+    margin-left: .4rem;
+    margin-top: .2rem;
+    border-radius: 0;
+  }
+}
