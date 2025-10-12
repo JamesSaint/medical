@@ -35,7 +35,7 @@
     "dizziness": 6,
     "nausea": 5,
     "brainfog": 6,
-    "sleep": 0,
+    "sleep": 7,
     "appetite": "Low",
     "effects": [
       "Itching",
@@ -48,5 +48,31 @@
     "pm_sys": 120,
     "pm_dia": 86,
     "pm_hr": 76
+  },
+  {
+    "id": "e5c23656-6784-4186-b203-81a23eb0c1a5-1244dda8-d6e1-496b-bce2-b0e422c63d3e",
+    "date": "2025-10-12",
+    "time": "02:10",
+    "dose": 100,
+    "pain": 8,
+    "sedation": 8,
+    "dizziness": 9,
+    "nausea": 7,
+    "brainfog": 8,
+    "sleep": 2,
+    "appetite": "Low",
+    "effects": [
+      "Itching",
+      "Vision change",
+      "Headache",
+      "GI upset"
+    ],
+    "notes": "Woke itching intensely groin, armpits, head & chest - Very dizzy - Stood almost fainting - high occipital & vagus nerve pain through chest - hot & clammy - called 111 who sent ambulance",
+    "am_sys": 146,
+    "am_dia": 86,
+    "am_hr": 111,
+    "pm_sys": null,
+    "pm_dia": null,
+    "pm_hr": null
   }
 ]
