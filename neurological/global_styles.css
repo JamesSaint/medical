@@ -228,6 +228,27 @@ tbody tr:nth-child(even) {}
         /* allow Category to wrap on phones */
     }
 }
+/* Recent Events table overrides */
+#recent-events table { table-layout: auto; width: 100%; }
+
+#recent-events th {
+  width: 12ch;                /* compact date column */
+  white-space: nowrap;        /* keep the date on one line */
+  overflow-wrap: normal;      /* cancel the global 'anywhere' */
+  word-break: keep-all;       /* avoid breaking inside words */
+  vertical-align: top;
+}
+
+#recent-events td {
+  overflow-wrap: anywhere;    /* allow long text to wrap nicely */
+  word-break: normal;
+  white-space: normal;
+}
+
+@media (max-width: 600px) {
+  /* let dates wrap if they truly must on small screens */
+  #recent-events th { white-space: normal; }
+}
 
 /* --- CUSTOM COLOR OVERRIDES (#C9B694) --- */
 .btn-primary {
