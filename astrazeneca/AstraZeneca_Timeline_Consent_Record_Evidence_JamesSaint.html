@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-      <meta name="robots" content="noindex, nofollow">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Oxford–AstraZeneca (Vaxzevria) — Timeline, Informed-Consent Context, Individual Record, and Evidence (James Saint)</title>
   <meta name="description" content="Source-linked AstraZeneca timeline, informed-consent context for a 1977-born adult, James Saint’s vaccination entries, and supporting GP-record evidence with legal framing and file index." />
 
@@ -13,18 +13,41 @@
   <meta property="og:type" content="article" />
   <meta property="og:image" content="https://jamessaint.github.io/images/seed-of-life-gold-default.png" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="AstraZeneca — Timeline, Consent, Record, and Evidence" />
-  <meta name="twitter:description" content="Source-linked history, consent context, personal record, and scanned GP evidence for legal review." />
-  <meta name="twitter:image" content="https://jamessaint.github.io/images/seed-of-life-gold-default.png" />
-
-  <!-- Bootstrap + Montserrat -->
+  <!-- Bootstrap + Fonts -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<link href="global_styles.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="global_styles.css" rel="stylesheet" />
+
+  <style>
+    :root{ --ink:#003366; --gold:#C9B694; --paper:#F7F7F7; --table-bg:#ffffff; --muted:#5c7899; }
+    /* Images */
+    figure{ margin:22px auto; }
+    .fig-wrap{ display:block; text-align:center; }
+    .evidence-img{ display:block; margin:0 auto; max-width:100%; height:auto; border-radius:10px; box-shadow:0 2px 18px rgba(0,0,0,.12); border:1px solid rgba(0,0,0,.06); }
+    figcaption{ text-align:center; margin-top:.5rem; font-size:.9rem; color:var(--muted); }
+
+    /* Tables */
+    .table-wrap{ overflow-x:auto; }
+    .az-table{ width:100%; border-collapse:separate; border-spacing:0; background:var(--table-bg); border:1px solid rgba(0,0,0,.08); border-radius:12px; overflow:hidden; box-shadow:0 1px 10px rgba(0,0,0,.05); }
+    .az-table th,.az-table td{ padding:12px 14px; vertical-align:middle; border-bottom:1px solid rgba(0,0,0,.06); }
+    .az-table thead th{ background:#0e2a4b; color:#fff; letter-spacing:.06em; font-weight:700; font-size:.82rem; text-transform:uppercase; white-space:nowrap; }
+    .az-table tbody tr:nth-child(odd){ background:#fbfbfb; }
+    .az-table tbody tr:hover{ background:#f4f7fb; }
+    .az-table td strong{ letter-spacing:.02em; }
+    .col-date{ width:165px; white-space:nowrap; }
+    .col-batch{ width:110px; white-space:nowrap; }
+    .col-exhibit{ width:80px; white-space:nowrap; text-align:center; }
+
+    /* Callout */
+    .callout{ border:1px dashed var(--gold); background:#fffdfa; padding:14px; margin-top:12px; border-radius:10px; }
+    footer{ margin-top:28px; font-size:.9rem; color:var(--muted); }
+    .filename{ font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace; font-size:.92rem; }
+    blockquote.small{ font-size:.95rem; margin:.5rem 0 0 0; border-left:3px solid var(--gold); padding:.4rem .8rem; background:rgba(201,182,148,.08); color:var(--ink); }
+
+    @media (max-width:640px){ h1{ font-size:1.25rem; } body{ padding:16px; } .col-date,.col-batch,.col-exhibit{ width:auto; white-space:normal; } .az-table th,.az-table td{ padding:10px 12px; } }
+  </style>
 </head>
 <body>
 <main class="content container">
@@ -34,18 +57,21 @@
   <p class="meta">Timeline, informed-consent context for a person born September 1977, individual vaccination record, and scanned GP-record evidence for legal review.</p>
 </header>
 
-<!-- DOWNLOADS PANEL -->
+<!-- DOWNLOADS -->
 <section class="section card-like downloads">
   <h2>Downloads</h2>
-  <p>Presentation-ready, lightly cleaned PNGs (with neutral footer watermark) and a ZIP bundle with README:</p>
+  <p>Presentation-ready, lightly cleaned PNGs (with neutral footer watermark) + a ZIP bundle with README (hashes):</p>
   <p>
-    <a class="btn btn-success btn-sm" href="images/AstraZeneca_Evidence_Images_JamesSaint.zip">Download ZIP — AstraZeneca_Evidence_Images_JamesSaint.zip</a>
-    <a class="btn btn-outline-primary btn-sm" href="images/2021-03-31_Home_Visit_SMS.png">2021-03-31_Home_Visit_SMS.png</a>
-    <a class="btn btn-outline-primary btn-sm" href="images/2021-04-01_First_Dose_Record.png">2021-04-01_First_Dose_Record.png</a>
-    <a class="btn btn-outline-primary btn-sm" href="images/2021-06-22_Second_Dose_Record.png">2021-06-22_Second_Dose_Record.png</a>
+    <a class="btn btn-success btn-sm" href="./evidence/AstraZeneca_Evidence_Images_JamesSaint_v2.zip">Download ZIP — AstraZeneca_Evidence_Images_JamesSaint_v2.zip</a>
+    <a class="btn btn-outline-primary btn-sm" href="./evidence/2021-03-31_Home_Visit_SMS.png">2021-03-31_Home_Visit_SMS.png</a>
+    <a class="btn btn-outline-primary btn-sm" href="./evidence/2021-04-01_First_Dose_Record.png">2021-04-01_First_Dose_Record.png</a>
+    <a class="btn btn-outline-primary btn-sm" href="./evidence/2021-06-22_Second_Dose_Record.png">2021-06-22_Second_Dose_Record.png</a>
+    <a class="btn btn-outline-primary btn-sm" href="./evidence/2021-12-21_Severe_Reaction_Note.png">2021-12-21_Severe_Reaction_Note.png</a>
+    <a class="btn btn-outline-primary btn-sm" href="./evidence/2022-09-07_Telephone_Consultation_Anxiety_Vaccine_Link.png">2022-09-07_Telephone_Consultation_Anxiety_Vaccine_Link.png</a>
+    <a class="btn btn-outline-primary btn-sm" href="./evidence/2024-06-07_Followup_COVID_Vaccine_Trust_Breakdown.png">2024-06-07_Followup_COVID_Vaccine_Trust_Breakdown.png</a>
   </p>
   <div class="note">
-    Provenance watermark on each image: <em>“Source: GP record provided to patient – April 2025”</em>. A <span class="images/README.txt">README.txt</span> inside the ZIP lists SHA-256 hashes for evidential integrity.
+    Provenance watermark: <em>“Source: GP record provided to patient – April 2025”</em>. The ZIP includes <span class="filename">README.txt</span> with SHA-256 hashes for evidential integrity.
   </div>
 </section>
 
@@ -76,21 +102,23 @@
 
 <section class="section card-like">
   <h2>Dated Timeline with Sources</h2>
-  <table>
-    <thead><tr><th>Date</th><th>Event</th><th>Source</th></tr></thead>
-    <tbody>
-      <tr><td>Feb–Apr 2020</td><td>Design and early trials</td><td><a href="https://www.ox.ac.uk/news/2020-04-30-oxford-university-announces-landmark-partnership-astrazeneca-development-and" target="_blank">Oxford</a></td></tr>
-      <tr><td>30 Dec 2020</td><td>MHRA authorises vaccine in UK</td><td><a href="https://www.gov.uk/government/news/oxford-universityastrazeneca-vaccine-authorised-by-uk-medicines-regulator" target="_blank">DHSC</a></td></tr>
-      <tr><td>7 Apr 2021</td><td>EMA identifies possible link to rare clotting with low platelets</td><td><a href="https://www.ema.europa.eu/en/news/astrazenecas-covid-19-vaccine-ema-finds-possible-link-very-rare-cases-unusual-blood-clots-low-blood-platelets" target="_blank">EMA</a></td></tr>
-      <tr><td>7 May 2021</td><td>JCVI recommends alternatives for 30–39 when available</td><td><a href="https://www.gov.uk/government/news/jcvi-advises-on-covid-19-vaccine-for-people-aged-under-40" target="_blank">JCVI</a></td></tr>
-      <tr><td>27 Mar 2024</td><td>EU withdrawal of marketing authorisation</td><td><a href="https://www.ema.europa.eu/en/medicines/human/EPAR/vaxzevria" target="_blank">EMA EPAR</a></td></tr>
-      <tr><td>May 2024</td><td>Global discontinuation reported</td><td><a href="https://apnews.com/article/a3c108dd0ca305cf1b6da764e9a37abc" target="_blank">AP</a></td></tr>
-    </tbody>
-  </table>
+  <div class="table-wrap">
+    <table class="az-table">
+      <thead><tr><th class="col-date">Date</th><th>Event</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td class="col-date">Feb–Apr 2020</td><td>Design and early trials</td><td><a href="https://www.ox.ac.uk/news/2020-04-30-oxford-university-announces-landmark-partnership-astrazeneca-development-and" target="_blank">Oxford</a></td></tr>
+        <tr><td class="col-date">30 Dec 2020</td><td>MHRA authorises vaccine in UK</td><td><a href="https://www.gov.uk/government/news/oxford-universityastrazeneca-vaccine-authorised-by-uk-medicines-regulator" target="_blank">DHSC</a></td></tr>
+        <tr><td class="col-date">7 Apr 2021</td><td>EMA identifies possible link to rare clotting with low platelets</td><td><a href="https://www.ema.europa.eu/en/news/astrazenecas-covid-19-vaccine-ema-finds-possible-link-very-rare-cases-unusual-blood-clots-low-blood-platelets" target="_blank">EMA</a></td></tr>
+        <tr><td class="col-date">7 May 2021</td><td>JCVI recommends alternatives for 30–39 when available</td><td><a href="https://www.gov.uk/government/news/jcvi-advises-on-covid-19-vaccine-for-people-aged-under-40" target="_blank">JCVI</a></td></tr>
+        <tr><td class="col-date">27 Mar 2024</td><td>EU withdrawal of marketing authorisation</td><td><a href="https://www.ema.europa.eu/en/medicines/human/EPAR/vaxzevria" target="_blank">EMA EPAR</a></td></tr>
+        <tr><td class="col-date">May 2024</td><td>Global discontinuation reported</td><td><a href="https://apnews.com/article/a3c108dd0ca305cf1b6da764e9a37abc" target="_blank">AP</a></td></tr>
+      </tbody>
+    </table>
+  </div>
 </section>
 
 <section class="section card-like">
-  <h2>Informed-Consent Context -1977 Birth Year</h2>
+  <h2>Informed-Consent Context — 1977 Birth Year</h2>
   <ul>
     <li><strong>7 Apr 2021:</strong> EMA lists thrombosis with thrombocytopenia as a very rare side effect and updates product information
       <a href="https://www.ema.europa.eu/en/news/astrazenecas-covid-19-vaccine-ema-finds-possible-link-very-rare-cases-unusual-blood-clots-low-blood-platelets" target="_blank" rel="noopener">EMA PRAC</a>.
@@ -109,31 +137,41 @@
 
 <section id="record" class="section card-like">
   <h2>Individual Vaccination Record (from GP Notes)</h2>
-  <table>
-    <thead>
-      <tr><th>Date (recorded)</th><th>Dose</th><th>Product</th><th>Batch</th><th>Route / Site</th><th>Recorded Location</th><th>Entered by</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>01 Apr 2021 15:33</td>
-        <td>First dose</td>
-        <td>COVID-19 Vaccine Vaxzevria (ChAdOx1-S) 0.5 ml</td>
-        <td>Batch No: <strong>PW40008</strong></td>
-        <td>Intramuscular, Left deltoid</td>
-        <td>Not stated in extract</td>
-        <td>ANSCOMBE, Sonya (Mrs)</td>
-      </tr>
-      <tr>
-        <td>22 Jun 2021 16:49</td>
-        <td>Second dose</td>
-        <td>COVID-19 Vaccine Vaxzevria (ChAdOx1-S) 0.5 ml</td>
-        <td>Batch No: <strong>PV46690</strong></td>
-        <td>Intramuscular, Left deltoid</td>
-        <td>N9J0U — Emsworth Baptist Church</td>
-        <td>ANSCOMBE, Sonya (Mrs)</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-wrap">
+    <table class="az-table">
+      <thead>
+        <tr>
+          <th class="col-date">Date (recorded)</th>
+          <th>Dose</th>
+          <th>Product</th>
+          <th class="col-batch">Batch</th>
+          <th>Route / Site</th>
+          <th>Recorded Location</th>
+          <th>Entered by</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-date">01 Apr 2021 15:33</td>
+          <td>First dose</td>
+          <td>COVID-19 Vaccine Vaxzevria (ChAdOx1-S) 0.5 ml</td>
+          <td class="col-batch"><strong>PW40008</strong></td>
+          <td>Intramuscular, Left deltoid</td>
+          <td>Not stated in extract</td>
+          <td>ANSCOMBE, Sonya (Mrs)</td>
+        </tr>
+        <tr>
+          <td class="col-date">22 Jun 2021 16:49</td>
+          <td>Second dose</td>
+          <td>COVID-19 Vaccine Vaxzevria (ChAdOx1-S) 0.5 ml</td>
+          <td class="col-batch"><strong>PV46690</strong></td>
+          <td>Intramuscular, Left deltoid</td>
+          <td>N9J0U — Emsworth Baptist Church</td>
+          <td>ANSCOMBE, Sonya (Mrs)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <div class="note">
     <strong>Patient statement:</strong> both doses were administered at home by two nurses from Emsworth Medical Practice due to severe PTSD and agoraphobia documented in contemporaneous records. The second-dose entry lists the Baptist Church site code; this conflicts with the patient’s recollection of home administration.
@@ -143,93 +181,95 @@
 <section id="evidence" class="section card-like">
   <h2>Scanned GP-Record Evidence</h2>
 
-  <p>Below are the legally framed exhibits. Each figure caption identifies the file and a brief excerpt to aid rapid review. Original GP-supplied files should be preserved unchanged; the PNGs here are presentation copies.</p>
+  <p>Original GP-supplied files should be preserved unchanged. The PNGs below are presentation copies (cleaned/cropped) and include a neutral footer watermark. The ZIP’s <span class="filename">README.txt</span> lists hashes for integrity.</p>
 
-  <figure class="mb-3">
-    <img src="images/GP_SMS_Home_Visit_2021-03-31.png" class="img-fluid" alt="31-Mar-2021 SMS note offering home visit for 1 Apr vaccine" />
-    <figcaption>
-      <strong>Figure 1.</strong> <span class="filename">2021-03-31_Home_Visit_SMS.png</span> — 31-Mar-2021, 14:46. Practice SMS arranging a <em>home visit</em> for 1 Apr.
+  <!-- Figures 1–6 -->
+  <figure>
+    <span class="fig-wrap"><img class="evidence-img" src="./evidence/2021-03-31_Home_Visit_SMS.png" alt="31-Mar-2021 SMS note offering home visit for 1 Apr vaccine"></span>
+    <figcaption><strong>Figure 1.</strong> <span class="filename">2021-03-31_Home_Visit_SMS.png</span> — 31-Mar-2021, 14:46. Practice SMS arranging a <em>home visit</em> for 1 Apr.
       <blockquote class="small">Excerpt: “We will call at your house for your vaccine tomorrow (1 April).”</blockquote>
     </figcaption>
   </figure>
 
-  <figure class="mb-3 mt-3">
-    <img src="images/GP_First_Dose_Entry_2021-04-01.png" class="img-fluid" alt="01-Apr-2021 first dose record with batch PW40008, IM left deltoid" />
-    <figcaption>
-      <strong>Figure 2.</strong> <span class="">2021-04-01_First_Dose_Record.png</span> — 01-Apr-2021 first-dose entry.
+  <figure>
+    <span class="fig-wrap"><img class="evidence-img" src="./evidence/2021-04-01_First_Dose_Record.png" alt="01-Apr-2021 first dose record with batch PW40008, IM left deltoid"></span>
+    <figcaption><strong>Figure 2.</strong> <span class="filename">2021-04-01_First_Dose_Record.png</span> — 01-Apr-2021 first-dose entry.
       <blockquote class="small">Excerpt: “COVID-19 Vaccine Vaxzevria (ChAdOx1-S) 0.5 ml — Batch PW40008 — IM — Left deltoid.”</blockquote>
     </figcaption>
   </figure>
 
-  <figure class="mb-3 mt-3">
-    <img src="images/GP_Second_Dose_Entry_2021-06-22.png" class="img-fluid" alt="22-Jun-2021 second dose record with batch PV46690 and location N9J0U Emsworth Baptist Church" />
-    <figcaption>
-      <strong>Figure 3.</strong> <span class="filename">2021-06-22_Second_Dose_Record.png</span> — 22-Jun-2021 second-dose entry.
+  <figure>
+    <span class="fig-wrap"><img class="evidence-img" src="./evidence/2021-06-22_Second_Dose_Record.png" alt="22-Jun-2021 second dose record with batch PV46690 and location N9J0U Emsworth Baptist Church"></span>
+    <figcaption><strong>Figure 3.</strong> <span class="filename">2021-06-22_Second_Dose_Record.png</span> — 22-Jun-2021 second-dose entry.
       <blockquote class="small">Excerpt: “Batch PV46690 — Site: N9J0U (Emsworth Baptist Church) — IM — Left deltoid.”</blockquote>
     </figcaption>
   </figure>
 
-  <h2 class="mt-4">Evidence File Index</h2>
-  <table>
-    <thead>
-      <tr><th>Exhibit</th><th>Filename</th><th>Date</th><th>Content summary</th><th>Key excerpt</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Fig. 1</td>
-        <td class="filename">2021-03-31_Home_Visit_SMS.png</td>
-        <td>31-Mar-2021</td>
-        <td>Practice SMS arranging <em>home visit</em> for 1 Apr vaccination</td>
-        <td>“We will call at your house for your vaccine tomorrow (1 April).”</td>
-      </tr>
-      <tr>
-        <td>Fig. 2</td>
-        <td class="filenames">2021-04-01_First_Dose_Record.png</td>
-        <td>01-Apr-2021</td>
-        <td>First dose entry; product, batch and route recorded</td>
-        <td>“Vaxzevria (ChAdOx1-S) 0.5 ml — Batch PW40008 — IM — Left deltoid.”</td>
-      </tr>
-      <tr>
-        <td>Fig. 3</td>
-        <td class="filename">2021-06-22_Second_Dose_Record.png</td>
-        <td>22-Jun-2021</td>
-        <td>Second dose entry with mass-site code recorded</td>
-        <td>“Batch PV46690 — Site: N9J0U (Emsworth Baptist Church).”</td>
-      </tr>
-    </tbody>
-  </table>
+  <figure>
+    <span class="fig-wrap"><img class="evidence-img" src="./evidence/2021-12-21_Severe_Reaction_Note.png" alt="21-Dec-2021 administration note: severe reaction to 2nd COVID injection with nerve pain; holding off booster"></span>
+    <figcaption><strong>Figure 4.</strong> <span class="filename">2021-12-21_Severe_Reaction_Note.png</span> — 21-Dec-2021, 08:49. Administration note.
+      <blockquote class="small">Excerpt: “severe reaction to 2nd covid inj with nerve pain… Holding off for vaccination for now.”</blockquote>
+    </figcaption>
+  </figure>
 
-  <!-- New: Patient Statement & Discrepancy Analysis -->
-  <h2 class="mt-4">Patient Statement & Discrepancy Analysis</h2>
-  <div class="callout">
-    <p><strong>Patient Statement (James Saint):</strong> “Both COVID-19 vaccine doses were administered at my home by two nurses from Emsworth Medical Practice. I was house-bound at the time with severe PTSD and agoraphobia. I did not feel I was given informed consent or appropriate care for a house-bound patient. The visit felt rushed and impersonal.”</p>
-    <p><strong>Documented Records:</strong></p>
-    <ul>
-      <li><em>Fig. 1 (31-Mar-2021 SMS)</em> indicates a planned <strong>home visit</strong> for vaccination on 1 April.</li>
-      <li><em>Fig. 2 (01-Apr-2021 entry)</em> records first-dose administration details (product, batch, site=left deltoid) but <strong>no location</strong> is specified in the extract.</li>
-      <li><em>Fig. 3 (22-Jun-2021 entry)</em> records second dose with site code <strong>N9J0U — Emsworth Baptist Church</strong>, which <strong>conflicts</strong> with the patient’s account of a home administration.</li>
-    </ul>
-    <p><strong>Analysis:</strong> The record set contains an internal inconsistency regarding administration location across the two doses. The contemporaneous SMS supports home attendance on 1 April; the second-dose entry lists a mass-site code. This discrepancy should be addressed via audit logs (e.g., NIVS/Pinnacle event data, site-code mapping) and, if appropriate, corrected or annotated with a patient statement.</p>
-    <p class="mb-0"><strong>Note:</strong> The statements above reflect the patient’s account. Determinations about consent adequacy and documentation accuracy should be made by reviewing clinicians and/or the practice after examining the complete record and audit trail.</p>
+  <figure>
+    <span class="fig-wrap"><img class="evidence-img" src="./evidence/2022-09-07_Telephone_Consultation_Anxiety_Vaccine_Link.png" alt="07-Sep-2022 telephone consultation text: distress; thinks had issues with AZ; agoraphobia"></span>
+    <figcaption><strong>Figure 5.</strong> <span class="filename">2022-09-07_Telephone_Consultation_Anxiety_Vaccine_Link.png</span> — 07-Sep-2022. Telephone consultation referencing concerns about AZ and severe distress/agoraphobia.
+      <blockquote class="small">Excerpt: “…thinks he had issues with AZ… Mental health in state of ruin… agoraphobia.”</blockquote>
+    </figcaption>
+  </figure>
+
+  <figure>
+    <span class="fig-wrap"><img class="evidence-img" src="./evidence/2024-06-07_Followup_COVID_Vaccine_Trust_Breakdown.png" alt="07-Jun-2024 follow-up: believes symptoms due to COVID vaccination; breakdown in trust; intent to raise concerns"></span>
+    <figcaption><strong>Figure 6.</strong> <span class="filename">2024-06-07_Followup_COVID_Vaccine_Trust_Breakdown.png</span> — 07-Jun-2024. Follow-up referencing belief symptoms due to COVID vaccination and breakdown in trust.
+      <blockquote class="small">Excerpt: “…thought his symptoms were due to COVID vaccination… Breakdown in trust with me… wants his letter on file.”</blockquote>
+    </figcaption>
+  </figure>
+
+  <h2 class="mt-4">Evidence File Index</h2>
+  <div class="table-wrap">
+    <table class="az-table">
+      <thead>
+        <tr>
+          <th class="col-exhibit">Exhibit</th>
+          <th>Filename</th>
+          <th class="col-date">Date</th>
+          <th>Content summary</th>
+          <th>Key excerpt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="col-exhibit">Fig. 1</td><td class="filename"><a href="./evidence/2021-03-31_Home_Visit_SMS.png">2021-03-31_Home_Visit_SMS.png</a></td><td class="col-date">31-Mar-2021</td><td>Practice SMS arranging <em>home visit</em> for 1 Apr vaccination</td><td>“We will call at your house for your vaccine tomorrow (1 April).”</td></tr>
+        <tr><td class="col-exhibit">Fig. 2</td><td class="filename"><a href="./evidence/2021-04-01_First_Dose_Record.png">2021-04-01_First_Dose_Record.png</a></td><td class="col-date">01-Apr-2021</td><td>First dose entry; product, batch and route recorded</td><td>“Vaxzevria (ChAdOx1-S) 0.5 ml — Batch PW40008 — IM — Left deltoid.”</td></tr>
+        <tr><td class="col-exhibit">Fig. 3</td><td class="filename"><a href="./evidence/2021-06-22_Second_Dose_Record.png">2021-06-22_Second_Dose_Record.png</a></td><td class="col-date">22-Jun-2021</td><td>Second dose entry with mass-site code recorded</td><td>“Batch PV46690 — Site: N9J0U (Emsworth Baptist Church).”</td></tr>
+        <tr><td class="col-exhibit">Fig. 4</td><td class="filename"><a href="./evidence/2021-12-21_Severe_Reaction_Note.png">2021-12-21_Severe_Reaction_Note.png</a></td><td class="col-date">21-Dec-2021</td><td>Administration note: severe reaction to 2nd dose with ongoing nerve pain; holding off booster</td><td>“severe reaction to 2nd covid inj with nerve pain… Holding off for vaccination for now.”</td></tr>
+        <tr><td class="col-exhibit">Fig. 5</td><td class="filename"><a href="./evidence/2022-09-07_Telephone_Consultation_Anxiety_Vaccine_Link.png">2022-09-07_Telephone_Consultation_Anxiety_Vaccine_Link.png</a></td><td class="col-date">07-Sep-2022</td><td>Telephone consultation: distress and belief of issues with AZ; agoraphobia</td><td>“…thinks he had issues with AZ… agoraphobia.”</td></tr>
+        <tr><td class="col-exhibit">Fig. 6</td><td class="filename"><a href="./evidence/2024-06-07_Followup_COVID_Vaccine_Trust_Breakdown.png">2024-06-07_Followup_COVID_Vaccine_Trust_Breakdown.png</a></td><td class="col-date">07-Jun-2024</td><td>Follow-up: believes symptoms due to COVID vaccination; breakdown in trust</td><td>“…thought his symptoms were due to COVID vaccination… Breakdown in trust…”</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="note mt-3">
-    <strong>Provenance and chain-of-custody checklist:</strong>
+  <h2 class="mt-4">Patient Statement & Discrepancy Analysis</h2>
+  <div class="callout">
+    <p><strong>Patient Statement (James Saint):</strong> “Both COVID-19 vaccine doses were administered at my home by two nurses from Emsworth Medical Practice. I was house-bound with severe PTSD and agoraphobia. I did not feel I was given informed consent or appropriate care for a house-bound patient.”</p>
+    <p><strong>Documented Records:</strong></p>
     <ul>
-      <li>Preserve original PDFs/images as received from the GP surgery, unedited.</li>
-      <li>Record file hashes (e.g., SHA-256). The <span class="images/README.txt">README.txt</span> inside the ZIP includes current hashes for these PNGs.</li>
-      <li>Request vaccination event audit logs (NIVS/Pinnacle), including site code, vaccinator IDs, and administering address.</li>
-      <li>If correction is refused, add this statement as a supplementary note under UK GDPR Article 16 (right to rectification).</li>
+      <li><em>Fig. 1</em> (31-Mar-2021 SMS) indicates a planned <strong>home visit</strong> for vaccination on 1 April.</li>
+      <li><em>Fig. 2</em> (01-Apr-2021 entry) records first-dose details but <strong>no location</strong> in the extract.</li>
+      <li><em>Fig. 3</em> (22-Jun-2021 entry) records second dose with site code <strong>N9J0U — Emsworth Baptist Church</strong>, conflicting with the home-administration account.</li>
+      <li><em>Fig. 4</em> (21-Dec-2021 note) documents patient reporting a <strong>severe reaction</strong> to the second dose with ongoing nerve pain and holding off booster.</li>
+      <li><em>Fig. 5</em> (07-Sep-2022) and <em>Fig. 6</em> (07-Jun-2024) show <strong>continuing clinical references</strong> linking symptoms/concerns to COVID vaccination and a breakdown of trust.</li>
     </ul>
+    <p class="mb-0"><strong>Analysis:</strong> The record set shows (a) a location discrepancy across doses, and (b) subsequent notes of significant adverse experience and ongoing attribution to the COVID-19 vaccine. Audit logs (NIVS/Pinnacle), site-code mapping, and a consent review should be undertaken; if appropriate, entries should be corrected or annotated with this statement.</p>
   </div>
 </section>
 
 <section class="section card-like">
   <h2>Record Accuracy & Rectification</h2>
   <ul>
-    <li>Ask for the NIVS/Pinnacle event logs for both doses, including site code used and vaccinator IDs.</li>
-    <li>Request written confirmation of the administering address for each dose, or an explanation for site-code attribution where a home visit was performed.</li>
-    <li>Provide this document with your statement as a supplementary note for attachment to the entries if the practice declines amendment.</li>
+    <li>Request NIVS/Pinnacle event logs for both doses, including site code used and vaccinator IDs.</li>
+    <li>Request written confirmation of the administering address for each dose, or an explanation for site-code attribution when a home visit was performed.</li>
+    <li>Provide this document with your statement as a supplementary note if the practice declines amendment (UK GDPR Art. 16).</li>
   </ul>
 </section>
 
@@ -238,6 +278,8 @@
   <p>I, James Saint, confirm that the statements in this document are true to the best of my knowledge and belief. I understand that it may be placed before clinicians and, if required, a court or tribunal.</p>
   <p>Signed: ____________________________ &nbsp; Date: ____ / ____ / ______</p>
 </section>
+
+<footer>© James Saint 2025</footer>
 
 </main>
 </body>
