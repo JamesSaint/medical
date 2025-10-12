@@ -78,7 +78,7 @@
   {
     "id": "e5c23656-6784-4186-b203-81a23eb0c1a5-9cf175f1-67d1-43df-84d4-f8cc31bacb0f",
     "date": "2025-10-12",
-    "time": "06:56",
+    "time": "06:17",
     "dose": 0,
     "pain": 8,
     "sedation": 5,
@@ -95,7 +95,7 @@
     "notes": "BP+PR confirmed by Ambulance Crew - Stabilised after Antihistamine + Nicotine - Cooled body - itching relived - Occipital + Vagus",
     "am_sys": 133,
     "am_dia": 94,
-    "am_hr": 67,
+    "am_hr": 100,
     "pm_sys": null,
     "pm_dia": null,
     "pm_hr": null
