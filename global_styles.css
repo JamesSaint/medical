@@ -13,42 +13,39 @@
    08. Symptom Overview
    09. Recent Events table
    10. Brand color overrides (Bootstrap)
-   11. Carbamazepine Tracker (desktop)
-   12. Carbamazepine Tracker (mobile)
+   11. Carbamazepine Tracker – Desktop/Tablet
+   12. Carbamazepine Tracker – Mobile
    ---------------------------------------------------------
-   Notes:
-   • Each section begins with a clear header for navigation.
-   • Palette reference: navy #003366, gold #C9B694, cream #fefbf3, grey #EEEEEE.
-   • Always maintain spacing and structural clarity for future additions.
+   Palette reference:
+   navy #003366 | gold #C9B694 | cream #fefbf3 | grey #EEEEEE
    ========================================================= */
 
 
 /* =========================================================
-   Global layout & typography
-   Purpose: page scaffold, base font, colors, centering
+   01. Global layout & typography
    ========================================================= */
 body {
     font-family: Montserrat, sans-serif;
     background-color: #EEEEEE;
     color: #003366;
     margin: 0;
-    display: flex;                 /* center content vertically + horizontally */
+    display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    padding: 20px;                 /* breathing room on small screens */
+    padding: 20px;
     font-size: 0.9rem;
 }
 
 .content {
-    max-width: 900px;              /* readable line length */
+    max-width: 900px;
     width: 100%;
     padding: 0;
 }
 
+
 /* =========================================================
-   Headings
-   Purpose: consistent visual hierarchy with gold underline
+   02. Headings
    ========================================================= */
 h1 {
     color: #003366;
@@ -88,9 +85,9 @@ h4 {
     font-weight: 700;
 }
 
+
 /* =========================================================
-   Utilities & common elements
-   Purpose: shared spacing, cards, notes, basic typography
+   03. Utilities & common elements
    ========================================================= */
 .section {
     margin-top: 2em;
@@ -115,9 +112,7 @@ ul {
     margin-left: 1.5em;
 }
 
-figure {
-    margin: 0;
-}
+figure { margin: 0; }
 
 figcaption,
 .meta {
@@ -134,28 +129,22 @@ footer {
     text-align: left;
 }
 
+
 /* =========================================================
-   Links
-   Purpose: brand color with subtle hover underline
+   04. Links
    ========================================================= */
 a {
     color: #003366;
     font-weight: 600;
     text-decoration: none;
 }
-a:link {
-    text-decoration: none;
-}
-a:visited {
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
+a:link,
+a:visited { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
 
 /* =========================================================
-   Breadcrumbs
-   Purpose: slim, gold chevron divider
+   05. Breadcrumbs
    ========================================================= */
 .breadcrumb {
     background: transparent;
@@ -174,29 +163,21 @@ a:hover {
     font-weight: 600;
 }
 
+
 /* =========================================================
-   Tables (responsive, clean, in-palette)
-   Usage:
-     <div class="table-wrap">
-       <table> ... </table>
-     </div>
+   06. Tables – shared structure
    ========================================================= */
 .table-wrap {
     max-width: 100%;
-    overflow-x: auto;               /* horizontal scroll on small screens */
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-/* Base table styling */
 table {
     width: 100%;
     border-collapse: collapse;
-    border-left: 3px solid #C9B694; /* gold accent bar */
+    border-left: 3px solid #C9B694;
 }
-
-/* Redundant helpers to ensure wrapping is applied even if moved */
-.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.table-wrap table { width: 100%; border-collapse: collapse; }
 
 th,
 td {
@@ -206,7 +187,7 @@ td {
     vertical-align: top;
     color: #003366;
     white-space: normal;
-    overflow-wrap: anywhere;        /* wraps long medical terms/URLs */
+    overflow-wrap: anywhere;
     word-break: normal;
     hyphens: auto;
 }
@@ -216,100 +197,80 @@ thead th {
     font-weight: 700;
 }
 
-/* Zebra reserve: add styles later if needed */
 tbody tr:nth-child(even) {}
 
+
 /* =========================================================
-   Appointments table
-   Structure: Date | Appointment | Location
-   Goal: compact date, flexible description, tidy location
+   07. Appointments table
    ========================================================= */
-#appointments table {
-    table-layout: auto;
-}
+#appointments table { table-layout: auto; }
 
 #appointments th:nth-child(1),
 #appointments td:nth-child(1) {
-    width: 12ch;                    /* compact dates */
-    white-space: nowrap;            /* keep dates on one line when space allows */
+    width: 12ch;
+    white-space: nowrap;
 }
 
 #appointments th:nth-child(2),
-#appointments td:nth-child(2) {
-    width: auto;                    /* main description flexes and wraps */
-}
+#appointments td:nth-child(2) { width: auto; }
 
 #appointments th:nth-child(3),
 #appointments td:nth-child(3) {
-    max-width: 24ch;                /* keeps location tidy without blowing out */
+    max-width: 24ch;
 }
 
 @media (max-width: 600px) {
     #appointments th:nth-child(1),
-    #appointments td:nth-child(1) {
-        white-space: normal;        /* allow dates to wrap on phones */
-    }
+    #appointments td:nth-child(1) { white-space: normal; }
 }
+
 
 /* =========================================================
-   Symptom Overview
-   Structure: Category | Description | Functional Impact
-   Goal: fixed layout to keep columns even and readable
+   08. Symptom Overview
    ========================================================= */
-#symptoms table {
-    table-layout: fixed;            /* even columns for long content */
-}
+#symptoms table { table-layout: fixed; }
 
 #symptoms th:nth-child(1),
-#symptoms td:nth-child(1) {
-    width: 20%;                     /* compact Category label column */
-}
+#symptoms td:nth-child(1) { width: 20%; }
 
 #symptoms th:nth-child(2),
-#symptoms td:nth-child(2) {
-    width: 40%;
-}
+#symptoms td:nth-child(2) { width: 40%; }
 
 #symptoms th:nth-child(3),
-#symptoms td:nth-child(3) {
-    width: 44%;
-}
+#symptoms td:nth-child(3) { width: 44%; }
 
 @media (max-width: 600px) {
     #symptoms th:nth-child(1),
-    #symptoms td:nth-child(1) {
-        white-space: normal;        /* allow Category to wrap on phones */
-    }
+    #symptoms td:nth-child(1) { white-space: normal; }
 }
 
+
 /* =========================================================
-   Recent Events table
-   Goal: compact date column, readable text wrapping
+   09. Recent Events table
    ========================================================= */
 #recent-events table { table-layout: auto; width: 100%; }
 
 #recent-events th {
-  width: 12ch;                      /* compact date column */
-  white-space: nowrap;              /* keep the date on one line */
-  overflow-wrap: normal;            /* cancel the global 'anywhere' */
-  word-break: keep-all;             /* avoid breaking inside words */
+  width: 12ch;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: keep-all;
   vertical-align: top;
 }
 
 #recent-events td {
-  overflow-wrap: anywhere;          /* allow long text to wrap nicely */
+  overflow-wrap: anywhere;
   word-break: normal;
   white-space: normal;
 }
 
 @media (max-width: 600px) {
-  /* let dates wrap if they truly must on small screens */
   #recent-events th { white-space: normal; }
 }
 
+
 /* =========================================================
-   Brand color overrides (Bootstrap hooks)
-   Purpose: harmonise buttons, forms, outlines with palette
+   10. Brand color overrides (Bootstrap)
    ========================================================= */
 .btn-primary {
     background-color: #C9B694 !important;
@@ -341,9 +302,10 @@ tbody tr:nth-child(even) {}
     border-color: #C9B694 !important;
 }
 
-.form-range::-webkit-slider-thumb { background: #C9B694; }
-.form-range::-moz-range-thumb { background: #C9B694; }
+.form-range::-webkit-slider-thumb,
+.form-range::-moz-range-thumb,
 .form-range::-ms-thumb { background: #C9B694; }
+
 .form-range::-webkit-slider-runnable-track { background: #ddd; }
 
 .form-range:focus::-webkit-slider-thumb {
@@ -356,14 +318,12 @@ tbody tr:nth-child(even) {}
     color: #003366 !important;
 }
 
-/* =========================================================
-   Carbamazepine Tracker – Entries Table
-   Scope: #entries only, no border-radius, mobile cards
-   ========================================================= */
 
-/* ===== Desktop and tablet ===== */
+/* =========================================================
+   11. Carbamazepine Tracker – Desktop/Tablet
+   ========================================================= */
 #entries .entries-table {
-  min-width: 1200px;                /* prevents column squeeze on desktop */
+  min-width: 1200px;
   table-layout: auto;
   border-collapse: collapse;
   border: 1px solid #C9B694;
@@ -388,14 +348,12 @@ tbody tr:nth-child(even) {}
   vertical-align: middle;
 }
 
-/* Numeric alignment */
 #entries .entries-table td.num,
 #entries .entries-table th.num {
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
 
-/* Allow wrapping for Effects and Notes */
 #entries .entries-table td[data-label="Effects"],
 #entries .entries-table td.notes {
   white-space: normal;
@@ -403,14 +361,12 @@ tbody tr:nth-child(even) {}
   overflow-wrap: anywhere;
 }
 
-/* Notes column width */
 #entries .entries-table td.notes {
   max-width: 32ch;
   word-wrap: break-word;
   white-space: normal;
 }
 
-/* Actions column sizing */
 #entries .entries-table th.actions-col {
   min-width: 160px;
   white-space: nowrap;
@@ -429,7 +385,6 @@ tbody tr:nth-child(even) {}
   border-radius: 0;
 }
 
-/* Pills (badges) */
 #entries .badge-soft {
   display: inline-block;
   padding: .15rem .45rem;
@@ -444,9 +399,10 @@ tbody tr:nth-child(even) {}
   white-space: nowrap;
 }
 
-/* ===== Mobile (≤575.98px) =====
-   Turns rows into accessible cards with labels
-   --------------------------------------------------------- */
+
+/* =========================================================
+   12. Carbamazepine Tracker – Mobile
+   ========================================================= */
 @media (max-width: 575.98px) {
   #entries .entries-table {
     min-width: unset;
@@ -454,10 +410,7 @@ tbody tr:nth-child(even) {}
     border: none;
   }
 
-  /* Hide header; use card-style layout */
-  #entries .entries-table thead {
-    display: none;
-  }
+  #entries .entries-table thead { display: none; }
 
   #entries .entries-table,
   #entries .entries-table tbody,
@@ -475,19 +428,17 @@ tbody tr:nth-child(even) {}
 
   #entries .entries-table td {
     position: relative;
-    padding: .65rem .75rem .65rem 7.5rem; /* space for label */
+    padding: .65rem .75rem .65rem 7.5rem;
     border: 0;
     border-bottom: 1px solid rgba(201,182,148,0.55);
     line-height: 1.25;
     white-space: normal;
   }
 
-  #entries .entries-table td:last-child {
-    border-bottom: 0;
-  }
+  #entries .entries-table td:last-child { border-bottom: 0; }
 
   #entries .entries-table td::before {
-    content: attr(data-label);      /* injects column label */
+    content: attr(data-label);
     position: absolute;
     left: .75rem;
     top: .65rem;
@@ -499,26 +450,22 @@ tbody tr:nth-child(even) {}
     white-space: normal;
   }
 
-  /* Left-align numbers for mobile readability */
   #entries .entries-table td.num {
     text-align: left;
     white-space: normal;
   }
 
-  /* Empty Notes show subtle placeholder */
   #entries .entries-table td.notes:empty::after {
     content: "—";
     opacity: .6;
   }
 
-  /* Pills spacing */
   #entries .entries-table td[data-label="Effects"] .badge-soft {
     margin-right: .35rem;
     margin-bottom: .35rem;
     border-radius: 0;
   }
 
-  /* Actions: inline and right-aligned */
   #entries .entries-table td.actions {
     text-align: right;
     padding-left: 7.5rem;
