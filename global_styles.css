@@ -511,7 +511,8 @@ tbody tr:nth-child(even) {}
     background-color: transparent;
     border-left: none;
     display: inline-block;
-    padding: 12px 12px;
+    margin-top: 6px;
+    margin-bottom: 4px;
   }
 
   .footer-copy {
