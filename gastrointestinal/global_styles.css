@@ -1,26 +1,55 @@
 /* =========================================================
+   GLOBAL STYLESHEET INDEX – JAMES SAINT
+   =========================================================
+   TABLE OF CONTENTS
+   ---------------------------------------------------------
+   01. Global layout & typography
+   02. Headings
+   03. Utilities & common elements
+   04. Links
+   05. Breadcrumbs
+   06. Tables – shared structure
+   07. Appointments table
+   08. Symptom Overview
+   09. Recent Events table
+   10. Brand color overrides (Bootstrap)
+   11. Carbamazepine Tracker (desktop)
+   12. Carbamazepine Tracker (mobile)
+   ---------------------------------------------------------
+   Notes:
+   • Each section begins with a clear header for navigation.
+   • Palette reference: navy #003366, gold #C9B694, cream #fefbf3, grey #EEEEEE.
+   • Always maintain spacing and structural clarity for future additions.
+   ========================================================= */
+
+
+/* =========================================================
    Global layout & typography
+   Purpose: page scaffold, base font, colors, centering
    ========================================================= */
 body {
     font-family: Montserrat, sans-serif;
     background-color: #EEEEEE;
     color: #003366;
     margin: 0;
-    display: flex;
+    display: flex;                 /* center content vertically + horizontally */
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    padding: 20px;
+    padding: 20px;                 /* breathing room on small screens */
     font-size: 0.9rem;
 }
 
 .content {
-    max-width: 900px;
+    max-width: 900px;              /* readable line length */
     width: 100%;
     padding: 0;
 }
 
-/* Headings */
+/* =========================================================
+   Headings
+   Purpose: consistent visual hierarchy with gold underline
+   ========================================================= */
 h1 {
     color: #003366;
     border-bottom: 1px solid #C9B694;
@@ -49,6 +78,7 @@ h3 {
     padding-bottom: 0.3em;
     font-weight: 700;
 }
+
 h4 {
     color: #003366;
     margin-top: 1.2em;
@@ -57,7 +87,11 @@ h4 {
     padding-bottom: 0.3em;
     font-weight: 700;
 }
-/* Utilities & common elements */
+
+/* =========================================================
+   Utilities & common elements
+   Purpose: shared spacing, cards, notes, basic typography
+   ========================================================= */
 .section {
     margin-top: 2em;
     margin-bottom: 2em;
@@ -100,6 +134,10 @@ footer {
     text-align: left;
 }
 
+/* =========================================================
+   Links
+   Purpose: brand color with subtle hover underline
+   ========================================================= */
 a {
     color: #003366;
     font-weight: 600;
@@ -114,8 +152,10 @@ a:visited {
 a:hover {
     text-decoration: underline;
 }
+
 /* =========================================================
    Breadcrumbs
+   Purpose: slim, gold chevron divider
    ========================================================= */
 .breadcrumb {
     background: transparent;
@@ -123,7 +163,7 @@ a:hover {
     margin-bottom: 1rem;
 }
 
-.breadcrumb-item+.breadcrumb-item::before {
+.breadcrumb-item + .breadcrumb-item::before {
     content: ">";
     color: #C9B694;
     padding: 0 0.3rem;
@@ -143,17 +183,20 @@ a:hover {
    ========================================================= */
 .table-wrap {
     max-width: 100%;
-    overflow-x: auto;
-    /* prevents page overspill */
+    overflow-x: auto;               /* horizontal scroll on small screens */
     -webkit-overflow-scrolling: touch;
 }
 
+/* Base table styling */
 table {
     width: 100%;
     border-collapse: collapse;
-    border-left: 3px solid #C9B694;
-    /* gold accent bar */
+    border-left: 3px solid #C9B694; /* gold accent bar */
 }
+
+/* Redundant helpers to ensure wrapping is applied even if moved */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-wrap table { width: 100%; border-collapse: collapse; }
 
 th,
 td {
@@ -163,8 +206,7 @@ td {
     vertical-align: top;
     color: #003366;
     white-space: normal;
-    overflow-wrap: anywhere;
-    /* wraps long medical terms/URLs */
+    overflow-wrap: anywhere;        /* wraps long medical terms/URLs */
     word-break: normal;
     hyphens: auto;
 }
@@ -174,88 +216,88 @@ thead th {
     font-weight: 700;
 }
 
+/* Zebra reserve: add styles later if needed */
 tbody tr:nth-child(even) {}
 
-/* ===== Appointments table: Date | Appointment | Location ===== */
+/* =========================================================
+   Appointments table
+   Structure: Date | Appointment | Location
+   Goal: compact date, flexible description, tidy location
+   ========================================================= */
 #appointments table {
     table-layout: auto;
 }
 
 #appointments th:nth-child(1),
 #appointments td:nth-child(1) {
-    width: 12ch;
-    /* compact dates */
-    white-space: nowrap;
-    /* keep dates on one line when space allows */
+    width: 12ch;                    /* compact dates */
+    white-space: nowrap;            /* keep dates on one line when space allows */
 }
 
 #appointments th:nth-child(2),
 #appointments td:nth-child(2) {
-    width: auto;
-    /* main description flexes and wraps */
+    width: auto;                    /* main description flexes and wraps */
 }
 
 #appointments th:nth-child(3),
 #appointments td:nth-child(3) {
-    max-width: 24ch;
-    /* keeps location tidy without blowing out */
+    max-width: 24ch;                /* keeps location tidy without blowing out */
 }
 
 @media (max-width: 600px) {
-
     #appointments th:nth-child(1),
     #appointments td:nth-child(1) {
-        white-space: normal;
-        /* let dates wrap on small screens */
+        white-space: normal;        /* allow dates to wrap on phones */
     }
 }
 
-/* ===== Symptom Overview: Category | Description | Functional Impact ===== */
+/* =========================================================
+   Symptom Overview
+   Structure: Category | Description | Functional Impact
+   Goal: fixed layout to keep columns even and readable
+   ========================================================= */
 #symptoms table {
-    table-layout: fixed;
+    table-layout: fixed;            /* even columns for long content */
 }
-
-/* fixed layout yields even, readable columns */
 
 #symptoms th:nth-child(1),
 #symptoms td:nth-child(1) {
-    width: 20%;
-    /* compact Category label column */
+    width: 20%;                     /* compact Category label column */
 }
 
 #symptoms th:nth-child(2),
 #symptoms td:nth-child(2) {
     width: 40%;
-    /* balanced long paragraph column */
 }
 
 #symptoms th:nth-child(3),
 #symptoms td:nth-child(3) {
     width: 44%;
-    /* balanced long paragraph column */
 }
 
 @media (max-width: 600px) {
-
     #symptoms th:nth-child(1),
     #symptoms td:nth-child(1) {
-        white-space: normal;
-        /* allow Category to wrap on phones */
+        white-space: normal;        /* allow Category to wrap on phones */
     }
 }
-/* Recent Events table overrides */
+
+/* =========================================================
+   Recent Events table
+   Goal: compact date column, readable text wrapping
+   ========================================================= */
 #recent-events table { table-layout: auto; width: 100%; }
 
 #recent-events th {
-  width: 12ch;                /* compact date column */
-  white-space: nowrap;        /* keep the date on one line */
-  overflow-wrap: normal;      /* cancel the global 'anywhere' */
-  word-break: keep-all;       /* avoid breaking inside words */
+  width: 12ch;                      /* compact date column */
+  white-space: nowrap;              /* keep the date on one line */
+  overflow-wrap: normal;            /* cancel the global 'anywhere' */
+  word-break: keep-all;             /* avoid breaking inside words */
   vertical-align: top;
 }
 
 #recent-events td {
-  overflow-wrap: anywhere;    /* allow long text to wrap nicely */
+  overflow-wrap: anywhere;          /* allow long text to wrap nicely */
   word-break: normal;
   white-space: normal;
 }
@@ -265,7 +307,10 @@ tbody tr:nth-child(even) {}
   #recent-events th { white-space: normal; }
 }
 
-/* --- CUSTOM COLOR OVERRIDES (#C9B694) --- */
+/* =========================================================
+   Brand color overrides (Bootstrap hooks)
+   Purpose: harmonise buttons, forms, outlines with palette
+   ========================================================= */
 .btn-primary {
     background-color: #C9B694 !important;
     border-color: #C9B694 !important;
@@ -296,41 +341,29 @@ tbody tr:nth-child(even) {}
     border-color: #C9B694 !important;
 }
 
-.form-range::-webkit-slider-thumb {
-    background: #C9B694;
-}
-
-.form-range::-moz-range-thumb {
-    background: #C9B694;
-}
-
-.form-range::-ms-thumb {
-    background: #C9B694;
-}
-
-.form-range::-webkit-slider-runnable-track {
-    background: #ddd;
-}
+.form-range::-webkit-slider-thumb { background: #C9B694; }
+.form-range::-moz-range-thumb { background: #C9B694; }
+.form-range::-ms-thumb { background: #C9B694; }
+.form-range::-webkit-slider-runnable-track { background: #ddd; }
 
 .form-range:focus::-webkit-slider-thumb {
     box-shadow: 0 0 0 0.25rem rgba(201, 182, 148, 0.4);
 }
 
-.btn-check:checked+.btn-outline-primary {
+.btn-check:checked + .btn-outline-primary {
     background-color: #C9B694 !important;
     border-color: #C9B694 !important;
     color: #003366 !important;
 }
 
-/* ===============================
-   Carbamazepine Tracker – Entries Table (scoped to #entries, no border-radius)
-   =============================== */
+/* =========================================================
+   Carbamazepine Tracker – Entries Table
+   Scope: #entries only, no border-radius, mobile cards
+   ========================================================= */
 
-/* ===== DESKTOP & TABLET ===== */
-
-/* Keep headers single-line and clean */
+/* ===== Desktop and tablet ===== */
 #entries .entries-table {
-  min-width: 1200px;           /* prevents column squeeze on desktop */
+  min-width: 1200px;                /* prevents column squeeze on desktop */
   table-layout: auto;
   border-collapse: collapse;
   border: 1px solid #C9B694;
@@ -355,7 +388,7 @@ tbody tr:nth-child(even) {}
   vertical-align: middle;
 }
 
-/* Align numeric cells */
+/* Numeric alignment */
 #entries .entries-table td.num,
 #entries .entries-table th.num {
   text-align: center;
@@ -370,14 +403,14 @@ tbody tr:nth-child(even) {}
   overflow-wrap: anywhere;
 }
 
-/* Notes column wrapping */
+/* Notes column width */
 #entries .entries-table td.notes {
   max-width: 32ch;
   word-wrap: break-word;
   white-space: normal;
 }
 
-/* Actions column: buttons stay inline */
+/* Actions column sizing */
 #entries .entries-table th.actions-col {
   min-width: 160px;
   white-space: nowrap;
@@ -411,8 +444,9 @@ tbody tr:nth-child(even) {}
   white-space: nowrap;
 }
 
-/* ===== MOBILE (≤575.98px) ===== */
-
+/* ===== Mobile (≤575.98px) =====
+   Turns rows into accessible cards with labels
+   --------------------------------------------------------- */
 @media (max-width: 575.98px) {
   #entries .entries-table {
     min-width: unset;
@@ -441,7 +475,7 @@ tbody tr:nth-child(even) {}
 
   #entries .entries-table td {
     position: relative;
-    padding: .65rem .75rem .65rem 7.5rem;
+    padding: .65rem .75rem .65rem 7.5rem; /* space for label */
     border: 0;
     border-bottom: 1px solid rgba(201,182,148,0.55);
     line-height: 1.25;
@@ -453,7 +487,7 @@ tbody tr:nth-child(even) {}
   }
 
   #entries .entries-table td::before {
-    content: attr(data-label);
+    content: attr(data-label);      /* injects column label */
     position: absolute;
     left: .75rem;
     top: .65rem;
