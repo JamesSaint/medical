@@ -19,27 +19,35 @@
 
   <!-- Title + Description -->
   <title>Medical Home – James Saint</title>
-  <meta name="description" content="James Saint's medical records home – access neurological and future health documentation." />
+  <meta name="description" content="James Saint" />
 
-  <!-- Canonical (helps dedupe even if noindex) -->
-  <link rel="canonical" href="https://jamessaint.github.io/medical/index.html" />
+  <!-- Canonical -->
+  
 
   <!-- Open Graph -->
   <meta property="og:title" content="Medical Home – James Saint" />
-  <meta property="og:description" content="James Saint's medical records home – access neurological and future health documentation." />
+  <meta property="og:description" content="James Saint" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://jamessaint.github.io/medical/index.html" />
+  <meta property="og:url" content="" />
   <meta property="og:site_name" content="James Saint" />
   <meta property="og:locale" content="en_GB" />
-  <meta property="og:image" content="https://jamessaint.github.io/assets/images/seed-of-life-gold-default.png" />
+  <meta property="og:image" content="https://jamessaint.github.io/images/seed-of-life-gold-default.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Medical Home – James Saint" />
-  <meta name="twitter:description" content="James Saint's medical records home – access neurological and future health documentation." />
-  <meta name="twitter:image" content="https://jamessaint.github.io/assets/images/seed-of-life-gold-default.png" />
+  <meta name="twitter:description" content="James Saint" />
+  <meta name="twitter:image" content="https://jamessaint.github.io/images/seed-of-life-gold-default.png" />
+
+  <!-- App Icons + Manifest -->
+  <link rel="apple-touch-icon" sizes="180x180" href="https://jamessaint.github.io/images/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="https://jamessaint.github.io/images/icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="https://jamessaint.github.io/images/icons/favicon-16x16.png" />
+  <link rel="manifest" href="https://jamessaint.github.io/site.webmanifest" />
+  <link rel="mask-icon" href="https://jamessaint.github.io/images/icons/safari-pinned-tab.svg" color="#003366" />
+  <meta name="msapplication-TileColor" content="#003366" />
 
   <!-- Preconnect/DNS Prefetch for performance -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -54,6 +62,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link href="https://jamessaint.github.io/medical/global_styles.css" rel="stylesheet" />
 
+  <!-- Mild Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    img-src 'self' https: data:;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
+    font-src 'self' https://fonts.gstatic.com data:;
+    connect-src 'self';
+    frame-ancestors 'none';
+    base-uri 'self';
+    form-action 'self'
+  ">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Medical Home – James Saint",
+    "url": "",
+    "description": "James Saint",
+    "inLanguage": "en-GB",
+    "isPartOf": { "@type": "WebSite", "name": "James Saint", "url": "https://jamessaint.github.io/" }
+  }
   </script>
 </head>
 
@@ -324,7 +355,6 @@
     if (el) el.textContent = y;
   })();
 </script>
-
     </main>
 </body>
 </html>
