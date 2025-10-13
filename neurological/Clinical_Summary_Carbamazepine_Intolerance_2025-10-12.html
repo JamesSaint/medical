@@ -105,6 +105,27 @@
       <h2>Patient Statement</h2>
       <p>I have been reluctant with duloxetine, pregabalin, gabapentin, and amitriptyline due to prior experiences. Carbamazepine has produced similar adverse patterns without pain relief. I wish to stop it now and focus on a treatment pathway that does not trigger autonomic or mast-cell reactions. I request support in accessing Nabiximols through NHS pathways or exceptional-case review.</p>
     </section>
-  </main>
+  <!-- Footer -->
+<footer class="site-footer mt-4" role="contentinfo" aria-label="Site footer">
+  <div class="footer-container text-center">
+    <hr class="footer-rule" />
+    <div class="footer-note mb-1">
+      Private & Confidential · Intended for the named clinical team and the patient only.
+    </div>
+    <div class="footer-copy">
+      © <span id="copy-year"></span> James Saint. All rights reserved.
+    </div>
+  </div>
+</footer>
+<!-- Year Autoupdate -->
+<script>
+  (function () {
+    var y = new Date().getFullYear();
+    var el = document.getElementById('copy-year');
+    if (el) el.textContent = y;
+  })();
+</script>
+
+    </main>
 </body>
 </html>

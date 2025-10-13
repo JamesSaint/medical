@@ -328,6 +328,27 @@
             </ul>
             <p class="note">All correspondence above has been redacted for privacy.</p>
         </section>
+    <!-- Footer -->
+<footer class="site-footer mt-4" role="contentinfo" aria-label="Site footer">
+  <div class="footer-container text-center">
+    <hr class="footer-rule" />
+    <div class="footer-note mb-1">
+      Private & Confidential · Intended for the named clinical team and the patient only.
+    </div>
+    <div class="footer-copy">
+      © <span id="copy-year"></span> James Saint. All rights reserved.
+    </div>
+  </div>
+</footer>
+<!-- Year Autoupdate -->
+<script>
+  (function () {
+    var y = new Date().getFullYear();
+    var el = document.getElementById('copy-year');
+    if (el) el.textContent = y;
+  })();
+</script>
+
     </main>
 </body>
 

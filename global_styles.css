@@ -15,6 +15,7 @@
    10. Brand color overrides (Bootstrap)
    11. Carbamazepine Tracker – Desktop/Tablet
    12. Carbamazepine Tracker – Mobile
+   13. Global Footer Styles
    ---------------------------------------------------------
    Palette reference:
    navy #003366 | gold #C9B694 | cream #fefbf3 | grey #EEEEEE
@@ -478,3 +479,43 @@ tbody tr:nth-child(even) {}
     border-radius: 0;
   }
 }
+/* =========================================================
+   13. Global Footer Styles
+   ========================================================= */
+  .site-footer {
+    width: 100%;
+    background: #EEEEEE;
+    color: #003366;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 0;
+  }
+
+  .footer-container {
+    text-align: center;
+    max-width: 700px;
+    width: 100%;
+  }
+
+  .footer-rule {
+    border: 0;
+    border-top: 1px solid #C9B694;
+    width: 100%;
+    margin: 0 auto 1rem auto;
+  }
+
+  .footer-note {
+    background-color: rgba(4, 87, 255, 0.04);
+    border-left: 3px solid #C9B694;
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 6px;
+  }
+
+  .footer-copy {
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+  }
