@@ -504,7 +504,7 @@ tbody tr:nth-child(even) {}
     border: 0;
     border-top: 1px solid #C9B694;
     width: 100%;
-    margin: 0 auto 1rem auto;
+    margin: 0 auto;
   }
 
   .footer-note {
@@ -516,6 +516,6 @@ tbody tr:nth-child(even) {}
   }
 
   .footer-copy {
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     margin-top: 0.3rem;
   }
