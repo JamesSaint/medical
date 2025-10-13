@@ -511,11 +511,10 @@ tbody tr:nth-child(even) {}
     background-color: transparent;
     border-left: none;
     display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 6px;
+    padding: 12px 12px;
   }
 
   .footer-copy {
     font-size: 0.7rem;
-    margin-top: 0.3rem;
+    margin-top: 6px;
   }
