@@ -2,91 +2,81 @@
 <html lang="en">
 
 <head>
-  <!-- Charset + Viewport -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-
-  <!-- Indexing & Privacy -->
-  <meta name="robots" content="noindex, nofollow" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-
-  <!-- Theming & UX -->
-  <meta name="color-scheme" content="light dark" />
-  <meta name="theme-color" content="#003366" />
-  <meta name="format-detection" content="telephone=no, address=no, email=no" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="mobile-web-app-capable" content="yes" />
-
-  <!-- Title + Description -->
-  <title>Carbamazepine Trial Tracker</title>
-  <meta name="description" content="Lightweight daily tracker for Carbamazepine titration, symptoms, and side effects. Data stays in your browser. Export JSON or CSV for GitHub." />
-
-  <!-- Canonical -->
-  
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Carbamazepine Trial Tracker" />
-  <meta property="og:description" content="Lightweight daily tracker for Carbamazepine titration, symptoms, and side effects. Data stays in your browser. Export JSON or CSV for GitHub." />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="" />
-  <meta property="og:site_name" content="James Saint" />
-  <meta property="og:locale" content="en_GB" />
-  <meta property="og:image" content="https://jamessaint.github.io/images/seed-of-life-gold-default.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-
-  <!-- Twitter Cards -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Carbamazepine Trial Tracker" />
-  <meta name="twitter:description" content="Lightweight daily tracker for Carbamazepine titration, symptoms, and side effects. Data stays in your browser. Export JSON or CSV for GitHub." />
-  <meta name="twitter:image" content="https://jamessaint.github.io/images/seed-of-life-gold-default.png" />
-
-  <!-- App Icons + Manifest -->
-  <link rel="apple-touch-icon" sizes="180x180" href="https://jamessaint.github.io/images/icons/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="https://jamessaint.github.io/images/icons/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="https://jamessaint.github.io/images/icons/favicon-16x16.png" />
-  <link rel="manifest" href="https://jamessaint.github.io/site.webmanifest" />
-  <link rel="mask-icon" href="https://jamessaint.github.io/images/icons/safari-pinned-tab.svg" color="#003366" />
-  <meta name="msapplication-TileColor" content="#003366" />
-
-  <!-- Preconnect/DNS Prefetch for performance -->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-  <link rel="dns-prefetch" href="//fonts.googleapis.com">
-  <link rel="dns-prefetch" href="//fonts.gstatic.com">
-
-  <!-- CSS Framework + Fonts -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link href="https://jamessaint.github.io/medical/global_styles.css" rel="stylesheet" />
-
-  <!-- Mild Content Security Policy -->
-  <meta http-equiv="Content-Security-Policy" content="
+    <!-- Charset + Viewport -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- Indexing & Privacy -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <!-- Theming & UX -->
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#003366" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <!-- Title + Description -->
+    <title>Carbamazepine Trial Tracker</title>
+    <meta name="description" content="Lightweight daily tracker for Carbamazepine titration, symptoms, and side effects. Data stays in your browser. Export JSON or CSV for GitHub." />
+    <!-- Open Graph -->
+    <meta property="og:title" content="Carbamazepine Trial Tracker" />
+    <meta property="og:description" content="Lightweight daily tracker for Carbamazepine titration, symptoms, and side effects. Data stays in your browser. Export JSON or CSV for GitHub." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="" />
+    <meta property="og:site_name" content="James Saint" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:image" content="https://jamessaint.github.io/images/seed-of-life-gold-default.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Carbamazepine Trial Tracker" />
+    <meta name="twitter:description" content="Lightweight daily tracker for Carbamazepine titration, symptoms, and side effects. Data stays in your browser. Export JSON or CSV for GitHub." />
+    <meta name="twitter:image" content="https://jamessaint.github.io/images/seed-of-life-gold-default.png" />
+    <!-- App Icons + Manifest -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://jamessaint.github.io/images/icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="https://jamessaint.github.io/images/icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="https://jamessaint.github.io/images/icons/favicon-16x16.png" />
+    <link rel="manifest" href="https://jamessaint.github.io/site.webmanifest" />
+    <link rel="mask-icon" href="https://jamessaint.github.io/images/icons/safari-pinned-tab.svg" color="#003366" />
+    <meta name="msapplication-TileColor" content="#003366" />
+    <!-- Preconnect/DNS Prefetch for performance -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <!-- CSS Framework + Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://jamessaint.github.io/medical/global_styles.css" rel="stylesheet" />
+    <!-- Mild Content Security Policy -->
+<meta http-equiv="Content-Security-Policy"
+  content="
     default-src 'self';
-    img-src 'self' https: data:;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
-    font-src 'self' https://fonts.gstatic.com data:;
+    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
+    style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com;
+    font-src  'self' https://fonts.gstatic.com;
+    img-src   'self' data: blob:;
     connect-src 'self';
     frame-ancestors 'none';
     base-uri 'self';
-    form-action 'self'
+    form-action 'self';
   ">
 
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Carbamazepine Trial Tracker",
-    "url": "",
-    "description": "Lightweight daily tracker for Carbamazepine titration, symptoms, and side effects. Data stays in your browser. Export JSON or CSV for GitHub.",
-    "inLanguage": "en-GB",
-    "isPartOf": { "@type": "WebSite", "name": "James Saint", "url": "https://jamessaint.github.io/" }
-  }
-  </script>
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Carbamazepine Trial Tracker",
+        "url": "",
+        "description": "Lightweight daily tracker for Carbamazepine titration, symptoms, and side effects. Data stays in your browser. Export JSON or CSV for GitHub.",
+        "inLanguage": "en-GB",
+        "isPartOf": { "@type": "WebSite", "name": "James Saint", "url": "https://jamessaint.github.io/" }
+    }
+    </script>
 </head>
 
 <body>
@@ -184,513 +174,124 @@
                         <textarea id="notes" class="form-control" rows="2" placeholder="Optional short note"></textarea>
                     </div>
                 </div>
-<!-- Vitals (AM/PM) -->
-<fieldset class="mt-3">
-  <legend class="h6 mb-2 text-uppercase">Vitals</legend>
-
-  <div class="row g-2 align-items-end">
-    <!-- Morning -->
-    <div class="col-12 col-md-6">
-      <label class="form-label fw-semibold mb-1">Morning (AM)</label>
-      <div class="row g-2">
-        <div class="col-4">
-          <label for="am_sys" class="form-label small mb-1">Systolic</label>
-          <input type="number" class="form-control" id="am_sys" inputmode="numeric" min="70" max="250" step="1" placeholder="e.g. 120">
-        </div>
-        <div class="col-4">
-          <label for="am_dia" class="form-label small mb-1">Diastolic</label>
-          <input type="number" class="form-control" id="am_dia" inputmode="numeric" min="40" max="150" step="1" placeholder="e.g. 80">
-        </div>
-        <div class="col-4">
-          <label for="am_hr" class="form-label small mb-1">Pulse</label>
-          <input type="number" class="form-control" id="am_hr" inputmode="numeric" min="30" max="220" step="1" placeholder="e.g. 70">
-        </div>
-      </div>
-    </div>
-
-    <!-- Evening -->
-    <div class="col-12 col-md-6">
-      <label class="form-label fw-semibold mb-1">Evening (PM)</label>
-      <div class="row g-2">
-        <div class="col-4">
-          <label for="pm_sys" class="form-label small mb-1">Systolic</label>
-          <input type="number" class="form-control" id="pm_sys" inputmode="numeric" min="70" max="250" step="1" placeholder="e.g. 118">
-        </div>
-        <div class="col-4">
-          <label for="pm_dia" class="form-label small mb-1">Diastolic</label>
-          <input type="number" class="form-control" id="pm_dia" inputmode="numeric" min="40" max="150" step="1" placeholder="e.g. 78">
-        </div>
-        <div class="col-4">
-          <label for="pm_hr" class="form-label small mb-1">Pulse</label>
-          <input type="number" class="form-control" id="pm_hr" inputmode="numeric" min="30" max="220" step="1" placeholder="e.g. 66">
-        </div>
-      </div>
-    </div>
-  </div>
-</fieldset>
-
+                <!-- Vitals (AM/PM) -->
+                <fieldset class="mt-3">
+                    <legend class="h6 mb-2 text-uppercase">Vitals</legend>
+                    <div class="row g-2 align-items-end">
+                        <!-- Morning -->
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold mb-1">Morning (AM)</label>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <label for="am_sys" class="form-label small mb-1">Systolic</label>
+                                    <input type="number" class="form-control" id="am_sys" inputmode="numeric" min="70" max="250" step="1" placeholder="e.g. 120">
+                                </div>
+                                <div class="col-4">
+                                    <label for="am_dia" class="form-label small mb-1">Diastolic</label>
+                                    <input type="number" class="form-control" id="am_dia" inputmode="numeric" min="40" max="150" step="1" placeholder="e.g. 80">
+                                </div>
+                                <div class="col-4">
+                                    <label for="am_hr" class="form-label small mb-1">Pulse</label>
+                                    <input type="number" class="form-control" id="am_hr" inputmode="numeric" min="30" max="220" step="1" placeholder="e.g. 70">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Evening -->
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold mb-1">Evening (PM)</label>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <label for="pm_sys" class="form-label small mb-1">Systolic</label>
+                                    <input type="number" class="form-control" id="pm_sys" inputmode="numeric" min="70" max="250" step="1" placeholder="e.g. 118">
+                                </div>
+                                <div class="col-4">
+                                    <label for="pm_dia" class="form-label small mb-1">Diastolic</label>
+                                    <input type="number" class="form-control" id="pm_dia" inputmode="numeric" min="40" max="150" step="1" placeholder="e.g. 78">
+                                </div>
+                                <div class="col-4">
+                                    <label for="pm_hr" class="form-label small mb-1">Pulse</label>
+                                    <input type="number" class="form-control" id="pm_hr" inputmode="numeric" min="30" max="220" step="1" placeholder="e.g. 66">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
                 <div class="btn-wrap mt-3">
                     <button type="submit" class="btn btn-primary">Save Entry</button>
                     <button type="button" id="btn-clear-today" class="btn btn-outline-secondary">Clear Today</button>
                 </div>
             </form>
         </section>
-
-        
-<section id="entries" class="section card-like">
-  <h2>Entries</h2>
-
-  <div class="btn-wrap mb-2 d-flex flex-wrap align-items-center gap-2">
-    <button type="button" id="btn-export-json" class="btn btn-success">Export JSON</button>
-    <button type="button" id="btn-export-csv" class="btn btn-success">Export CSV</button>
-    <button type="button" id="btn-import-json" class="btn btn-outline-primary">Import JSON</button>
-    <input type="file" id="import-file" class="import-input" accept=".json,application/json">
-    <button type="button" id="btn-clear-all" class="btn btn-outline-danger">Clear All</button>
-
-    <!-- Safe merge & archive -->
-    <button type="button" id="btn-safe-export" class="btn btn-primary">Safe Export (Merge First)</button>
-    <button type="button" id="btn-archive-snapshot" class="btn btn-outline-secondary">Archive Snapshot</button>
-
-    <!-- Data Source -->
-    <div class="d-inline-flex align-items-center gap-2 ms-auto">
-      <label for="data-source" class="small mb-0 text-uppercase fw-semibold">Data source:</label>
-      <select id="data-source" class="form-select form-select-sm" style="width:auto;">
-        <option value="local" selected>Local</option>
-        <option value="repo">Repo</option>
-        <option value="merged">Merged</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="table-responsive entries-wrap">
-    <table id="entriesTable" class="entries-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th class="num">Dose</th>
-          <th class="num">Pain</th>
-          <th class="num">Sedation</th>
-          <th class="num">Dizziness</th>
-          <th class="num">Nausea</th>
-          <th class="num">Brain Fog</th>
-          <th class="num">Sleep</th>
-          <th>Appetite</th>
-          <th>Effects</th>
-          <!-- NEW -->
-          <th>AM BP / Pulse</th>
-          <th>PM BP / Pulse</th>
-          <!-- /NEW -->
-          <th>Notes</th>
-          <th class="actions-col">Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-</section>
-
-    <!-- Footer -->
-<footer class="site-footer mt-4" role="contentinfo" aria-label="Site footer">
-  <div class="footer-container text-center">
-    <hr class="footer-rule" />
-    <div class="footer-note mb-1">
-      Private & Confidential · Intended for the named clinical team and the patient only.
-    </div>
-    <div class="footer-copy">
-      © <span id="copy-year"></span> James Saint. All rights reserved.
-    </div>
-  </div>
-</footer>
-<!-- Year Autoupdate -->
-<script>
-  (function () {
-    var y = new Date().getFullYear();
-    var el = document.getElementById('copy-year');
-    if (el) el.textContent = y;
-  })();
-</script>
-
+        <section id="entries" class="section card-like">
+            <h2>Entries</h2>
+            <div class="btn-wrap mb-2 d-flex flex-wrap align-items-center gap-2">
+                <button type="button" id="btn-export-json" class="btn btn-success">Export JSON</button>
+                <button type="button" id="btn-export-csv" class="btn btn-success">Export CSV</button>
+                <button type="button" id="btn-import-json" class="btn btn-outline-primary">Import JSON</button>
+                <input type="file" id="import-file" class="import-input" accept=".json,application/json">
+                <button type="button" id="btn-clear-all" class="btn btn-outline-danger">Clear All</button>
+                <!-- Safe merge & archive -->
+                <button type="button" id="btn-safe-export" class="btn btn-primary">Safe Export (Merge First)</button>
+                <button type="button" id="btn-archive-snapshot" class="btn btn-outline-secondary">Archive Snapshot</button>
+                <!-- Data Source -->
+                <div class="d-inline-flex align-items-center gap-2 ms-auto">
+                    <label for="data-source" class="small mb-0 text-uppercase fw-semibold">Data source:</label>
+                    <select id="data-source" class="form-select form-select-sm" style="width:auto;">
+                        <option value="local" selected>Local</option>
+                        <option value="repo">Repo</option>
+                        <option value="merged">Merged</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-responsive entries-wrap">
+                <table id="entriesTable" class="entries-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th class="num">Dose</th>
+                            <th class="num">Pain</th>
+                            <th class="num">Sedation</th>
+                            <th class="num">Dizziness</th>
+                            <th class="num">Nausea</th>
+                            <th class="num">Brain Fog</th>
+                            <th class="num">Sleep</th>
+                            <th>Appetite</th>
+                            <th>Effects</th>
+                            <!-- NEW -->
+                            <th>AM BP / Pulse</th>
+                            <th>PM BP / Pulse</th>
+                            <!-- /NEW -->
+                            <th>Notes</th>
+                            <th class="actions-col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+        <!-- Footer -->
+        <footer class="site-footer mt-4" role="contentinfo" aria-label="Site footer">
+            <div class="footer-container text-center">
+                <hr class="footer-rule" />
+                <div class="footer-note mb-1">
+                    Private & Confidential · Intended for the named clinical team and the patient only.
+                </div>
+                <div class="footer-copy">
+                    © <span id="copy-year"></span> James Saint. All rights reserved.
+                </div>
+            </div>
+        </footer>
+        <!-- Year Autoupdate -->
+        <script>
+        (function() {
+            var y = new Date().getFullYear();
+            var el = document.getElementById('copy-year');
+            if (el) el.textContent = y;
+        })();
+        </script>
     </main>
-<script>
-  /**
-   * Entries table with AM/PM vitals and robust Repo/Local/Merged handling.
-   * - Local: edit/delete works as usual.
-   * - Repo: read-only (browser can't write to GitHub) – we alert on edit/delete.
-   * - Merged: edit/delete only affects your local copy; repo-only rows are read-only.
-   * - Local wins on ID collisions in merged view (so edited local version can override repo).
-   */
-
-  const KEY = 'carbamazepine_entries_v1';
-
-  // Repo URLs (tries in order)
-  const ORIGIN = window.location.origin;
-  const REPO_URLS = [
-    '/medical/neurological/carbamazepine-tracker.json',
-    `${ORIGIN}/medical/neurological/carbamazepine-tracker.json`,
-    'https://jamessaint.github.io/medical/neurological/carbamazepine-tracker.json',
-    'https://raw.githubusercontent.com/jamessaint/jamessaint.github.io/main/medical/neurological/carbamazepine-tracker.json',
-    'https://raw.githubusercontent.com/jamessaint/jamessaint.github.io/master/medical/neurological/carbamazepine-tracker.json'
-  ];
-
-  // Per-device ID prefix so new entries are globally unique
-  const DEVICE_ID = (() => {
-    const k = 'carbamazepine_device_id';
-    let v = localStorage.getItem(k);
-    if (!v) {
-      v = (crypto?.randomUUID?.() || ('dev-' + Date.now() + '-' + Math.random().toString(36).slice(2)));
-      localStorage.setItem(k, v);
-    }
-    return v;
-  })();
-
-  // Utils
-  const pad = n => String(n).padStart(2, '0');
-  const nowTime = () => { const d=new Date(); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
-  const toNum = v => (v === '' || v === null || v === undefined) ? null : Number(v);
-  const escapeHTML = s => String(s).replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
-  const badge = txt => `<span class="badge-soft">${escapeHTML(txt)}</span>`;
-  function uid() {
-    const core = crypto?.randomUUID ? crypto.randomUUID()
-      : (Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,10));
-    return `${DEVICE_ID}-${core}`;
-  }
-
-  // Local storage
-  function loadEntries() { try { const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : []; } catch { return []; } }
-  function saveEntries(entries) { localStorage.setItem(KEY, JSON.stringify(entries)); }
-
-  // Normalization (adds vitals)
-  function normalizeEntries(arr) {
-    return arr.map(e => ({
-      id: e.id ?? `${e.date ?? ''}_${e.time ?? ''}_${e.dose ?? ''}`,
-      date: e.date ?? '',
-      time: e.time ?? '',
-      dose: Number(e.dose ?? 0),
-      pain: Number(e.pain ?? 0),
-      sedation: Number(e.sedation ?? 0),
-      dizziness: Number(e.dizziness ?? 0),
-      nausea: Number(e.nausea ?? 0),
-      brainfog: Number(e.brainfog ?? 0),
-      sleep: Number(e.sleep ?? 0),
-      appetite: e.appetite ?? 'Normal',
-      effects: Array.isArray(e.effects) ? e.effects
-        : String(e.effects ?? '').split(';').map(s => s.trim()).filter(Boolean),
-      notes: e.notes ?? '',
-      am_sys: toNum(e.am_sys),
-      am_dia: toNum(e.am_dia),
-      am_hr:  toNum(e.am_hr),
-      pm_sys: toNum(e.pm_sys),
-      pm_dia: toNum(e.pm_dia),
-      pm_hr:  toNum(e.pm_hr),
-    }));
-  }
-
-  // Rendering
-  const fmtVitals = (sys, dia, hr) => {
-    if (sys == null && dia == null && hr == null) return '—';
-    const bp = (sys != null || dia != null) ? `${sys ?? '?'}\/${dia ?? '?'}` : '';
-    const pulse = (hr != null) ? ` • ${hr}` : '';
-    return (bp || pulse) ? `${bp}${pulse}` : '—';
-  };
-
-  function entryRow(e) {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td data-label="Date">${e.date}</td>
-      <td data-label="Time">${e.time}</td>
-      <td class="num" data-label="Dose">${e.dose}</td>
-      <td class="num" data-label="Pain">${e.pain}</td>
-      <td class="num" data-label="Sedation">${e.sedation}</td>
-      <td class="num" data-label="Dizziness">${e.dizziness}</td>
-      <td class="num" data-label="Nausea">${e.nausea}</td>
-      <td class="num" data-label="Brain Fog">${e.brainfog}</td>
-      <td class="num" data-label="Sleep">${e.sleep}</td>
-      <td data-label="Appetite">${badge(e.appetite)}</td>
-      <td data-label="Effects">${(e.effects||[]).map(badge).join(' ')}</td>
-      <td data-label="AM BP / Pulse">${fmtVitals(e.am_sys, e.am_dia, e.am_hr)}</td>
-      <td data-label="PM BP / Pulse">${fmtVitals(e.pm_sys, e.pm_dia, e.pm_hr)}</td>
-      <td class="notes" data-label="Notes">${e.notes ? escapeHTML(e.notes) : ''}</td>
-      <td class="actions d-flex gap-1" data-label="Actions">
-        <button class="btn btn-outline-secondary btn-sm" data-action="edit" data-id="${e.id}">Edit</button>
-        <button class="btn btn-outline-danger btn-sm" data-action="delete" data-id="${e.id}">Delete</button>
-      </td>`;
-    return tr;
-  }
-
-  function renderEmptyRow(msg) {
-    const tbody = document.querySelector('#entriesTable tbody');
-    const cols = document.querySelectorAll('#entriesTable thead th').length || 15;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td colspan="${cols}" class="text-center py-3 small text-muted">${msg}</td>`;
-    tbody.appendChild(tr);
-  }
-
-  function renderTableFrom(entries) {
-    const tbody = document.querySelector('#entriesTable tbody');
-    if (!tbody) return;
-    tbody.innerHTML = '';
-    if (!entries || entries.length === 0) { renderEmptyRow('No data.'); return; }
-    entries.slice().sort((a,b) => (a.date + a.time).localeCompare(b.date + b.time))
-      .forEach(e => tbody.appendChild(entryRow(e)));
-  }
-  const renderTable = () => renderTableFrom(loadEntries());
-
-  // Merge: **repo first, then local** so local wins on key collision
-  function mergeDedup(a, b) {
-    const map = new Map();
-    const put = e => {
-      const key = e.id || `${e.date}_${e.time}_${e.dose}`;
-      const prev = map.get(key);
-      if (!prev) map.set(key, e);
-      else {
-        const A = (prev.date||'') + (prev.time||'');
-        const B = (e.date||'') + (e.time||'');
-        if (B >= A) map.set(key, e); // >= so later put wins on tie
-      }
-    };
-    // repo then local -> local overrides
-    normalizeEntries(a).forEach(put); // a = repo
-    normalizeEntries(b).forEach(put); // b = local
-    return Array.from(map.values());
-  }
-
-  function toCSV(entries) {
-    const cols = [
-      "date","time","dose","pain","sedation","dizziness","nausea","brainfog","sleep",
-      "appetite","effects","am_sys","am_dia","am_hr","pm_sys","pm_dia","pm_hr","notes","id"
-    ];
-    const header = cols.join(',');
-    const lines = entries.map(e => cols.map(c => {
-      let v = e[c]; if (Array.isArray(v)) v = v.join('; ');
-      if (v == null) v = ''; v = String(v).replace(/"/g,'""'); return `"${v}"`;
-    }).join(','));
-    return [header, ...lines].join('\n');
-  }
-
-  function download(filename, content, mime) {
-    const blob = new Blob([content], { type: mime });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename; a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  // Repo loader
-  async function fetchJSON(url) {
-    const bust = url.includes('?') ? '&' : '?';
-    const res = await fetch(`${url}${bust}ts=${Date.now()}`, { cache: 'no-store', mode: 'cors' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    let data;
-    try { data = await res.json(); }
-    catch { data = JSON.parse(await res.text()); }
-    let arr = null;
-    if (Array.isArray(data)) arr = data;
-    else if (data && typeof data === 'object') {
-      const keys = ['entries','data','items','rows','records','list'];
-      for (const k of keys) if (Array.isArray(data[k])) { arr = data[k]; break; }
-      if (!arr) {
-        const bucket = [];
-        Object.values(data).forEach(v => { if (Array.isArray(v)) v.forEach(x => { if (x && typeof x === 'object') bucket.push(x); }); });
-        if (bucket.length) arr = bucket;
-      }
-    }
-    return arr ? normalizeEntries(arr) : [];
-  }
-  async function loadEntriesRepo() {
-    for (const u of REPO_URLS) { try { const rows = await fetchJSON(u); if (rows) return rows; } catch {} }
-    return [];
-  }
-  async function loadEntriesMerged() {
-    const [repo, local] = await Promise.all([loadEntriesRepo(), Promise.resolve(loadEntries())]);
-    return mergeDedup(repo, local);
-  }
-
-  // Init
-  document.addEventListener('DOMContentLoaded', () => {
-    const timeEl = document.getElementById('time');
-    if (timeEl) timeEl.value = nowTime();
-
-    const selector = document.getElementById('data-source');
-    const source = () => (selector?.value || 'local');
-
-    async function renderBySource() {
-      const s = source();
-      if (s === 'local') renderTable();
-      else if (s === 'repo') renderTableFrom(await loadEntriesRepo());
-      else renderTableFrom(await loadEntriesMerged());
-    }
-
-    // Prefer Repo if Local is empty and Repo has rows
-    (async () => {
-      if (loadEntries().length === 0 && selector) {
-        const repo = await loadEntriesRepo();
-        if (repo.length) { selector.value = 'repo'; renderTableFrom(repo); return; }
-      }
-      renderBySource();
-    })();
-
-    selector?.addEventListener('change', renderBySource);
-
-    // Form submit -> LOCAL only
-    const form = document.getElementById('entryForm');
-    form?.addEventListener('submit', e => {
-      e.preventDefault();
-      const appetite = document.querySelector('input[name="appetite"]:checked')?.value || 'Normal';
-      const effects = [];
-      ['fx_itch','fx_vision','fx_headache','fx_gi'].forEach(id => { const el = document.getElementById(id); if (el?.checked) effects.push(el.value); });
-
-      const entry = {
-        id: uid(),
-        date: document.getElementById('date').value,
-        time: document.getElementById('time').value,
-        dose: Number(document.getElementById('dose').value),
-        pain: Number(document.getElementById('pain').value),
-        sedation: Number(document.getElementById('sedation').value),
-        dizziness: Number(document.getElementById('dizziness').value),
-        nausea: Number(document.getElementById('nausea').value),
-        brainfog: Number(document.getElementById('brainfog').value),
-        sleep: Number(document.getElementById('sleep').value),
-        appetite, effects,
-        notes: document.getElementById('notes').value.trim(),
-        am_sys: toNum(document.getElementById('am_sys')?.value),
-        am_dia: toNum(document.getElementById('am_dia')?.value),
-        am_hr:  toNum(document.getElementById('am_hr')?.value),
-        pm_sys: toNum(document.getElementById('pm_sys')?.value),
-        pm_dia: toNum(document.getElementById('pm_dia')?.value),
-        pm_hr:  toNum(document.getElementById('pm_hr')?.value),
-      };
-
-      const entries = loadEntries(); entries.push(entry); saveEntries(entries);
-      if (source() !== 'repo') renderBySource();
-
-      form.reset(); if (timeEl) timeEl.value = nowTime();
-    });
-
-    // Table actions — handle Local vs Repo vs Merged
-    document.querySelector('#entriesTable')?.addEventListener('click', async ev => {
-      const btn = ev.target.closest('button[data-action]'); if (!btn) return;
-      const id = btn.getAttribute('data-id'); const action = btn.getAttribute('data-action');
-      const s = source();
-
-      // Helper: find row by id in current source
-      async function getRowById(id) {
-        if (s === 'local') {
-          const local = loadEntries(); return local.find(e => e.id === id) || null;
-        } else if (s === 'repo') {
-          const repo = await loadEntriesRepo(); return repo.find(e => e.id === id) || null;
-        } else {
-          const merged = await loadEntriesMerged(); return merged.find(e => e.id === id) || null;
-        }
-      }
-
-      if (action === 'delete') {
-        if (s === 'local') {
-          const local = loadEntries();
-          const idx = local.findIndex(e => e.id === id);
-          if (idx !== -1) { local.splice(idx, 1); saveEntries(local); }
-          renderBySource();
-        } else if (s === 'merged') {
-          // Delete only affects local rows
-          const local = loadEntries();
-          const idx = local.findIndex(e => e.id === id);
-          if (idx !== -1) {
-            local.splice(idx, 1); saveEntries(local); renderBySource();
-          } else {
-            alert('This row comes from the Repo and is read-only here.');
-          }
-        } else {
-          alert('Repo view is read-only. Switch to Local or Merged to manage your local copy.');
-        }
-      }
-
-      if (action === 'edit') {
-        if (s === 'local') {
-          const local = loadEntries();
-          const idx = local.findIndex(e => e.id === id);
-          if (idx === -1) return;
-          const eRow = local[idx];
-
-          // Fill minimal fields for quick edit
-          const set = (i,v)=>{ const el=document.getElementById(i); if(el) el.value=(v ?? ''); };
-          set('date', eRow.date); set('time', eRow.time); set('dose', eRow.dose); set('notes', eRow.notes);
-          set('am_sys', eRow.am_sys); set('am_dia', eRow.am_dia); set('am_hr', eRow.am_hr);
-          set('pm_sys', eRow.pm_sys); set('pm_dia', eRow.pm_dia); set('pm_hr', eRow.pm_hr);
-
-          // Remove old local row — saving will write updated one
-          local.splice(idx, 1); saveEntries(local); renderBySource();
-        } else if (s === 'merged') {
-          // Prefer editing local copy if it exists; otherwise we can load repo values into the form
-          const local = loadEntries();
-          let idx = local.findIndex(e => e.id === id);
-          let eRow = idx !== -1 ? local[idx] : await getRowById(id);
-          if (!eRow) return;
-
-          // Fill form
-          const set = (i,v)=>{ const el=document.getElementById(i); if(el) el.value=(v ?? ''); };
-          set('date', eRow.date); set('time', eRow.time); set('dose', eRow.dose); set('notes', eRow.notes);
-          set('am_sys', eRow.am_sys); set('am_dia', eRow.am_dia); set('am_hr', eRow.am_hr);
-          set('pm_sys', eRow.pm_sys); set('pm_dia', eRow.pm_dia); set('pm_hr', eRow.pm_hr);
-
-          // If local row exists, remove it so the saved edit replaces it cleanly
-          if (idx !== -1) { local.splice(idx, 1); saveEntries(local); }
-          // If it only exists in repo, we simply load values; saving will create a local edited copy.
-          renderBySource();
-        } else {
-          // Repo view: read-only; allow user to edit by loading values but warn that saving creates a local copy
-          const eRow = await getRowById(id);
-          if (!eRow) return;
-          const set = (i,v)=>{ const el=document.getElementById(i); if(el) el.value=(v ?? ''); };
-          set('date', eRow.date); set('time', eRow.time); set('dose', eRow.dose); set('notes', eRow.notes);
-          set('am_sys', eRow.am_sys); set('am_dia', eRow.am_dia); set('am_hr', eRow.am_hr);
-          set('pm_sys', eRow.pm_sys); set('pm_dia', eRow.pm_dia); set('pm_hr', eRow.pm_hr);
-          alert('Repo view is read-only. Any changes you save will be stored in your Local data.');
-        }
-      }
-    });
-
-    // Export / Import / Clear
-    document.getElementById('btn-export-json')?.addEventListener('click', () => {
-      const data = JSON.stringify(loadEntries(), null, 2);
-      download('carbamazepine-tracker.json', data, 'application/json');
-    });
-    document.getElementById('btn-export-csv')?.addEventListener('click', () => {
-      const csv = toCSV(loadEntries());
-      download('carbamazepine-tracker.csv', csv, 'text/csv');
-    });
-
-    const importInput = document.getElementById('import-file');
-    document.getElementById('btn-import-json')?.addEventListener('click', () => importInput.click());
-    importInput?.addEventListener('change', e => {
-      const file = e.target.files?.[0]; if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const arr = JSON.parse(reader.result);
-          if (Array.isArray(arr)) { saveEntries(arr); renderBySource(); }
-          else alert('Invalid JSON format');
-        } catch { alert('Import failed'); }
-      };
-      reader.readAsText(file);
-    });
-
-    document.getElementById('btn-clear-all')?.addEventListener('click', () => {
-      if (confirm('Clear all entries stored in this browser?')) { saveEntries([]); renderBySource(); }
-    });
-
-    // Safe export & archive (merge with Repo first)
-    function stamp() { const d = new Date(); return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`; }
-    document.getElementById('btn-safe-export')?.addEventListener('click', async () => {
-      const merged = mergeDedup(await loadEntriesRepo(), loadEntries());
-      download('carbamazepine-tracker.json', JSON.stringify(merged, null, 2), 'application/json');
-    });
-    document.getElementById('btn-archive-snapshot')?.addEventListener('click', async () => {
-      const merged = mergeDedup(await loadEntriesRepo(), loadEntries());
-      download(`carbamazepine-tracker-${stamp()}.json`, JSON.stringify(merged, null, 2), 'application/json');
-    });
-  });
-</script>
-
+<script defer src="/medical/neurological/js/carbamazepine-tracker.js"></script>
 
 </body>
 
