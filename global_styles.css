@@ -519,3 +519,114 @@ tbody tr:nth-child(even) {}
     font-size: 0.7rem;
     margin-top: 6px;
   }
+/* ==========================================================================
+   INTEGRATED RECOVERY PLAN EXTENSIONS
+   (scrollable tables, scrollable gantt, consistent with neurological index)
+   ========================================================================== */
+
+/* --- Scrollable Tables --- */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1.5em;
+}
+
+.table-responsive table {
+  min-width: 700px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.75em;
+  border: 1px solid #C9B694;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* --- Scrollable Gantt Chart --- */
+.gantt-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1.5em;
+}
+
+.gantt {
+  position: relative;
+  padding: 10px 0 6px 0;
+}
+
+.g-grid {
+  display: grid;
+  gap: 2px;
+  position: relative;
+  --dayw: 10px; /* pixels per day for horizontal scale */
+  grid-template-columns: 180px repeat(150, var(--dayw));
+  background: repeating-linear-gradient(
+    to right,
+    rgba(0,0,0,0.02) 0,
+    rgba(0,0,0,0.02) calc(var(--dayw) * 7),
+    transparent calc(var(--dayw) * 7),
+    transparent calc(var(--dayw) * 14)
+  );
+}
+
+.g-header {
+  grid-column: 1 / 2;
+  font-weight: 700;
+  padding: 6px 4px;
+}
+
+.g-scale {
+  grid-row: 1;
+  text-align: center;
+  font-size: 0.78rem;
+  padding-top: 2px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  white-space: nowrap;
+}
+
+.g-row { display: contents; }
+
+.g-label {
+  grid-column: 1 / 2;
+  align-self: center;
+  font-weight: 600;
+  padding: 6px 4px;
+}
+
+.g-bar {
+  background: linear-gradient(180deg, rgba(201,182,148,0.5), rgba(201,182,148,0.25));
+  border: 1px solid #C9B694;
+  height: 28px;
+  position: relative;
+  border-radius: 3px;
+}
+
+.g-text {
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.g-today {
+  background: #003366;
+  opacity: 0.25;
+  width: 2px;
+  justify-self: start;
+}
+
+@media (max-width: 600px) {
+  .g-text {
+    font-size: 0.7rem;
+  }
+}
