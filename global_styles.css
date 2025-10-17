@@ -168,6 +168,19 @@ a:hover { text-decoration: underline; }
 /* =========================================================
    06. Tables – shared structure
    ========================================================= */
+/* --- Scrollable Tables --- */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1.5em;
+}
+
+.table-responsive table {
+  min-width: 700px;
+  border-collapse: collapse;
+}
+
 .table-wrap {
     max-width: 100%;
     overflow-x: auto;
@@ -524,32 +537,6 @@ tbody tr:nth-child(even) {}
    (scrollable tables, scrollable gantt, consistent with neurological index)
    ========================================================================== */
 
-/* --- Scrollable Tables --- */
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  margin-bottom: 1.5em;
-}
-
-.table-responsive table {
-  min-width: 700px;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  padding: 0.75em;
-  border: 1px solid #C9B694;
-  text-align: left;
-  vertical-align: top;
-}
-
-th {
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
 /* --- Scrollable Gantt Chart --- */
 .gantt-wrap {
   width: 100%;
@@ -628,5 +615,128 @@ th {
 @media (max-width: 600px) {
   .g-text {
     font-size: 0.7rem;
+  }
+}
+
+/* =========================================================
+   14. Daily Plan – Tick-off Checklist (scoped to #daily-plan)
+   ---------------------------------------------------------
+   Goals:
+   - Improve readability (clear group bands, zebra rows)
+   - Sticky header + sticky group titles while scrolling
+   - Larger checkbox hit area without changing brand style
+   - Mobile: stacked layout using data-labels (no global impact)
+   ========================================================= */
+
+#daily-plan .table { table-layout: fixed; }
+#daily-plan .table thead th { position: sticky; top: 0; z-index: 2; background: #fefbf3; }
+
+/* Column alignment tweaks */
+#daily-plan th, #daily-plan td { vertical-align: middle; }
+#daily-plan .text-center { text-align: center; }
+
+/* Zebra striping for body rows (excluding group rows) */
+#daily-plan tbody tr:not(.dp-group):nth-child(even) td {
+  background: rgba(201, 182, 148, 0.06);
+}
+
+/* Group row (Morning / Midday / Afternoon / Evening / Night / Tracking) */
+#daily-plan .dp-group .dp-group-title {
+  background: #fbf7ee;
+  color: #003366;
+  border-top: 2px solid #C9B694;
+  border-bottom: 2px solid #C9B694;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  font-weight: 700;
+  padding: .5rem .75rem;
+  position: sticky;               /* sticky group header */
+  top: 2.25rem;                   /* sits below sticky thead */
+  z-index: 1;
+}
+
+/* Tighten cell spacing slightly for long details */
+#daily-plan td[data-label="Details"], 
+#daily-plan td:nth-child(3) {
+  line-height: 1.35;
+}
+
+/* Checkbox cell: center and enlarge hit area slightly */
+#daily-plan .dp-check {
+  text-align: center;
+  white-space: nowrap;
+}
+#daily-plan .dp-checkbox {
+  width: 1.15rem;
+  height: 1.15rem;
+  cursor: pointer;
+  /* Uses your brand checked color via existing .form-check-input:checked overrides */
+}
+
+/* Help text */
+#daily-plan .meta { opacity: 0.9; }
+
+/* --- Small screens: stack rows into cards (scoped; does NOT affect other tables) --- */
+@media (max-width: 575.98px) {
+  #daily-plan .table thead { display: none; }
+
+  #daily-plan .table,
+  #daily-plan .table tbody,
+  #daily-plan .table tr,
+  #daily-plan .table td {
+    display: block;
+    width: 100%;
+  }
+
+  #daily-plan .dp-group .dp-group-title {
+    position: static; /* simpler on mobile to avoid overlap */
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    margin-top: .5rem;
+  }
+
+  #daily-plan .table tr:not(.dp-group) {
+    border: 1px solid #C9B694;
+    margin: .65rem 0;
+    background: rgba(255,255,255,0.46);
+  }
+
+  #daily-plan .table td {
+    position: relative;
+    padding: .65rem .75rem .65rem 9.5rem;
+    border: 0;
+    border-bottom: 1px solid rgba(201,182,148,0.45);
+    white-space: normal;
+  }
+  #daily-plan .table td:last-child { border-bottom: 0; }
+
+  #daily-plan .table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: .75rem;
+    top: .65rem;
+    width: 8.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #003366;
+    line-height: 1.25;
+    white-space: normal;
+  }
+
+  /* Ensure the checkbox cell looks tidy on mobile */
+  #daily-plan .dp-check {
+    text-align: left;
+    padding-left: 9.5rem;
+  }
+}
+
+/* --- Print: fit to A4 width, keep borders legible, remove stickiness --- */
+@media print {
+  #daily-plan .table thead th { position: static; }
+  #daily-plan .dp-group .dp-group-title { position: static; }
+  #daily-plan .table { width: 100% !important; }
+  #daily-plan .table td, #daily-plan .table th {
+    border: 1px solid #C9B694 !important;
+    padding: 6px 8px !important;
   }
 }
