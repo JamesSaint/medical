@@ -641,7 +641,6 @@ tbody tr:nth-child(even) {}
 
 /* Group row (Morning / Midday / Afternoon / Evening / Night / Tracking) */
 #daily-plan .dp-group .dp-group-title {
-  color: #003366;
   border-top: 2px solid #C9B694;
   border-bottom: 2px solid #C9B694;
   text-transform: uppercase;
@@ -715,7 +714,6 @@ tbody tr:nth-child(even) {}
     width: 8.2rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: #003366;
     line-height: 1.25;
     white-space: normal;
   }
