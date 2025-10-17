@@ -629,7 +629,7 @@ tbody tr:nth-child(even) {}
    ========================================================= */
 
 #daily-plan .table { table-layout: fixed; }
-#daily-plan .table thead th { position: sticky; top: 0; z-index: 2; background: #fefbf3; }
+#daily-plan .table thead th { position: sticky; top: 0; z-index: 2; }
 
 /* Column alignment tweaks */
 #daily-plan th, #daily-plan td { vertical-align: middle; }
@@ -637,12 +637,10 @@ tbody tr:nth-child(even) {}
 
 /* Zebra striping for body rows (excluding group rows) */
 #daily-plan tbody tr:not(.dp-group):nth-child(even) td {
-  background: rgba(201, 182, 148, 0.06);
 }
 
 /* Group row (Morning / Midday / Afternoon / Evening / Night / Tracking) */
 #daily-plan .dp-group .dp-group-title {
-  background: #fbf7ee;
   color: #003366;
   border-top: 2px solid #C9B694;
   border-bottom: 2px solid #C9B694;
@@ -698,7 +696,6 @@ tbody tr:nth-child(even) {}
   #daily-plan .table tr:not(.dp-group) {
     border: 1px solid #C9B694;
     margin: .65rem 0;
-    background: rgba(255,255,255,0.46);
   }
 
   #daily-plan .table td {
