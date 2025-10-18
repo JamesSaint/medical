@@ -8,7 +8,7 @@
    03. Utilities & common elements
    04. Links
    05. Breadcrumbs
-   06. Tables – shared structure
+   06. Tables – shared structure (scrollable)
    07. Appointments table
    08. Symptom Overview
    09. Recent Events table
@@ -16,6 +16,8 @@
    11. Carbamazepine Tracker – Desktop/Tablet
    12. Carbamazepine Tracker – Mobile
    13. Global Footer Styles
+   14. Daily Plan – Tick-off Checklist (scoped)
+   15. TENS Map (scoped helpers)
    ---------------------------------------------------------
    Palette reference:
    navy #003366 | gold #C9B694 | cream #fefbf3 | grey #EEEEEE
@@ -26,22 +28,22 @@
    01. Global layout & typography
    ========================================================= */
 body {
-    font-family: Montserrat, sans-serif;
-    background-color: #EEEEEE;
-    color: #003366;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
-    font-size: 0.9rem;
+  font-family: Montserrat, sans-serif;
+  background-color: #EEEEEE;
+  color: #003366;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  font-size: 0.9rem;
 }
 
 .content {
-    max-width: 900px;
-    width: 100%;
-    padding: 0;
+  max-width: 900px;
+  width: 100%;
+  padding: 0;
 }
 
 
@@ -49,41 +51,41 @@ body {
    02. Headings
    ========================================================= */
 h1 {
-    color: #003366;
-    border-bottom: 1px solid #C9B694;
-    padding-bottom: 0.3em;
-    text-transform: uppercase;
-    font-size: 1.5rem;
-    font-weight: 600;
+  color: #003366;
+  border-bottom: 1px solid #C9B694;
+  padding-bottom: 0.3em;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 h2 {
-    color: #003366;
-    margin-top: 1.5em;
-    text-transform: uppercase;
-    font-size: 1rem;
-    border-bottom: 1px solid #C9B694;
-    padding-bottom: 0.3em;
-    font-weight: 700;
+  color: #003366;
+  margin-top: 1.5em;
+  text-transform: uppercase;
+  font-size: 1rem;
+  border-bottom: 1px solid #C9B694;
+  padding-bottom: 0.3em;
+  font-weight: 700;
 }
 
 h3 {
-    color: #003366;
-    margin-top: 1.2em;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    border-bottom: 1px solid #C9B694;
-    padding-bottom: 0.3em;
-    font-weight: 700;
+  color: #003366;
+  margin-top: 1.2em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  border-bottom: 1px solid #C9B694;
+  padding-bottom: 0.3em;
+  font-weight: 700;
 }
 
 h4 {
-    color: #003366;
-    margin-top: 1.2em;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    padding-bottom: 0.3em;
-    font-weight: 700;
+  color: #003366;
+  margin-top: 1.2em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  padding-bottom: 0.3em;
+  font-weight: 700;
 }
 
 
@@ -91,43 +93,40 @@ h4 {
    03. Utilities & common elements
    ========================================================= */
 .section {
-    margin-top: 2em;
-    margin-bottom: 2em;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 
 .note {
-    background-color: rgba(4, 87, 255, 0.04);
-    border-left: 1px solid #C9B694;
-    padding: 10px;
-    margin-top: 20px;
+  background-color: rgba(4, 87, 255, 0.04);
+  border-left: 1px solid #C9B694;
+  padding: 10px;
+  margin-top: 20px;
 }
 
 .card-like {
-    border-left: 3px solid #C9B694;
-    background: rgba(255, 255, 255, 0.46);
-    padding: 16px;
-    margin-bottom: 16px;
+  border-left: 3px solid #C9B694;
+  background: rgba(255, 255, 255, 0.46);
+  padding: 16px;
+  margin-bottom: 16px;
 }
 
-ul {
-    margin-left: 1.5em;
-}
-
+ul { margin-left: 1.5em; }
 figure { margin: 0; }
 
 figcaption,
 .meta {
-    font-size: 0.85rem;
-    color: #003366;
-    opacity: 0.9;
+  font-size: 0.85rem;
+  color: #003366;
+  opacity: 0.9;
 }
 
 footer {
-    margin-top: 2em;
-    font-size: 0.85rem;
-    color: #003366;
-    opacity: 0.85;
-    text-align: left;
+  margin-top: 2em;
+  font-size: 0.85rem;
+  color: #003366;
+  opacity: 0.85;
+  text-align: left;
 }
 
 
@@ -135,9 +134,9 @@ footer {
    04. Links
    ========================================================= */
 a {
-    color: #003366;
-    font-weight: 600;
-    text-decoration: none;
+  color: #003366;
+  font-weight: 600;
+  text-decoration: none;
 }
 a:link,
 a:visited { text-decoration: none; }
@@ -148,70 +147,59 @@ a:hover { text-decoration: underline; }
    05. Breadcrumbs
    ========================================================= */
 .breadcrumb {
-    background: transparent;
-    padding: 0;
-    margin-bottom: 1rem;
+  background: transparent;
+  padding: 0;
+  margin-bottom: 1rem;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
-    content: ">";
-    color: #C9B694;
-    padding: 0 0.3rem;
+  content: ">";
+  color: #C9B694;
+  padding: 0 0.3rem;
 }
 
 .breadcrumb-item.active {
-    color: #C9B694;
-    font-weight: 600;
+  color: #C9B694;
+  font-weight: 600;
 }
 
 
 /* =========================================================
-   06. Tables – shared structure
+   06. Tables – shared structure (scrollable)
    ========================================================= */
-/* --- Scrollable Tables --- */
-.table-responsive {
+/* Scroll container for wide tables */
+.table-responsive,
+.table-wrap {
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin-bottom: 1.5em;
 }
 
-.table-responsive table {
-  min-width: 700px;
-  border-collapse: collapse;
-}
-
-.table-wrap {
-    max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
+/* Ensure base tables render nicely and can expand wider than viewport */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    border-left: 3px solid #C9B694;
+  width: 100%;
+  border-collapse: collapse;
+  border-left: 3px solid #C9B694;
 }
 
 th,
 td {
-    padding: 0.75rem;
-    border: 1px solid #C9B694;
-    text-align: left;
-    vertical-align: top;
-    color: #003366;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    word-break: normal;
-    hyphens: auto;
+  padding: 0.75rem;
+  border: 1px solid #C9B694;
+  text-align: left;
+  vertical-align: top;
+  color: #003366;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
 }
 
 thead th {
-    text-transform: uppercase;
-    font-weight: 700;
+  text-transform: uppercase;
+  font-weight: 700;
 }
-
-tbody tr:nth-child(even) {}
 
 
 /* =========================================================
@@ -221,21 +209,19 @@ tbody tr:nth-child(even) {}
 
 #appointments th:nth-child(1),
 #appointments td:nth-child(1) {
-    width: 12ch;
-    white-space: nowrap;
+  width: 12ch;
+  white-space: nowrap;
 }
 
 #appointments th:nth-child(2),
 #appointments td:nth-child(2) { width: auto; }
 
 #appointments th:nth-child(3),
-#appointments td:nth-child(3) {
-    max-width: 24ch;
-}
+#appointments td:nth-child(3) { max-width: 24ch; }
 
 @media (max-width: 600px) {
-    #appointments th:nth-child(1),
-    #appointments td:nth-child(1) { white-space: normal; }
+  #appointments th:nth-child(1),
+  #appointments td:nth-child(1) { white-space: normal; }
 }
 
 
@@ -254,8 +240,8 @@ tbody tr:nth-child(even) {}
 #symptoms td:nth-child(3) { width: 44%; }
 
 @media (max-width: 600px) {
-    #symptoms th:nth-child(1),
-    #symptoms td:nth-child(1) { white-space: normal; }
+  #symptoms th:nth-child(1),
+  #symptoms td:nth-child(1) { white-space: normal; }
 }
 
 
@@ -287,33 +273,33 @@ tbody tr:nth-child(even) {}
    10. Brand color overrides (Bootstrap)
    ========================================================= */
 .btn-primary {
-    background-color: #C9B694 !important;
-    border-color: #C9B694 !important;
-    color: #003366 !important;
+  background-color: #C9B694 !important;
+  border-color: #C9B694 !important;
+  color: #003366 !important;
 }
 
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active {
-    background-color: #bda981 !important;
-    border-color: #bda981 !important;
-    color: #003366 !important;
+  background-color: #bda981 !important;
+  border-color: #bda981 !important;
+  color: #003366 !important;
 }
 
 .btn-outline-primary {
-    color: #C9B694 !important;
-    border-color: #C9B694 !important;
+  color: #C9B694 !important;
+  border-color: #C9B694 !important;
 }
 
 .btn-outline-primary:hover,
 .btn-outline-primary:focus {
-    background-color: #C9B694 !important;
-    color: #003366 !important;
+  background-color: #C9B694 !important;
+  color: #003366 !important;
 }
 
 .form-check-input:checked {
-    background-color: #C9B694 !important;
-    border-color: #C9B694 !important;
+  background-color: #C9B694 !important;
+  border-color: #C9B694 !important;
 }
 
 .form-range::-webkit-slider-thumb,
@@ -323,13 +309,13 @@ tbody tr:nth-child(even) {}
 .form-range::-webkit-slider-runnable-track { background: #ddd; }
 
 .form-range:focus::-webkit-slider-thumb {
-    box-shadow: 0 0 0 0.25rem rgba(201, 182, 148, 0.4);
+  box-shadow: 0 0 0 0.25rem rgba(201, 182, 148, 0.4);
 }
 
 .btn-check:checked + .btn-outline-primary {
-    background-color: #C9B694 !important;
-    border-color: #C9B694 !important;
-    color: #003366 !important;
+  background-color: #C9B694 !important;
+  border-color: #C9B694 !important;
+  color: #003366 !important;
 }
 
 
@@ -381,15 +367,8 @@ tbody tr:nth-child(even) {}
   white-space: normal;
 }
 
-#entries .entries-table th.actions-col {
-  min-width: 160px;
-  white-space: nowrap;
-}
-
-#entries .entries-table td.actions {
-  text-align: right;
-  white-space: nowrap;
-}
+#entries .entries-table th.actions-col { min-width: 160px; white-space: nowrap; }
+#entries .entries-table td.actions { text-align: right; white-space: nowrap; }
 
 #entries .entries-table td.actions .btn {
   display: inline-block;
@@ -418,12 +397,7 @@ tbody tr:nth-child(even) {}
    12. Carbamazepine Tracker – Mobile
    ========================================================= */
 @media (max-width: 575.98px) {
-  #entries .entries-table {
-    min-width: unset;
-    width: 100%;
-    border: none;
-  }
-
+  #entries .entries-table { min-width: unset; width: 100%; border: none; }
   #entries .entries-table thead { display: none; }
 
   #entries .entries-table,
@@ -464,15 +438,9 @@ tbody tr:nth-child(even) {}
     white-space: normal;
   }
 
-  #entries .entries-table td.num {
-    text-align: left;
-    white-space: normal;
-  }
+  #entries .entries-table td.num { text-align: left; white-space: normal; }
 
-  #entries .entries-table td.notes:empty::after {
-    content: "—";
-    opacity: .6;
-  }
+  #entries .entries-table td.notes:empty::after { content: "—"; opacity: .6; }
 
   #entries .entries-table td[data-label="Effects"] .badge-soft {
     margin-right: .35rem;
@@ -480,10 +448,7 @@ tbody tr:nth-child(even) {}
     border-radius: 0;
   }
 
-  #entries .entries-table td.actions {
-    text-align: right;
-    padding-left: 7.5rem;
-  }
+  #entries .entries-table td.actions { text-align: right; padding-left: 7.5rem; }
 
   #entries .entries-table td.actions .btn {
     display: inline-block;
@@ -492,188 +457,99 @@ tbody tr:nth-child(even) {}
     border-radius: 0;
   }
 }
+
+
 /* =========================================================
    13. Global Footer Styles
    ========================================================= */
-  .site-footer {
-    width: 100%;
-    background: #EEEEEE;
-    color: #003366;
-    font-family: Montserrat, sans-serif;
-    font-size: 0.7rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1.5rem 0;
-  }
-
-  .footer-container {
-    text-align: center;
-    max-width: 700px;
-    width: 100%;
-  }
-
-  .footer-rule {
-    border: 0;
-    border-top: 1px solid #C9B694;
-    width: 100%;
-    margin: 0 auto;
-  }
-
-  .footer-note {
-    background-color: transparent;
-    border-left: none;
-    display: inline-block;
-    margin-top: 6px;
-    margin-bottom: 4px;
-  }
-
-  .footer-copy {
-    font-size: 0.7rem;
-    margin-top: 6px;
-  }
-/* ==========================================================================
-   INTEGRATED RECOVERY PLAN EXTENSIONS
-   (scrollable tables, scrollable gantt, consistent with neurological index)
-   ========================================================================== */
-
-/* --- Scrollable Gantt Chart --- */
-.gantt-wrap {
+.site-footer {
   width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  margin-bottom: 1.5em;
+  background: #EEEEEE;
+  color: #00366;
+  font-family: Montserrat, sans-serif;
+  font-size: 0.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 0;
 }
 
-.gantt {
-  position: relative;
-  padding: 10px 0 6px 0;
-}
-
-.g-grid {
-  display: grid;
-  gap: 2px;
-  position: relative;
-  --dayw: 10px; /* pixels per day for horizontal scale */
-  grid-template-columns: 180px repeat(150, var(--dayw));
-  background: repeating-linear-gradient(
-    to right,
-    rgba(0,0,0,0.02) 0,
-    rgba(0,0,0,0.02) calc(var(--dayw) * 7),
-    transparent calc(var(--dayw) * 7),
-    transparent calc(var(--dayw) * 14)
-  );
-}
-
-.g-header {
-  grid-column: 1 / 2;
-  font-weight: 700;
-  padding: 6px 4px;
-}
-
-.g-scale {
-  grid-row: 1;
+.footer-container {
   text-align: center;
-  font-size: 0.78rem;
-  padding-top: 2px;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-  white-space: nowrap;
+  max-width: 700px;
+  width: 100%;
 }
 
-.g-row { display: contents; }
-
-.g-label {
-  grid-column: 1 / 2;
-  align-self: center;
-  font-weight: 600;
-  padding: 6px 4px;
+.footer-rule {
+  border: 0;
+  border-top: 1px solid #C9B694;
+  width: 100%;
+  margin: 0 auto;
 }
 
-.g-bar {
-  background: linear-gradient(180deg, rgba(201,182,148,0.5), rgba(201,182,148,0.25));
-  border: 1px solid #C9B694;
-  height: 28px;
-  position: relative;
-  border-radius: 3px;
+.footer-note {
+  background-color: transparent;
+  border-left: none;
+  display: inline-block;
+  margin-top: 6px;
+  margin-bottom: 4px;
 }
 
-.g-text {
-  position: absolute;
-  left: 6px;
-  top: 4px;
-  font-size: 0.8rem;
-  white-space: nowrap;
-}
+.footer-copy { font-size: 0.7rem; margin-top: 6px; }
 
-.g-today {
-  background: #003366;
-  opacity: 0.25;
-  width: 2px;
-  justify-self: start;
-}
-
-@media (max-width: 600px) {
-  .g-text {
-    font-size: 0.7rem;
-  }
-}
 
 /* =========================================================
    14. Daily Plan – Tick-off Checklist (scoped to #daily-plan)
    ---------------------------------------------------------
    Goals:
-   - Improve readability (clear group bands, zebra rows)
-   - Sticky header + sticky group titles while scrolling
-   - Larger checkbox hit area without changing brand style
-   - Mobile: stacked layout using data-labels (no global impact)
+   - Readable grouped bands + sticky table header while scrolling
+   - Larger checkbox hit area using brand accent color
+   - Mobile: stacked layout using data-labels (scoped only)
    ========================================================= */
-
 #daily-plan .table { table-layout: fixed; }
-#daily-plan .table thead th { position: sticky; top: 0; z-index: 2; }
 
-/* Column alignment tweaks */
-#daily-plan th, #daily-plan td { vertical-align: middle; }
-#daily-plan .text-center { text-align: center; }
-
-/* Zebra striping for body rows (excluding group rows) */
-#daily-plan tbody tr:not(.dp-group):nth-child(even) td {
+/* Sticky header */
+#daily-plan .table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fefbf3;
 }
 
-/* Group row (Morning / Midday / Afternoon / Evening / Night / Tracking) */
+/* Column alignment tweaks */
+#daily-plan th,
+#daily-plan td { vertical-align: middle; }
+#daily-plan .text-center { text-align: center; }
+
+/* Group row band (Morning / Midday / Afternoon / Evening / Night / Tracking) */
 #daily-plan .dp-group .dp-group-title {
+  background: #fefbf3;
+  border-left: 3px solid #C9B694;
   border-top: 2px solid #C9B694;
   border-bottom: 2px solid #C9B694;
   text-transform: uppercase;
   letter-spacing: .02em;
   font-weight: 700;
   padding: .5rem .75rem;
-  position: sticky;               /* sticky group header */
-  top: 2.25rem;                   /* sits below sticky thead */
+  position: sticky;
+  top: 2.25rem; /* sits below sticky thead */
   z-index: 1;
 }
 
-/* Tighten cell spacing slightly for long details */
-#daily-plan td[data-label="Details"], 
-#daily-plan td:nth-child(3) {
-  line-height: 1.35;
-}
+/* Tighten spacing for long details column */
+#daily-plan td[data-label="Details"],
+#daily-plan td:nth-child(3) { line-height: 1.35; }
 
-/* Checkbox cell: center and enlarge hit area slightly */
-#daily-plan .dp-check {
-  text-align: center;
-  white-space: nowrap;
-}
+/* Checkbox cell and control */
+#daily-plan .dp-check { text-align: center; white-space: nowrap; }
 #daily-plan .dp-checkbox {
   width: 1.15rem;
   height: 1.15rem;
   cursor: pointer;
-  /* Uses your brand checked color via existing .form-check-input:checked overrides */
+  accent-color: #C9B694; /* brand accent */
 }
 
-/* Help text */
-#daily-plan .meta { opacity: 0.9; }
-
-/* --- Small screens: stack rows into cards (scoped; does NOT affect other tables) --- */
+/* Mobile: stack rows as cards using data-labels */
 @media (max-width: 575.98px) {
   #daily-plan .table thead { display: none; }
 
@@ -686,7 +562,7 @@ tbody tr:nth-child(even) {}
   }
 
   #daily-plan .dp-group .dp-group-title {
-    position: static; /* simpler on mobile to avoid overlap */
+    position: static;
     border-top-width: 1px;
     border-bottom-width: 1px;
     margin-top: .5rem;
@@ -704,6 +580,7 @@ tbody tr:nth-child(even) {}
     border-bottom: 1px solid rgba(201,182,148,0.45);
     white-space: normal;
   }
+
   #daily-plan .table td:last-child { border-bottom: 0; }
 
   #daily-plan .table td::before {
@@ -718,27 +595,38 @@ tbody tr:nth-child(even) {}
     white-space: normal;
   }
 
-  /* Ensure the checkbox cell looks tidy on mobile */
+  /* Checkbox row alignment on mobile */
   #daily-plan .dp-check {
     text-align: left;
     padding-left: 9.5rem;
   }
 }
 
-/* --- Print: fit to A4 width, keep borders legible, remove stickiness --- */
+/* Print: remove stickiness and ensure borders render */
 @media print {
   #daily-plan .table thead th { position: static; }
   #daily-plan .dp-group .dp-group-title { position: static; }
   #daily-plan .table { width: 100% !important; }
-  #daily-plan .table td, #daily-plan .table th {
+  #daily-plan .table td,
+  #daily-plan .table th {
     border: 1px solid #C9B694 !important;
     padding: 6px 8px !important;
   }
 }
 
-/* TENS Map Styles */
-    svg { width: 100%; height: auto; background: #fff; border: 1px solid #C9B694; }
-    .pad { fill: #C9B694; opacity: 0.7; }
-    .label { font-size: 12px; fill: #003366; font-weight: 600; }
-    .meta { font-size: 0.85rem; opacity: 0.9; }
-    .legend-swatch { width: 14px; height: 14px; background: #C9B694; display: inline-block; margin-right: 6px; border: 1px solid #003366; }
+
+/* =========================================================
+   15. TENS Map (scoped helpers)
+   ========================================================= */
+svg { width: 100%; height: auto; background: #fff; border: 1px solid #C9B694; }
+.pad { fill: #C9B694; opacity: 0.7; }
+.label { font-size: 12px; fill: #003366; font-weight: 600; }
+.legend-swatch {
+  width: 14px;
+  height: 14px;
+  background: #C9B694;
+  display: inline-block;
+  margin-right: 6px;
+  border: 1px solid #003366;
+}
+.meta { font-size: 0.85rem; opacity: 0.9; }
