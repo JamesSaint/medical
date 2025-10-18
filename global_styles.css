@@ -735,3 +735,10 @@ tbody tr:nth-child(even) {}
     padding: 6px 8px !important;
   }
 }
+
+/* TENS Map Styles */
+    svg { width: 100%; height: auto; background: #fff; border: 1px solid #C9B694; }
+    .pad { fill: #C9B694; opacity: 0.7; }
+    .label { font-size: 12px; fill: #003366; font-weight: 600; }
+    .meta { font-size: 0.85rem; opacity: 0.9; }
+    .legend-swatch { width: 14px; height: 14px; background: #C9B694; display: inline-block; margin-right: 6px; border: 1px solid #003366; }
