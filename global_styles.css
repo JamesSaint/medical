@@ -513,7 +513,6 @@ thead th {
   position: sticky;
   top: 0;
   z-index: 2;
-  background: #fefbf3;
 }
 
 /* Column alignment tweaks */
@@ -523,7 +522,6 @@ thead th {
 
 /* Group row band (Morning / Midday / Afternoon / Evening / Night / Tracking) */
 #daily-plan .dp-group .dp-group-title {
-  background: #fefbf3;
   border-left: 3px solid #C9B694;
   border-top: 2px solid #C9B694;
   border-bottom: 2px solid #C9B694;
