@@ -165,41 +165,67 @@ a:hover { text-decoration: underline; }
 
 
 /* =========================================================
-   06. Tables – shared structure (scrollable)
+   06. Tables – global mobile fix (no HTML changes required)
    ========================================================= */
-/* Scroll container for wide tables */
-.table-responsive,
-.table-wrap {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  margin-bottom: 1.5em;
-}
 
-/* Ensure base tables render nicely and can expand wider than viewport */
+/* Base table hygiene */
 table {
   width: 100%;
   border-collapse: collapse;
-  border-left: 3px solid #C9B694;
+  border-spacing: 0;
 }
 
-th,
-td {
-  padding: 0.75rem;
-  border: 1px solid #C9B694;
-  text-align: left;
+/* Make long text behave */
+table th, table td {
+  padding: 10px;
   vertical-align: top;
-  color: #003366;
-  white-space: normal;
+  text-align: left;
+  word-break: break-word;
   overflow-wrap: anywhere;
-  word-break: normal;
-  hyphens: auto;
 }
 
-thead th {
-  text-transform: uppercase;
-  font-weight: 700;
+/* Optional: never wrap for specific short labels */
+table th.nowrap, table td.nowrap { white-space: nowrap; }
+
+/* On small screens, let the table scroll itself */
+@media (max-width: 768px) {
+  /* Turn tables into their own scroll containers */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    /* Keep a sensible minimum so columns don’t crush into unreadable stacks */
+    min-width: 640px; /* tune to 560–720 if you prefer */
+  }
+
+  /* Ensure inner structure sizes to content while the outer box scrolls */
+  table thead,
+  table tbody,
+  table tfoot,
+  table tr {
+    width: max-content;
+  }
+
+  /* Slightly tighter padding on phones */
+  table th, table td { padding: 8px; }
 }
+
+/* Sticky headers you can enable site-wide without HTML changes */
+@supports (position: sticky) {
+  @media (max-width: 768px) {
+    table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      border-bottom: 1px solid #C9B694;
+    }
+  }
+}
+
+/* Make links and code-like strings wrap instead of overflowing */
+table td a,
+table td code,
+table td .mono { word-break: break-all; }
 
 
 /* =========================================================
