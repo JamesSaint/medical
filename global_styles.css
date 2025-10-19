@@ -23,6 +23,10 @@
    navy #003366 | gold #C9B694 | cream #fefbf3 | grey #EEEEEE
    ========================================================= */
 
+::selection {
+  background-color: #C9B694;
+  color: #000000;
+}
 
 /* =========================================================
    01. Global layout & typography
@@ -187,30 +191,52 @@ table th, table td {
 /* Optional: never wrap for specific short labels */
 table th.nowrap, table td.nowrap { white-space: nowrap; }
 
-/* On small screens, let the table scroll itself */
+/* Make links and code-like strings wrap instead of overflowing */
+table td a,
+table td code,
+table td .mono { word-break: break-all; }
+
+/* =========================================================
+   Mobile layout + table scrolling (global, no HTML edits)
+   ========================================================= */
+
+/* 1) On small screens, turn off full-viewport flex centering
+      so overflow can actually scroll */
 @media (max-width: 768px) {
-  /* Turn tables into their own scroll containers */
-  table {
-    display: block;
-    overflow-x: auto;
+  body {
+    display: block;            /* instead of flex */
+    min-height: auto;
+    padding: 12px;             /* keep your spacing */
+  }
+
+  /* 2) Make your existing wrapper the scroll container */
+  .content {
+    max-width: 100%;
+    overflow-x: auto;          /* horizontal scroll lives here */
     -webkit-overflow-scrolling: touch;
-    /* Keep a sensible minimum so columns don’t crush into unreadable stacks */
-    min-width: 640px; /* tune to 560–720 if you prefer */
   }
 
-  /* Ensure inner structure sizes to content while the outer box scrolls */
-  table thead,
-  table tbody,
-  table tfoot,
-  table tr {
-    width: max-content;
+  /* 3) Let tables be wider than the viewport so they can scroll */
+  table {
+    width: max-content;        /* size to content */
+    min-width: 640px;          /* tune 560–720 if you prefer */
+    border-collapse: collapse;
   }
 
-  /* Slightly tighter padding on phones */
-  table th, table td { padding: 8px; }
+  /* 4) Readability + safe wrapping of long strings */
+  table th, table td {
+    padding: 8px;
+    vertical-align: top;
+    text-align: left;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  /* 5) Optional: keep short labels from wrapping */
+  table th.nowrap, table td.nowrap { white-space: nowrap; }
 }
 
-/* Sticky headers you can enable site-wide without HTML changes */
+/* Optional sticky headers on mobile (uses existing markup) */
 @supports (position: sticky) {
   @media (max-width: 768px) {
     table thead th {
@@ -221,11 +247,6 @@ table th.nowrap, table td.nowrap { white-space: nowrap; }
     }
   }
 }
-
-/* Make links and code-like strings wrap instead of overflowing */
-table td a,
-table td code,
-table td .mono { word-break: break-all; }
 
 
 /* =========================================================
