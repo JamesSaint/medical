@@ -628,3 +628,12 @@ svg { width: 100%; height: auto; background: #fff; border: 1px solid #C9B694; }
   border: 1px solid #003366;
 }
 .meta { font-size: 0.85rem; opacity: 0.9; }
+
+@media (max-width: 576px) {
+  .content {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  table { min-width: 640px; }
+}
+
