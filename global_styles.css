@@ -169,7 +169,7 @@ a:hover { text-decoration: underline; }
 
 
 /* =========================================================
-   06. Tables – global mobile fix (no HTML changes required)
+   06. Tables – shared structure (scrollable)
    ========================================================= */
 
 /* Base table hygiene */
@@ -180,7 +180,8 @@ table {
 }
 
 /* Make long text behave */
-table th, table td {
+table th,
+table td {
   padding: 10px;
   vertical-align: top;
   text-align: left;
@@ -189,62 +190,22 @@ table th, table td {
 }
 
 /* Optional: never wrap for specific short labels */
-table th.nowrap, table td.nowrap { white-space: nowrap; }
+table th.nowrap,
+table td.nowrap { white-space: nowrap; }
 
 /* Make links and code-like strings wrap instead of overflowing */
 table td a,
 table td code,
 table td .mono { word-break: break-all; }
 
-/* =========================================================
-   Mobile layout + table scrolling (global, no HTML edits)
-   ========================================================= */
-
-/* 1) On small screens, turn off full-viewport flex centering
-      so overflow can actually scroll */
-@media (max-width: 768px) {
-  body {
-    display: block;            /* instead of flex */
-    min-height: auto;
-    padding: 12px;             /* keep your spacing */
-  }
-
-  /* 2) Make your existing wrapper the scroll container */
+/* Minimal, non-invasive horizontal scroll on small screens */
+@media (max-width: 576px) {
   .content {
-    max-width: 100%;
-    overflow-x: auto;          /* horizontal scroll lives here */
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
-
-  /* 3) Let tables be wider than the viewport so they can scroll */
   table {
-    width: max-content;        /* size to content */
-    min-width: 640px;          /* tune 560–720 if you prefer */
-    border-collapse: collapse;
-  }
-
-  /* 4) Readability + safe wrapping of long strings */
-  table th, table td {
-    padding: 8px;
-    vertical-align: top;
-    text-align: left;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-  }
-
-  /* 5) Optional: keep short labels from wrapping */
-  table th.nowrap, table td.nowrap { white-space: nowrap; }
-}
-
-/* Optional sticky headers on mobile (uses existing markup) */
-@supports (position: sticky) {
-  @media (max-width: 768px) {
-    table thead th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      border-bottom: 1px solid #C9B694;
-    }
+    min-width: 640px; /* adjust 560–720 if preferred */
   }
 }
 
@@ -512,7 +473,7 @@ table td .mono { word-break: break-all; }
 .site-footer {
   width: 100%;
   background: #EEEEEE;
-  color: #00366;
+  color: #003366;
   font-family: Montserrat, sans-serif;
   font-size: 0.7rem;
   display: flex;
@@ -674,4 +635,3 @@ svg { width: 100%; height: auto; background: #fff; border: 1px solid #C9B694; }
   margin-right: 6px;
   border: 1px solid #003366;
 }
-.meta { font-size: 0.85rem; opacity: 0.9; }
