@@ -23,10 +23,6 @@
    navy #003366 | gold #C9B694 | cream #fefbf3 | grey #EEEEEE
    ========================================================= */
 
-::selection {
-  background-color: #C9B694;
-  color: #000000;
-}
 
 /* =========================================================
    01. Global layout & typography
@@ -171,42 +167,38 @@ a:hover { text-decoration: underline; }
 /* =========================================================
    06. Tables – shared structure (scrollable)
    ========================================================= */
+/* Scroll container for wide tables */
+.table-responsive,
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1.5em;
+}
 
-/* Base table hygiene */
+/* Ensure base tables render nicely and can expand wider than viewport */
 table {
   width: 100%;
   border-collapse: collapse;
-  border-spacing: 0;
+  border-left: 3px solid #C9B694;
 }
 
-/* Make long text behave */
-table th,
-table td {
-  padding: 10px;
-  vertical-align: top;
+th,
+td {
+  padding: 0.75rem;
+  border: 1px solid #C9B694;
   text-align: left;
-  word-break: break-word;
+  vertical-align: top;
+  color: #003366;
+  white-space: normal;
   overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
 }
 
-/* Optional: never wrap for specific short labels */
-table th.nowrap,
-table td.nowrap { white-space: nowrap; }
-
-/* Make links and code-like strings wrap instead of overflowing */
-table td a,
-table td code,
-table td .mono { word-break: break-all; }
-
-/* Minimal, non-invasive horizontal scroll on small screens */
-@media (max-width: 576px) {
-  .content {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  table {
-    min-width: 640px; /* adjust 560–720 if preferred */
-  }
+thead th {
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
 
@@ -473,7 +465,7 @@ table td .mono { word-break: break-all; }
 .site-footer {
   width: 100%;
   background: #EEEEEE;
-  color: #003366;
+  color: #00366;
   font-family: Montserrat, sans-serif;
   font-size: 0.7rem;
   display: flex;
@@ -635,3 +627,4 @@ svg { width: 100%; height: auto; background: #fff; border: 1px solid #C9B694; }
   margin-right: 6px;
   border: 1px solid #003366;
 }
+.meta { font-size: 0.85rem; opacity: 0.9; }
