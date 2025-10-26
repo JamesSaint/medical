@@ -23,6 +23,7 @@
    navy #003366 | gold #C9B694 | cream #fefbf3 | grey #EEEEEE
    ========================================================= */
 
+::selection { background-color: #003366; color: #000000; }
 
 /* =========================================================
    01. Global layout & typography
