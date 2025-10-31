@@ -192,7 +192,6 @@ table {
   border-collapse: collapse;
   table-layout: auto;               /* let content size columns naturally */
   border-left: 3px solid #C9B694;   /* brand accent */
-  background: #ffffff;
 }
 
 /* Cells */
