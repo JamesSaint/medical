@@ -164,95 +164,144 @@ a:hover { text-decoration: underline; }
   font-weight: 600;
 }
 
-
 /* =========================================================
-   06. Tables – shared structure (scrollable)
+   06. Tables – shared structure (scrollable + sane wrapping)
    ========================================================= */
-/* Scroll container for wide tables */
-.table-responsive,
-.table-wrap {
+
+/* Optional wrapper for any wide table.
+   Use: <div class="table-wrap"><table>…</table></div> */
+.table-wrap,
+.table-responsive {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: auto;                 /* horizontal scroll when needed */
   -webkit-overflow-scrolling: touch;
   margin-bottom: 1.5em;
 }
 
-/* Ensure base tables render nicely and can expand wider than viewport */
+/* If you can’t or don’t want to wrap a table, add .table-scroll
+   directly to the table to enable self-scrolling on small screens. */
+table.table-scroll {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---- Base table ---- */
 table {
   width: 100%;
   border-collapse: collapse;
-  border-left: 3px solid #C9B694;
+  table-layout: auto;               /* let content size columns naturally */
+  border-left: 3px solid #C9B694;   /* brand accent */
+  background: #ffffff;
 }
 
+/* Cells */
 th,
 td {
   padding: 0.75rem;
-  border: 1px solid #C9B694;
+  border: 1px solid #C9B694;        /* brand accent */
   text-align: left;
   vertical-align: top;
-  color: #003366;
+  color: #003366;                   /* brand text color */
+
+  /* Sane word handling: do not split words into letters.
+     Long tokens can opt-in to breaking via .force-break */
   white-space: normal;
-  overflow-wrap: anywhere;
   word-break: normal;
+  overflow-wrap: normal;
   hyphens: auto;
 }
 
+/* Table head */
 thead th {
   text-transform: uppercase;
   font-weight: 700;
 }
 
+/* Keep short headers on one line on wider screens to avoid
+   "L E V E L" style letter stacking */
+th { white-space: nowrap; }
+@media (max-width: 560px) {
+  th { white-space: normal; }       /* allow wrap on small devices */
+}
+
+/* Caption + meta */
+caption,
+.table-meta {
+  caption-side: top;
+  text-align: left;
+  font-size: 0.85rem;
+  color: #003366;
+  opacity: 0.9;
+  padding: 0.5em 0;
+}
+
+/* Utilities for rare long tokens (URLs, hashes, codes) */
+.force-break      { overflow-wrap: anywhere; word-break: break-word; }
+.nowrap           { white-space: nowrap; }
+.num              { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Spacing inside card-like containers */
+.card-like table { margin-top: 0.5rem; }
 
 /* =========================================================
    07. Appointments table
    ========================================================= */
+/* Structure */
 #appointments table { table-layout: auto; }
 
+/* 1st column: compact date/time; keep on one line where possible */
 #appointments th:nth-child(1),
 #appointments td:nth-child(1) {
   width: 12ch;
   white-space: nowrap;
 }
 
+/* 2nd column: flexible description */
 #appointments th:nth-child(2),
-#appointments td:nth-child(2) { width: auto; }
+#appointments td:nth-child(2) {
+  width: auto;
+}
 
+/* 3rd column: moderate max width so it doesn’t balloon */
 #appointments th:nth-child(3),
-#appointments td:nth-child(3) { max-width: 24ch; }
+#appointments td:nth-child(3) {
+  max-width: 24ch;
+}
 
 @media (max-width: 600px) {
+  /* Allow first column to wrap if space is tight */
   #appointments th:nth-child(1),
   #appointments td:nth-child(1) { white-space: normal; }
 }
 
-
 /* =========================================================
    08. Symptom Overview
    ========================================================= */
-#symptoms table { table-layout: fixed; }
+/* Use auto layout with width hints to avoid aggressive fixed sizing */
+#symptoms table { table-layout: auto; }
 
 #symptoms th:nth-child(1),
-#symptoms td:nth-child(1) { width: 20%; }
+#symptoms td:nth-child(1) { width: 20%; }   /* symptom area */
 
 #symptoms th:nth-child(2),
-#symptoms td:nth-child(2) { width: 40%; }
+#symptoms td:nth-child(2) { width: 36%; }   /* description (slightly reduced) */
 
 #symptoms th:nth-child(3),
-#symptoms td:nth-child(3) { width: 44%; }
+#symptoms td:nth-child(3) { width: 44%; }   /* notes/actions */
 
 @media (max-width: 600px) {
   #symptoms th:nth-child(1),
   #symptoms td:nth-child(1) { white-space: normal; }
 }
 
-
 /* =========================================================
    09. Recent Events table
    ========================================================= */
-#recent-events table { table-layout: auto; width: 100%; }
+#recent-events table { table-layout: auto; }
 
 #recent-events th {
-  width: 12ch;
+  width: 12ch;                      /* compact date column */
   white-space: nowrap;
   overflow-wrap: normal;
   word-break: keep-all;
@@ -260,7 +309,7 @@ thead th {
 }
 
 #recent-events td {
-  overflow-wrap: anywhere;
+  overflow-wrap: anywhere;          /* allow text to break naturally */
   word-break: normal;
   white-space: normal;
 }
@@ -269,71 +318,22 @@ thead th {
   #recent-events th { white-space: normal; }
 }
 
-
-/* =========================================================
-   10. Brand color overrides (Bootstrap)
-   ========================================================= */
-.btn-primary {
-  background-color: #C9B694 !important;
-  border-color: #C9B694 !important;
-  color: #003366 !important;
-}
-
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active {
-  background-color: #bda981 !important;
-  border-color: #bda981 !important;
-  color: #003366 !important;
-}
-
-.btn-outline-primary {
-  color: #C9B694 !important;
-  border-color: #C9B694 !important;
-}
-
-.btn-outline-primary:hover,
-.btn-outline-primary:focus {
-  background-color: #C9B694 !important;
-  color: #003366 !important;
-}
-
-.form-check-input:checked {
-  background-color: #C9B694 !important;
-  border-color: #C9B694 !important;
-}
-
-.form-range::-webkit-slider-thumb,
-.form-range::-moz-range-thumb,
-.form-range::-ms-thumb { background: #C9B694; }
-
-.form-range::-webkit-slider-runnable-track { background: #ddd; }
-
-.form-range:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 0.25rem rgba(201, 182, 148, 0.4);
-}
-
-.btn-check:checked + .btn-outline-primary {
-  background-color: #C9B694 !important;
-  border-color: #C9B694 !important;
-  color: #003366 !important;
-}
-
-
 /* =========================================================
    11. Carbamazepine Tracker – Desktop/Tablet
    ========================================================= */
+/* Wide dataset: keep a minimum width and allow scrolling in wrapper */
+#entries .table-wrap { overflow-x: auto; }
 #entries .entries-table {
-  min-width: 1200px;
+  min-width: 1200px;                /* creates a scrollable canvas on small screens */
   table-layout: auto;
   border-collapse: collapse;
   border: 1px solid #C9B694;
 }
 
 #entries .entries-table thead th {
-  white-space: nowrap !important;
-  word-break: normal !important;
-  overflow-wrap: normal !important;
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
   letter-spacing: .02em;
   text-transform: none;
   color: #003366;
@@ -345,7 +345,7 @@ thead th {
 #entries .entries-table td {
   border: 1px solid #C9B694;
   padding: .55rem .6rem;
-  white-space: nowrap;
+  white-space: nowrap;              /* numeric columns stay tidy */
   vertical-align: middle;
 }
 
@@ -357,7 +357,7 @@ thead th {
 
 #entries .entries-table td[data-label="Effects"],
 #entries .entries-table td.notes {
-  white-space: normal;
+  white-space: normal;              /* long notes can wrap */
   word-break: normal;
   overflow-wrap: anywhere;
 }
@@ -393,9 +393,8 @@ thead th {
   white-space: nowrap;
 }
 
-
 /* =========================================================
-   12. Carbamazepine Tracker – Mobile
+   12. Carbamazepine Tracker – Mobile (stacked cards)
    ========================================================= */
 @media (max-width: 575.98px) {
   #entries .entries-table { min-width: unset; width: 100%; border: none; }
@@ -457,6 +456,55 @@ thead th {
     margin-top: .2rem;
     border-radius: 0;
   }
+}
+
+/* =========================================================
+   10. Brand color overrides (Bootstrap)
+   ========================================================= */
+.btn-primary {
+  background-color: #C9B694 !important;
+  border-color: #C9B694 !important;
+  color: #003366 !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #bda981 !important;
+  border-color: #bda981 !important;
+  color: #003366 !important;
+}
+
+.btn-outline-primary {
+  color: #C9B694 !important;
+  border-color: #C9B694 !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background-color: #C9B694 !important;
+  color: #003366 !important;
+}
+
+.form-check-input:checked {
+  background-color: #C9B694 !important;
+  border-color: #C9B694 !important;
+}
+
+.form-range::-webkit-slider-thumb,
+.form-range::-moz-range-thumb,
+.form-range::-ms-thumb { background: #C9B694; }
+
+.form-range::-webkit-slider-runnable-track { background: #ddd; }
+
+.form-range:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 0.25rem rgba(201, 182, 148, 0.4);
+}
+
+.btn-check:checked + .btn-outline-primary {
+  background-color: #C9B694 !important;
+  border-color: #C9B694 !important;
+  color: #003366 !important;
 }
 
 
